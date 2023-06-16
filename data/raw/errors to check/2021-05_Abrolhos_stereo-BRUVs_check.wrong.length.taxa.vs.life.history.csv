@@ -1,5 +1,0 @@
-"campaignid","sample","family","genus","species","length","min.length","max.length","fb.length_max","reason","difference","percent.of.fb.max"
-"2021-05_Abrolhos_stereo-BRUVs","npz9.27","Lutjanidae","Pristipomoides","typus",785.01759,105,595,700,"too big",190.01759,112.14537
-"2021-05_Abrolhos_stereo-BRUVs","npz9.27","Lutjanidae","Pristipomoides","typus",620.45063,105,595,700,"too big",25.45063,88.6358042857143
-"2021-05_Abrolhos_stereo-BRUVs","npz9.30","Glaucosomatidae","Glaucosoma","buergeri",542.29161,82.5,467.5,550,"too big",74.79161,98.5984745454545
-"2021-05_Abrolhos_stereo-BRUVs","npz9.8","Glaucosomatidae","Glaucosoma","buergeri",621.08015,82.5,467.5,550,"too big",153.58015,112.923663636364

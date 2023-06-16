@@ -1,0 +1,288 @@
+"campaignid","sample","latitude","longitude","date","time","location","status","site","depth","observer","successful.count","successful.length"
+"2021-05_PtCloates_BOSS","36","-22.7564","113.4711","20210519","11:08:39","Point Cloates","Fished","outNP.12","215","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","28","-22.7585","113.4762","20210519","11:26:56","Point Cloates","Fished","outNP.4","206","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","32","-22.7537","113.4863","20210519","11:44:58","Point Cloates","Fished","outNP.8","194","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","45","-22.7512","113.4889","20210519","12:28:38","Point Cloates","Fished","outNP.21","191","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","43","-22.7587","113.4991","20210519","12:47:43","Point Cloates","Fished","outNP.19","160","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","27","-22.7635","113.4964","20210519","13:00:25","Point Cloates","Fished","outNP.3","162","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","34","-22.7662","113.4889","20210519","13:14:53","Point Cloates","Fished","outNP.10","179","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","47","-22.7637","113.4839","20210519","13:28:30","Point Cloates","Fished","outNP.23","190","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","48","-22.7712","113.4688","20210519","13:44:57","Point Cloates","Fished","outNP.24","208","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","29","-22.7758","113.494","20210519","14:05:09","Point Cloates","Fished","outNP.5","152","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","40","-22.7809","113.4964","20210519","14:17:36","Point Cloates","Fished","outNP.16","138","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","37","-22.7836","113.4886","20210519","14:32:03","Point Cloates","Fished","outNP.13","156","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","30","-22.7887","113.4839","20210519","14:46:48","Point Cloates","Fished","outNP.6","169","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","42","-22.7887","113.4764","20210519","15:00:24","Point Cloates","Fished","outNP.18","184","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","39","-22.7938","113.4843","20210519","15:14:50","Point Cloates","Fished","outNP.15","156","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","49","-22.7986","113.4864","20210519","15:28:04","Point Cloates","Fished","outNP.25","148","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","31","-22.7936","113.5041","20210519","15:43:13","Point Cloates","Fished","outNP.7","116","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","44","-22.7912","113.5064","20210519","15:52:58","Point Cloates","Fished","outNP.20","114","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","19","-22.7314","113.5313","20210520","08:09:34","Point Cloates","No-take","inNP.19","106","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","22","-22.7438","113.5337","20210520","08:23:06","Point Cloates","No-take","inNP.22","96.4","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","7","-22.7462","113.5314","20210520","08:33:28","Point Cloates","No-take","inNP.7","99.6","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","46","-22.7463","113.5214","20210520","08:47:47","Point Cloates","Fished","outNP.22","113","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","26","-22.7388","113.5089","20210520","09:03:48","Point Cloates","Fished","outNP.2","152","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","25","-22.7262","113.4913","20210520","09:21:43","Point Cloates","Fished","outNP.1","208","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","M1","-22.7228","113.4986","20210520","09:38:21","Point Cloates",NA,NA,"197","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","33","-22.7163","113.4963","20210520","09:54:39","Point Cloates","Fished","outNP.9","207","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","24","-22.7113","113.5088","20210520","10:14:33","Point Cloates","No-take","inNP.24","189","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","20","-22.7187","113.5265","20210520","10:35:39","Point Cloates","No-take","inNP.20","120","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","12","-22.7137","113.5364","20210520","10:49:29","Point Cloates","No-take","inNP.12","107","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","4","-22.7113","113.5415","20210520","11:01:54","Point Cloates","No-take","inNP.4","100","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","13","-22.7037","113.5389","20210520","11:16:00","Point Cloates","No-take","inNP.13","107","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","15","-22.7037","113.5188","20210520","11:33:03","Point Cloates","No-take","inNP.15","168","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","2","-22.6987","113.5214","20210520","11:47:07","Point Cloates","No-take","inNP.2","167","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","10","-22.6887","113.5238","20210520","12:02:57","Point Cloates","No-take","inNP.10","176","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","50","-22.7026","113.556","20210520","12:11:48","Point Cloates","No-take",NA,"77.6","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","9","-22.6937","113.5389","20210520","12:21:40","Point Cloates","No-take","inNP.9","114","Molly Gerrans","Yes","Yes"
+"2021-05_PtCloates_BOSS","21","-22.6963","113.544","20210520","12:33:40","Point Cloates","No-take","inNP.21","103","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","1","-22.6886","113.5539","20210520","13:03:00","Point Cloates","No-take","inNP.1","93.6","Molly Gerrans","Yes",NA
+"2021-05_PtCloates_BOSS","18","-22.6838","113.5489","20210520","13:14:58","Point Cloates","No-take","inNP.18","102","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF10","-22.6745","113.5666","20210826","08:49","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF15","-22.6751","113.561","20210826","09:07","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF9","-22.6779","113.5654","20210826","09:18","Pt Cloates",NA,NA,"78","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF8","-22.6845","113.5637","20210826","09:28","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB24","-22.6849","113.5534","20210826","09:41","Pt Cloates",NA,NA,"98","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB43","-22.6868","113.5588","20210826","09:52","Pt Cloates",NA,NA,"87.6","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF7","-22.6909","113.5609","20210826","10:02","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB17","-22.6881","113.5601","20210826","10:14","Pt Cloates",NA,NA,"85","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB38","-22.6921","113.5578","20210826","10:27","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB7","-22.6924","113.5591","20210826","10:38","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB22","-22.6943","113.562","20210826","10:47","Pt Cloates",NA,NA,"78","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB33","-22.6973","113.561","20210826","10:57","Pt Cloates",NA,NA,"77","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF11","-22.6967","113.5595","20210826","11:08","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB40","-22.6945","113.5549","20210826","11:20","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB2","-22.696","113.5523","20210826","11:30","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB12","-22.6981","113.5558","20210826","11:42","Pt Cloates",NA,NA,"83.9","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB28","-22.7017","113.5585","20210826","11:51","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF1","-22.6998","113.5588","20210826","12:03","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB23","-22.7009","113.5562","20210826","12:13","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB46","-22.7009","113.5512","20210826","12:28","Pt Cloates",NA,NA,"92.7","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB19","-22.7049","113.5517","20210826","12:37","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF16","-22.7053","113.5501","20210826","12:47","Pt Cloates",NA,NA,"91.8","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB16","-22.7061","113.5545","20210826","13:00","Pt Cloates",NA,NA,"79.8","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB32","-22.7073","113.5572","20210826","13:10","Pt Cloates",NA,NA,"81.2","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB30","-22.7115","113.555","20210826","13:21","Pt Cloates",NA,NA,"81.3","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB31","-22.7113","113.5533","20210826","13:31","Pt Cloates",NA,NA,"82.1","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB15","-22.7101","113.5505","20210826","13:42","Pt Cloates",NA,NA,"88","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB20","-22.7139","113.5477","20210826","13:52","Pt Cloates",NA,NA,"96.4","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB42","-22.7168","113.552","20210826","14:03","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCPREF6","-22.7174","113.5525","20210826","14:12","Pt Cloates",NA,NA,"81.9","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB4.1","-22.716","113.5564","20210826","14:23","Pt Cloates",NA,NA,"77.7","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB4.2","-22.7163","113.5566","20210826","14:34","Pt Cloates",NA,NA,"77.5","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB18","-22.7168","113.5539","20210826","14:45","Pt Cloates",NA,NA,"82.3","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB6","-22.7227","113.5527","20210826","14:58","Pt Cloates",NA,NA,"81.7","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB36","-22.7232","113.5498","20210826","15:07","Pt Cloates",NA,NA,"84.4","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB10","-22.7237","113.547","20210826","15:18","Pt Cloates",NA,NA,"89.1","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB41","-22.7273","113.5453","20210826","15:29","Pt Cloates",NA,NA,"90","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB3","-22.7291","113.5491","20210826","15:40","Pt Cloates",NA,NA,"81.9","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB39","-22.7304","113.5515","20210826","15:51","Pt Cloates",NA,NA,"80.7","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP14","-22.766","113.5392","20210908","09:29","Pt Cloates",NA,NA,"83","N/A","No",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP14","-22.766","113.5392","20210908","09:47","Pt Cloates",NA,NA,"84","N/A","No",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP13","-22.7634","113.5347","20210908","10:02","Pt Cloates",NA,NA,"91","N/A","No",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB1","-22.7596","113.5395","20210908","10:24","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP14","-22.766","113.5392","20210908","10:41","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP13","-22.7634","113.5347","20210908","10:56","Pt Cloates",NA,NA,"92","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB9","-22.7602","113.5435","20210908","11:14","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB21","-22.7582","113.5431","20210908","11:30","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB1","-22.7596","113.5395","20210908","11:45","Pt Cloates",NA,NA,"86","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP17","-22.7565","113.5294","20210908","12:01","Pt Cloates",NA,NA,"99","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP18","-22.7533","113.5301","20210908","12:15","Pt Cloates",NA,NA,"98","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB29","-22.7549","113.5424","20210908","12:33","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB35","-22.7537","113.5402","20210908","12:47","Pt Cloates",NA,NA,"88","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP3","-22.7511","113.5386","20210908","13:03","Pt Cloates",NA,NA,"90","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB5","-22.7492","113.5437","20210908","13:16","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB34","-22.7489","113.543","20210908","13:29","Pt Cloates",NA,NA,"86","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB8","-22.7461","113.5399","20210908","13:43","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB37","-22.7436","113.5427","20210908","13:58","Pt Cloates",NA,NA,"87","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP2","-22.7434","113.5452","20210908","14:12","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB13","-22.7434","113.5484","20210908","14:26","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB27","-22.7409","113.5496","20210908","14:41","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB45","-22.7402","113.5411","20210908","14:58","Pt Cloates",NA,NA,"90","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP4","-22.7376","113.5416","20210908","15:11","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB11","-22.7358","113.5445","20210908","15:24","Pt Cloates",NA,NA,"87","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP5","-22.7344","113.5504","20210908","15:37","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB44","-22.7338","113.5493","20210908","15:49","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB26","-22.7315","113.5533","20210908","16:01","Pt Cloates",NA,NA,"78","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFBP12","-22.7312","113.5446","20210908","16:14","Pt Cloates",NA,NA,"88","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB14","-22.731","113.5441","20210908","16:25","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB15","-22.71","113.5506","20210908","16:42","Pt Cloates",NA,NA,"87","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Flasher-BOSS","PCFB25","-22.6907","113.5595","20210909","10:02","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes",NA
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6745","113.5663","20210909","07:44","Pt Cloates",NA,NA,"77","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6753","113.5613","20210909","07:57","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6779","113.5654","20210909","08:18","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6823","113.5591","20210909","08:32","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6839","113.5635","20210909","08:44","Pt Cloates",NA,NA,"78","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6854","113.5572","20210909","08:56","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6864","113.5593","20210909","09:12","Pt Cloates",NA,NA,"88","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6889","113.5566","20210909","09:27","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6891","113.5586","20210909","09:39","Pt Cloates",NA,NA,"85","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.69","113.5605","20210909","09:50","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6918","113.5532","20210909","10:14","Pt Cloates",NA,NA,"96","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6927","113.555","20210909","10:25","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6943","113.5561","20210909","10:39","Pt Cloates",NA,NA,"87","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6962","113.5592","20210909","10:51","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6966","113.5583","20210909","11:02","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6986","113.557","20210909","11:12","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6993","113.5498","20210909","11:25","Pt Cloates",NA,NA,"96","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7008","113.5519","20210909","11:35","Pt Cloates",NA,NA,"91","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.6996","113.5589","20210909","11:47","Pt Cloates",NA,NA,"79","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7","113.5594","20210909","11:58","Pt Cloates",NA,NA,"80","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7033","113.557","20210909","12:54","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7053","113.5502","20210909","13:05","Pt Cloates",NA,NA,"89","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7058","113.5542","20210909","13:17","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7064","113.5555","20210909","13:27","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7052","113.5576","20210909","13:37","Pt Cloates",NA,NA,"82","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7112","113.5554","20210909","13:50","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7122","113.5532","20210909","14:00","Pt Cloates",NA,NA,"83","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7154","113.5531","20210909","14:10","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7171","113.5528","20210909","14:20","Pt Cloates",NA,NA,"84","Molly Gerrans","Yes","Yes"
+"2021-08_Pt-Cloates_Squid-BOSS",NA,"-22.7187","113.5519","20210909","14:29","Pt Cloates",NA,NA,"81","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","248","-22.7609","113.5473","2022-05-19","08:27:25",NA,"No-take",NA,"76.6","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","224","-22.7598","113.5487","2022-05-19","08:44:41",NA,"No-take",NA,"76.1","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","232","-22.7576","113.5368","2022-05-19","08:59:18",NA,"No-take",NA,"90.9","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","211","-22.7554","113.54","2022-05-19","09:11:46",NA,"No-take",NA,"87.2","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","226","-22.7536","113.5408","2022-05-19","09:30:58",NA,"No-take",NA,"86.6","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","203","-22.7548","113.55","2022-05-19","09:44:17",NA,"No-take",NA,"75.7","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","207","-22.7523","113.5552","2022-05-19","10:00:48",NA,"No-take",NA,"71.4","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","221","-22.7519","113.5483","2022-05-19","10:12:53",NA,"No-take",NA,"78.4","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","264","-22.7655","113.5389","2022-05-19","10:34:40",NA,"No-take",NA,"81.6","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","262","-22.7635","113.5347","2022-05-19","10:45:55",NA,"No-take",NA,"91","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","265","-22.7561","113.529","2022-05-19","10:58:59",NA,"No-take",NA,"99.2","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","266","-22.7531","113.5301","2022-05-19","11:11:08",NA,"No-take",NA,"98.5","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","253","-22.7509","113.538","2022-05-19","11:26:11",NA,"No-take",NA,"91.2","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","270","-22.7511","113.5387","2022-05-19","11:37:38",NA,"No-take",NA,"91","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","201","-22.7488","113.5378","2022-05-19","11:50:14",NA,"No-take",NA,"94.9","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","237","-22.7502","113.5462","2022-05-19","12:02:40",NA,"No-take",NA,"81.8","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","240","-22.749","113.5509","2022-05-19","12:18:16",NA,"No-take",NA,"75","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","255","-22.7444","113.5428","2022-05-21","13:59:38",NA,"No-take",NA,"87.3","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","216","-22.7451","113.5437","2022-05-21","14:12:02",NA,"No-take",NA,"86.5","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","269","-22.7429","113.5458","2022-05-21","14:27:47",NA,"No-take",NA,"83.1","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","231","-22.7464","113.5529","2022-05-21","14:43:17",NA,"No-take",NA,"73.9","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","245","-22.7436","113.5519","2022-05-21","14:57:59",NA,"No-take",NA,"75.8","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","209","-22.7402","113.5521","2022-05-21","15:13:08",NA,"No-take",NA,"76.7","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","241","-22.7403","113.5387","2022-05-21","15:31:01",NA,"No-take",NA,"94.4","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","272","-22.7374","113.5422","2022-05-21","15:45:16",NA,"No-take",NA,"89.2","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","244","-22.7347","113.5406","2022-05-21","15:59:32",NA,"No-take",NA,"93","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","219","-22.7317","113.543","2022-05-21","16:11:52",NA,"No-take",NA,"90.7","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","259","-22.7312","113.5443","2022-05-21","16:24:58",NA,"No-take",NA,"88.9","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","230","-22.7341","113.5543","2022-05-23","08:31:26",NA,"No-take",NA,"76.9","Claude Spencer","Yes","No"
+"2022-05_PtCloates_Naked-BOSS","274","-22.7343","113.5502","2022-05-23","08:50:34",NA,"No-take",NA,"79.2","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","205","-22.7321","113.5508","2022-05-23","09:04:00",NA,"No-take",NA,"80.6","Claude Spencer","Yes","No"
+"2022-05_PtCloates_Naked-BOSS","214","-22.733","113.5497","2022-05-23","09:52:30",NA,"No-take",NA,"81.5","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","256","-22.7326","113.5465","2022-05-23","10:09:25",NA,"No-take",NA,"86.1","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","233","-22.7305","113.5526","2022-05-23","10:25:29",NA,"No-take",NA,"76.2","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","251","-22.7277","113.554","2022-05-23","10:37:45",NA,"No-take",NA,"76.4","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","212","-22.728","113.556","2022-05-23","11:00:30",NA,"No-take",NA,"75","Claude Spencer","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","227","-22.7262","113.5569","2022-05-23","11:15:33",NA,"No-take",NA,"74.3",NA,"No","No"
+"2022-05_PtCloates_Naked-BOSS","235","-22.7275","113.5434","2022-05-25","11:43:41",NA,"No-take",NA,"93","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","218","-22.726","113.5411","2022-05-25","11:55:43",NA,"No-take",NA,"97.7","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","249","-22.7248","113.5444","2022-05-25","12:07:55",NA,"No-take",NA,"92.3","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","208","-22.7252","113.5464","2022-05-25","12:23:31",NA,"No-take",NA,"89.2","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","228","-22.7233","113.5472","2022-05-25","13:01:14",NA,"No-take",NA,"88","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","243","-22.7206","113.5573","2022-05-25","13:14:20",NA,"No-take",NA,"74.4","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","217","-22.7179","113.5593","2022-05-25","13:28:40",NA,"No-take",NA,"73.2","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","223","-22.7188","113.5517","2022-05-25","13:41:07",NA,"No-take",NA,"80.5","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","260","-22.7177","113.5525","2022-05-25","13:53:04",NA,"No-take",NA,"83.6","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","236","-22.717","113.5499","2022-05-25","14:07:15",NA,"No-take",NA,"86.2","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","215","-22.712","113.5562","2022-05-25","14:19:59",NA,"No-take",NA,"79.6","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","225","-22.7084","113.5624","2022-05-25","14:33:25",NA,"No-take",NA,"72.1","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","252","-22.7054","113.5576","2022-05-25","14:49:34",NA,"No-take",NA,"79.3","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","220","-22.7067","113.5554","2022-05-25","15:00:42",NA,"No-take",NA,"80.8","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","268","-22.7054","113.5501","2022-05-25","15:12:08",NA,"No-take",NA,"90.6","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","247","-22.7047","113.5467","2022-05-25","15:26:15",NA,"No-take",NA,"96.4","Kaitlin McCloghry","Yes","No"
+"2022-05_PtCloates_Naked-BOSS","254","-22.6993","113.5499","2022-05-25","15:40:10",NA,"No-take",NA,"96","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","242","-22.7009","113.5519","2022-05-25","15:53:38",NA,"No-take",NA,"88.5","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","206","-22.7019","113.5608","2022-05-25","16:07:23",NA,"No-take",NA,"76.6","Kaitlin McCloghry","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","257","-22.7001","113.5592","2022-05-25","16:18:12",NA,"No-take",NA,"79.4","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","229","-22.6961","113.5632","2022-05-26","13:54:13",NA,"No-take",NA,"76.2","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","250","-22.6972","113.5605","2022-05-26","14:06:02",NA,"No-take",NA,"78.1","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","258","-22.6958","113.5593","2022-05-26","14:20:39",NA,"No-take",NA,"79.6","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","234","-22.6938","113.5563","2022-05-26","14:39:27",NA,"No-take",NA,"85.6","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","213","-22.6919","113.5534","2022-05-26","14:52:29",NA,"No-take",NA,"93.5","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","204","-22.6911","113.5576","2022-05-26","15:07:11",NA,"No-take",NA,"85.8","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","261","-22.6899","113.5608","2022-05-26","15:21:00",NA,"No-take",NA,"78.8","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","222","-22.6884","113.561","2022-05-26","15:37:06",NA,"No-take",NA,"78.2","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","246","-22.6891","113.5588","2022-05-26","15:52:13",NA,"No-take",NA,"84.3","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","239","-22.6885","113.5564","2022-05-26","16:04:43",NA,"No-take",NA,"90.5","Molly Gerrans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","238","-22.6864","113.5594","2022-05-27","08:35:45",NA,"No-take",NA,"85.9","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","210","-22.686","113.5589","2022-05-27","08:51:10",NA,"No-take",NA,"87.7","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","202","-22.6851","113.5571","2022-05-27","09:03:52",NA,"No-take",NA,"91.4","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","263","-22.684","113.5635","2022-05-27","09:17:26",NA,"No-take",NA,"77.7","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","271","-22.6776","113.5654","2022-05-27","09:32:15",NA,"No-take",NA,"79.5","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","273","-22.6741","113.5665","2022-05-27","09:48:58",NA,"No-take",NA,"77.2","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Naked-BOSS","267","-22.6751","113.5615","2022-05-27","10:02:00",NA,"No-take",NA,"88.4","Henry Evans","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","122","-22.75","113.5452","2022-05-19","13:35:27","Pt Cloates","No-take",NA,"83","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","150","-22.7488","113.5427","2022-05-19","13:51:10","Pt Cloates","No-take",NA,"85.8","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B59","-22.7439","113.5456","2022-05-19","14:05:46","Pt Cloates","No-take",NA,"84","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","147","-22.7423","113.5417","2022-05-19","14:19:51","Pt Cloates","No-take",NA,"88.9","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","118","-22.7388","113.5435","2022-05-19","14:32:04","Pt Cloates","No-take",NA,"88.2","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","136","-22.7379","113.5426","2022-05-19","14:44:38","Pt Cloates","No-take",NA,"89.9","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B62","-22.7377","113.5417","2022-05-19","14:55:57","Pt Cloates","No-take",NA,"89.3","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B64","-22.7345","113.5505","2022-05-19","15:09:26","Pt Cloates","No-take",NA,"80.1","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","112","-22.7339","113.5532","2022-05-19","15:20:29","Pt Cloates","No-take",NA,"76.9","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","141","-22.7323","113.544","2022-05-19","15:33:37","Pt Cloates","No-take",NA,"88.4","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B49","-22.7309","113.5442","2022-05-19","15:46:25","Pt Cloates","No-take",NA,"88.3","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","146","-22.7285","113.5486","2022-05-19","16:03:36","Pt Cloates","No-take",NA,"82.4","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","119","-22.727","113.5473","2022-05-19","16:13:53","Pt Cloates","No-take",NA,"86.6","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B54","-22.7657","113.5389","2022-05-21","08:24:48","Pt Cloates","No-take",NA,"81.2","N/A","No","No"
+"2022-05_PtCloates_Squid-BOSS","B54.2","-22.7654","113.5391","2022-05-21","11:38:15","Pt Cloates","No-take",NA,"84","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B52","-22.7635","113.5348","2022-05-21","11:55:53","Pt Cloates","No-take",NA,"91","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","132","-22.7618","113.5447","2022-05-21","12:12:20","Pt Cloates","No-take",NA,"78.1","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","105","-22.7605","113.5445","2022-05-21","12:28:24","Pt Cloates","No-take",NA,"80.8","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","153","-22.7589","113.5459","2022-05-21","13:14:55","Pt Cloates","No-take",NA,"78.2","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B55","-22.7563","113.5294","2022-05-21","13:30:08","Pt Cloates","No-take",NA,"98.5","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B56","-22.7533","113.5305","2022-05-21","13:43:22","Pt Cloates","No-take",NA,"98.6","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B60","-22.751","113.539","2022-05-23","11:38:17","Pt Cloates","No-take",NA,"89.8","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","125","-22.7521","113.5422","2022-05-23","11:51:02","Pt Cloates","No-take",NA,"84.7","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","129","-22.754","113.5469","2022-05-23","12:08:18","Pt Cloates","No-take",NA,"80.4","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","144","-22.7524","113.5496","2022-05-23","12:21:44","Pt Cloates","No-take",NA,"76.7","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","131","-22.7446","113.5561","2022-05-23","12:55:53","Pt Cloates","No-take",NA,"71","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","154","-22.7377","113.5528","2022-05-23","13:14:54","Pt Cloates","No-take",NA,"75","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","126","-22.7305","113.5582","2022-05-23","13:27:49","Pt Cloates","No-take",NA,"72.9","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","152","-22.7255","113.5554","2022-05-23","13:41:00","Pt Cloates","No-take",NA,"77.1","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","104","-22.7191","113.5566","2022-05-23","13:55:01","Pt Cloates","No-take",NA,"77.7","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","148","-22.715","113.5573","2022-05-23","14:09:08","Pt Cloates","No-take",NA,"78","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","121","-22.7164","113.5548","2022-05-23","14:21:19","Pt Cloates","No-take",NA,"77.8","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B50","-22.7172","113.5528","2022-05-23","14:34:17","Pt Cloates","No-take",NA,"80.2","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","128","-22.7219","113.5498","2022-05-23","14:48:16","Pt Cloates","No-take",NA,"84.6","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","133","-22.7256","113.5479","2022-05-23","15:00:34","Pt Cloates","No-take",NA,"87.5","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","110","-22.7234","113.5447","2022-05-23","15:14:15","Pt Cloates","No-take",NA,"93.3","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","102","-22.7161","113.5489","2022-05-23","15:27:09","Pt Cloates","No-take",NA,"87.7","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","143","-22.7112","113.5528","2022-05-24","08:35:40","Pt Cloates","No-take",NA,"83.7","N/A","No","No"
+"2022-05_PtCloates_Squid-BOSS","115","-22.7098","113.55","2022-05-24","08:52:11","Pt Cloates","No-take",NA,"88.1","N/A","No","No"
+"2022-05_PtCloates_Squid-BOSS","139","-22.7092","113.549","2022-05-25","08:16:36","Pt Cloates","No-take",NA,"92.2","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","130","-22.7084","113.5508","2022-05-25","08:30:36","Pt Cloates","No-take",NA,"91.6","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","137","-22.7104","113.5582","2022-05-25","09:01:01","Pt Cloates","No-take",NA,"76.4","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","107","-22.709","113.5599","2022-05-25","09:15:11","Pt Cloates","No-take",NA,"75.4","Claude","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","101","-22.7071","113.5528","2022-05-25","09:29:26","Pt Cloates","No-take",NA,"84.5","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","155","-22.7068","113.5483","2022-05-25","09:44:12","Pt Cloates","No-take",NA,"95.9","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","B58","-22.7053","113.5499","2022-05-25","09:56:58","Pt Cloates","No-take",NA,"92.5","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","116","-22.706","113.554","2022-05-25","10:16:00","Pt Cloates","No-take",NA,"82.1","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","138","-22.7061","113.5624","2022-05-25","10:31:29","Pt Cloates","No-take",NA,"75.6","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","142","-22.7049","113.5596","2022-05-25","10:53:16","Pt Cloates","No-take",NA,"76.9","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","113","-22.7038","113.5592","2022-05-25","11:08:37","Pt Cloates","No-take",NA,"78.5","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","149","-22.7034","113.55","2022-05-25","11:24:56","Pt Cloates","No-take",NA,"94.5","Kaitlin","Yes","Yes"
+"2022-05_PtCloates_Squid-BOSS","120","-22.6997","113.5628","2022-05-26","10:36:07","Pt Cloates","No-take",NA,"75.2","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","134","-22.6982","113.5637","2022-05-26","10:50:23","Pt Cloates","No-take",NA,"75.3","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","106","-22.6968","113.5635","2022-05-26","10:59:43","Pt Cloates","No-take",NA,"75.8","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","111","-22.6958","113.5608","2022-05-26","11:11:19","Pt Cloates","No-take",NA,"78.7","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B48","-22.6963","113.5594","2022-05-26","11:21:54","Pt Cloates","No-take",NA,"79.6","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B47","-22.6996","113.5589","2022-05-26","11:38:31","Pt Cloates","No-take",NA,"78.5","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","127","-22.7005","113.5554","2022-05-26","11:51:10","Pt Cloates","No-take",NA,"83.7","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","140","-22.6991","113.5537","2022-05-26","12:03:42","Pt Cloates","No-take",NA,"88.6","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","156","-22.6978","113.5511","2022-05-26","12:18:11","Pt Cloates","No-take",NA,"93","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","117","-22.6936","113.551","2022-05-26","12:57:55","Pt Cloates","No-take",NA,"96","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","124","-22.6922","113.5552","2022-05-26","13:10:34","Pt Cloates","No-take",NA,"89.5","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","151","-22.6909","113.5557","2022-05-26","13:26:41","Pt Cloates","No-take",NA,"90","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","108","-22.6897","113.5545","2022-05-26","13:40:34","Pt Cloates","No-take",NA,"94.2","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","114","-22.6916","113.5654","2022-05-27","10:20:44","Pt Cloates","No-take",NA,"75.9","N/A","No","No"
+"2022-05_PtCloates_Squid-BOSS","103","-22.6889","113.565","2022-05-27","10:33:40","Pt Cloates","No-take",NA,"77.4","N/A","No","No"
+"2022-05_PtCloates_Squid-BOSS","B51","-22.6901","113.5612","2022-05-27","10:45:05","Pt Cloates","No-take",NA,"80.3","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","145","-22.6889","113.5583","2022-05-27","10:58:18","Pt Cloates","No-take",NA,"84.9","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","135","-22.6882","113.5601","2022-05-27","11:10:54","Pt Cloates","No-take",NA,"81.5","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","123","-22.6861","113.5646","2022-05-27","11:22:58","Pt Cloates","No-take",NA,"77.7","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B53","-22.6838","113.5636","2022-05-27","11:37:31","Pt Cloates","No-take",NA,"78.6","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B61","-22.6777","113.5657","2022-05-27","11:52:52","Pt Cloates","No-take",NA,"78.8","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B63","-22.6744","113.5666","2022-05-27","12:07:38","Pt Cloates","No-take",NA,"79.7","Molly","Yes",NA
+"2022-05_PtCloates_Squid-BOSS","B57","-22.6751","113.5611","2022-05-27","12:20:20","Pt Cloates","No-take",NA,"88.1","Molly","Yes",NA

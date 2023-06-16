@@ -1,0 +1,34 @@
+"","modname","formula","AICc","BIC","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method","cumsum.wi"
+"biog","biog","s(biog, k = 3, bs = ""cr"")",514.067262393475,523.495728533215,NA,2,0,0,0.936,0.109,0.199,0,0,1,0,0,0,0,0,0.109
+"biog+method","biog+method","s(biog, k = 3, bs = ""cr"") + method",515.382122280164,527.037929864476,NA,3,0,1.315,4.478,0.057,0.034,0,0,1,0,0,0,0,1,0.166
+"biog+detrended","biog+detrended","s(biog, k = 3, bs = ""cr"") + s(detrended, k = 3, bs = ""cr"")",515.384956274264,527.042341581124,NA,3,0,1.318,4.482,0.056,0.034,0,0,1,0,0,0,1,0,0.222
+"null","null","1",515.413797913855,522.560094071575,NA,1,0,1.347,0,0.056,0.317,0,0,0,0,0,0,0,0,0.278
+"depth","depth","s(depth, k = 3, bs = ""cr"")",515.6449299572,527.149786457661,NA,2.74,0,1.578,4.59,0.05,0.032,1,0,0,0,0,0,0,0,0.328
+"biog+macroalgae","biog+macroalgae","s(biog, k = 3, bs = ""cr"") + s(macroalgae, k = 3, bs = ""cr"")",515.698999993314,527.354686940411,NA,3,0,1.632,4.795,0.048,0.029,0,1,1,0,0,0,0,0,0.376
+"biog+depth","biog+depth","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"")",516.215812907792,529.563905142037,NA,3.53,0,2.149,7.004,0.037,0.01,1,0,1,0,0,0,0,0,0.413
+"biog+tpi","biog+tpi","s(biog, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",516.238582867747,529.566834262086,NA,3.52,0,2.171,7.007,0.037,0.01,0,0,1,0,1,0,0,0,0.45
+"macroalgae","macroalgae","s(macroalgae, k = 3, bs = ""cr"")",516.319301147616,525.748576515518,NA,2,0,2.252,3.188,0.035,0.064,0,1,0,0,0,0,0,0,0.485
+"biog+roughness","biog+roughness","s(biog, k = 3, bs = ""cr"") + s(roughness, k = 3, bs = ""cr"")",516.344663212593,528.000937355824,NA,3,0,2.277,5.441,0.035,0.021,0,0,1,0,0,1,0,0,0.52
+"method","method","method",516.486665810823,525.914085357893,NA,2,0,2.419,3.354,0.033,0.059,0,0,0,0,0,0,0,1,0.553
+"biog+detrended+method","biog+detrended+method","s(biog, k = 3, bs = ""cr"") + s(detrended, k = 3, bs = ""cr"") + method",516.849733670385,530.678936296598,NA,4,0,2.782,8.119,0.027,0.005,0,0,1,0,0,0,1,1,0.58
+"depth+tpi","depth+tpi","s(depth, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",517.120105397087,532.659532553689,NA,4.41,0,3.053,10.099,0.024,0.002,1,0,0,0,1,0,0,0,0.604
+"detrended","detrended","s(detrended, k = 3, bs = ""cr"")",517.187752963396,526.788204672573,NA,2.04,0,3.12,4.228,0.023,0.038,0,0,0,0,0,0,1,0,0.627
+"biog+macroalgae+method","biog+macroalgae+method","s(biog, k = 3, bs = ""cr"") + s(macroalgae, k = 3, bs = ""cr"") + method",517.22016066446,531.048548194687,NA,4,0,3.153,8.488,0.023,0.005,0,1,1,0,0,0,0,1,0.65
+"biog+depth+tpi","biog+depth+tpi","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",517.244394907533,534.777620856139,NA,5.33,0,3.177,12.218,0.022,0.001,1,0,1,0,1,0,0,0,0.672
+"biog+macroalgae+tpi","biog+macroalgae+tpi","s(biog, k = 3, bs = ""cr"") + s(macroalgae, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",517.319452601585,532.96267732615,NA,4.62,0,3.252,10.403,0.021,0.002,0,1,1,0,1,0,0,0,0.693
+"biog+detrended+macroalgae","biog+detrended+macroalgae","s(biog, k = 3, bs = ""cr"") + s(detrended, k = 3, bs = ""cr"") + s(macroalgae, k = 3, bs = ""cr"")",517.389095596917,531.219722717193,NA,4,0,3.322,8.66,0.021,0.004,0,1,1,0,0,0,1,0,0.714
+"biog+roughness+tpi","biog+roughness+tpi","s(biog, k = 3, bs = ""cr"") + s(roughness, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",517.439265437356,533.128769648475,NA,4.65,0,3.372,10.569,0.02,0.002,0,0,1,0,1,1,0,0,0.734
+"depth+method","depth+method","s(depth, k = 3, bs = ""cr"") + method",517.541927613487,531.155943568671,NA,3.69,0,3.475,8.596,0.019,0.004,1,0,0,0,0,0,0,1,0.753
+"roughness","roughness","s(roughness, k = 3, bs = ""cr"")",517.610656125492,527.039734439831,NA,2,0,3.543,4.48,0.019,0.034,0,0,0,0,0,1,0,0,0.772
+"macroalgae+method","macroalgae+method","s(macroalgae, k = 3, bs = ""cr"") + method",517.677543887853,529.333126906003,NA,3,0,3.61,6.773,0.018,0.011,0,1,0,0,0,0,0,1,0.79
+"biog+method+roughness","biog+method+roughness","s(biog, k = 3, bs = ""cr"") + s(roughness, k = 3, bs = ""cr"") + method",517.719653577193,531.547748220177,NA,4,0,3.652,8.988,0.018,0.004,0,0,1,0,0,1,0,1,0.808
+"biog+detrended+roughness","biog+detrended+roughness","s(biog, k = 3, bs = ""cr"") + s(detrended, k = 3, bs = ""cr"") + s(roughness, k = 3, bs = ""cr"")",517.726512203136,531.566236202769,NA,4,0,3.659,9.006,0.018,0.004,0,0,1,0,0,1,1,0,0.826
+"biog+method+tpi","biog+method+tpi","s(biog, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"") + method",517.747638720387,533.171670325186,NA,4.5,0,3.68,10.612,0.017,0.002,0,0,1,0,1,0,0,1,0.843
+"tpi","tpi","s(tpi, k = 3, bs = ""cr"")",517.839930308548,528.189204040364,NA,2.23,0,3.773,5.629,0.017,0.019,0,0,0,0,1,0,0,0,0.86
+"biog+depth+method","biog+depth+method","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + method",517.966892531716,533.164502893899,NA,4.4,0,3.9,10.604,0.016,0.002,1,0,1,0,0,0,0,1,0.876
+"mean.relief","mean.relief","s(mean.relief, k = 3, bs = ""cr"")",517.968286772233,528.36057629184,NA,2.25,0,3.901,5.8,0.016,0.017,0,0,0,1,0,0,0,0,0.892
+"detrended+method","detrended+method","s(detrended, k = 3, bs = ""cr"") + method",518.387224192152,530.205846932088,NA,3.04,0,4.32,7.646,0.013,0.007,0,0,0,0,0,0,1,1,0.905
+"macroalgae+tpi","macroalgae+tpi","s(macroalgae, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"")",518.433897480918,531.760458687052,NA,3.52,0,4.367,9.2,0.012,0.003,0,1,0,0,1,0,0,0,0.917
+"detrended+macroalgae","detrended+macroalgae","s(detrended, k = 3, bs = ""cr"") + s(macroalgae, k = 3, bs = ""cr"")",518.613354811876,530.718001669677,NA,3.11,0,4.546,8.158,0.011,0.005,0,1,0,0,0,0,1,0,0.928
+"method+roughness","method+roughness","s(roughness, k = 3, bs = ""cr"") + method",518.766937041854,530.423025626466,NA,3,0,4.7,7.863,0.01,0.006,0,0,0,0,0,1,0,1,0.938
+"method+tpi","method+tpi","s(tpi, k = 3, bs = ""cr"") + method",519.046284777419,531.57438743194,NA,3.22,0,4.979,9.014,0.009,0.003,0,0,0,0,1,0,0,1,0.947

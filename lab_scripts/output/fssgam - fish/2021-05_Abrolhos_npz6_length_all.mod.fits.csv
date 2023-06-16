@@ -1,0 +1,4 @@
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","cumsum.wi"
+"greater than legal size","detrended",330.576224951906,342.567824790876,0.19289,NA,3.82,0,0,0,0.7,0.773,0,0,0,0,0,0,1,0.7
+"smaller than legal size.tpi","tpi",242.781576143306,254.800126684852,0.08554,NA,3.87,0,0,0,0.283,0.378,0,0,0,0,1,0,0,0.283
+"smaller than legal size.biog+tpi","biog+tpi",244.197428219504,257.967351970996,0.09631,NA,4.86,0,1.416,3.167,0.139,0.078,0,0,1,0,1,0,0,0.422

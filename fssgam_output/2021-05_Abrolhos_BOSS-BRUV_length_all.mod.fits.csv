@@ -1,0 +1,5 @@
+"","modname","formula","AICc","BIC","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method","cumsum.wi"
+"biog+depth+tpi","biog+depth+tpi","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"") + method",22794.7415419935,22840.7730302745,NA,6.23,0,0,0.376,0.728,0.293,1,0,1,0,1,0,0,0,0.728
+"biog+depth+tpi1","biog+depth+tpi","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + s(tpi, k = 3, bs = ""cr"") + method",22794.7415427755,22840.773032044,NA,6.23,0,0,0.376,0.728,0.293,1,0,1,0,1,0,0,0,0.728
+"biog+depth+method","biog+depth+method","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + method",22798.0945581883,22840.3974921717,NA,5.48,0,3.353,0,0.136,0.353,1,0,1,0,0,0,0,1,0.864
+"biog+depth","biog+depth","s(biog, k = 3, bs = ""cr"") + s(depth, k = 3, bs = ""cr"") + method",22798.0946519451,22840.3975604093,NA,5.48,0,3.353,0,0.136,0.353,1,0,1,0,0,0,0,0,1
