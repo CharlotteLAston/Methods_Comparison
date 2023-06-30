@@ -238,7 +238,7 @@ length.dat <- complete.length %>%
   mutate(Maturity = ifelse(length < (length.mat*0.5), "less_50", 
                           ifelse(length>(length.mat*0.5) & length < length.mat, "greater_50_less_mat",
                                  ifelse(length > length.mat & length < (length.mat*1.25), "greater_mat_less_125","greater_mat_125")))) %>% 
-  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat"))
+  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat")) 
 
 # Set predictor variables---
 names(complete.length)
@@ -480,7 +480,7 @@ length.dat <- complete.length %>%
   mutate(Maturity = ifelse(length < (length.mat*0.5), "less_50", 
                            ifelse(length>(length.mat*0.5) & length < length.mat, "greater_50_less_mat",
                                   ifelse(length > length.mat & length < (length.mat*1.25), "greater_mat_less_125","greater_mat_125")))) %>% 
-  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat"))
+  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat")) 
 
 # Set predictor variables---
 names(complete.length)
