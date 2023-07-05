@@ -1,5 +1,9 @@
 /data/spatial/oceanography/large
+**/spatial_data/
 **/SS/
+*.tif
+*.mid
+*.mif
 
 # History files
 .Rhistory

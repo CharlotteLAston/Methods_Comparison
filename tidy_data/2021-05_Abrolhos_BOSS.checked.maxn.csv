@@ -1,8 +1,8 @@
 "campaignid","sample","family","genus","species","maxn"
 "2021-05_Abrolhos_BOSS","npz6.1","Labridae","Choerodon","rubescens",1
 "2021-05_Abrolhos_BOSS","npz6.1","Labridae","Unknown","spp",1
-"2021-05_Abrolhos_BOSS","npz6.1","Sparidae","Chrysophrys","auratus",1
 "2021-05_Abrolhos_BOSS","npz6.1","SUS","SUS","sus",1
+"2021-05_Abrolhos_BOSS","npz6.1","Sparidae","Chrysophrys","auratus",1
 "2021-05_Abrolhos_BOSS","npz6.11","Carangidae","Seriola","hippos",2
 "2021-05_Abrolhos_BOSS","npz6.11","Carangidae","Unknown","sp10",1
 "2021-05_Abrolhos_BOSS","npz6.11","Echeneidae","Unknown","spp",1
@@ -33,9 +33,9 @@
 "2021-05_Abrolhos_BOSS","npz6.18","Mullidae","Parupeneus","spilurus",4
 "2021-05_Abrolhos_BOSS","npz6.18","Pempherididae","Pempheris","klunzingeri",2
 "2021-05_Abrolhos_BOSS","npz6.18","Pomacentridae","Chromis","spp",39
+"2021-05_Abrolhos_BOSS","npz6.18","SUS","SUS","sus",1
 "2021-05_Abrolhos_BOSS","npz6.18","Scaridae","Scarus","chameleon",2
 "2021-05_Abrolhos_BOSS","npz6.18","Scaridae","Scarus","sp3",2
-"2021-05_Abrolhos_BOSS","npz6.18","SUS","SUS","sus",1
 "2021-05_Abrolhos_BOSS","npz6.19","Chaetodontidae","Chaetodon","assarius",4
 "2021-05_Abrolhos_BOSS","npz6.19","Labridae","Austrolabrus","maculatus",3
 "2021-05_Abrolhos_BOSS","npz6.19","Labridae","Choerodon","rubescens",2
@@ -46,9 +46,9 @@
 "2021-05_Abrolhos_BOSS","npz6.19","SUS","SUS","sus",3
 "2021-05_Abrolhos_BOSS","npz6.2","Lutjanidae","Lutjanus","sp10",1
 "2021-05_Abrolhos_BOSS","npz6.2","Pomacanthidae","Apolemichthys","trimaculatus",1
+"2021-05_Abrolhos_BOSS","npz6.2","SUS","SUS","sus",1
 "2021-05_Abrolhos_BOSS","npz6.2","Scorpididae","Neatypus","obliquus",40
 "2021-05_Abrolhos_BOSS","npz6.2","Scorpididae","Scorpis","georgiana",1
-"2021-05_Abrolhos_BOSS","npz6.2","SUS","SUS","sus",1
 "2021-05_Abrolhos_BOSS","npz6.20","Labridae","Suezichthys","cyanolaemus",1
 "2021-05_Abrolhos_BOSS","npz6.20","Pomacentridae","Chromis","spp",80
 "2021-05_Abrolhos_BOSS","npz6.20","Scaridae","Scarus","spp",1
@@ -63,8 +63,8 @@
 "2021-05_Abrolhos_BOSS","npz6.24","SUS","SUS","sus",1
 "2021-05_Abrolhos_BOSS","npz6.25","Labridae","Unknown","sp3",1
 "2021-05_Abrolhos_BOSS","npz6.25","Pinguipedidae","Parapercis","spp",1
-"2021-05_Abrolhos_BOSS","npz6.25","Sparidae","Chrysophrys","auratus",1
 "2021-05_Abrolhos_BOSS","npz6.25","SUS","SUS","sus",1
+"2021-05_Abrolhos_BOSS","npz6.25","Sparidae","Chrysophrys","auratus",1
 "2021-05_Abrolhos_BOSS","npz6.26","Labridae","Anampses","geographicus",1
 "2021-05_Abrolhos_BOSS","npz6.26","Labridae","Austrolabrus","maculatus",1
 "2021-05_Abrolhos_BOSS","npz6.26","Labridae","Choerodon","rubescens",2

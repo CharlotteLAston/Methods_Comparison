@@ -3,7 +3,7 @@ rm(list=ls()) # Clear memory
 ## Load Libraries ----
 # To connect to GlobalArchive
 library(devtools)
-#install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
+# install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
 library(GlobalArchive)
 # To connect to GitHub
 library(RCurl)
@@ -20,10 +20,15 @@ library(googlesheets4)
 ## Set your working directory ----
 working.dir<-getwd()
 
+#### SET DIRECTORIES AND READ IN DATA ####
+## Set your working directory ----
+working.dir<- dirname(rstudioapi::getActiveDocumentContext()$path)
+
 ## Save these directory names to use later----
-staging.dir<-paste(working.dir,"data/raw/staging",sep="/") 
-download.dir<-paste(working.dir,"data/raw/EM Export",sep="/")
-tidy.dir<-paste(working.dir,"data/Tidy",sep="/")
+full.data <- paste(working.dir,"full_data",sep="/")
+tidy.dir <- paste(working.dir,"tidy_data",sep="/")
+download.dir <- paste(working.dir,"EM Export",sep="/")
+staging.dir <-  paste(working.dir,"staging",sep="/")
 
 setwd(working.dir)
 
@@ -33,10 +38,11 @@ setwd(working.dir)
 study<-"2021-05_Abrolhos_stereo-BRUVs" 
 
 ### Metadata ----
-metadata <-ga.list.files("_Metadata.csv")%>% # list all files ending in "_Metadata.csv"
+metadata <- ga.list.files("_Metadata.csv")%>% # list all files ending in "_Metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.))%>% # combine into dataframe
-  dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length)%>%
-  dplyr::filter(campaignid%in%c("2021-05_Abrolhos_stereo-BRUVs"))%>%# This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  dplyr::select(sample,campaignid,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>%
+  dplyr::filter(campaignid%in%c("2021-05_Abrolhos_stereo-BRUVs"))%>%
+  filter(successful.count == "Y"|successful.count=="Yes") %>% 
   glimpse()
 
 unique(metadata$campaignid) # check the number of campaigns in metadata, and the campaign name
@@ -86,7 +92,7 @@ unique(maxn$sample)
 length3dpoints<-ga.create.em.length3dpoints()%>%
   dplyr::select(-c(time,comment))%>% # take time out as there is also a time column in the metadata
   dplyr::inner_join(metadata)%>%
-  dplyr::filter(successful.length=="Y")%>%
+  dplyr::filter(successful.length=="Y"|successful.length=="Yes")%>%
   glimpse()
 
 ### Save length files ----
@@ -103,6 +109,7 @@ metadata <-ga.list.files("_Metadata.csv")%>% # list all files ending in "_Metada
   purrr::map_df(~ga.read.files_em.csv(.))%>% # combine into dataframe
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>%
   dplyr::filter(campaignid%in%c("2021-05_PtCloates_stereo-BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS"))%>%# This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  filter(successful.count=="Y"|successful.count=="Yes") %>% 
   glimpse()
 
 unique(metadata$campaignid) # check the number of campaigns in metadata, and the campaign name
@@ -122,8 +129,6 @@ points<-as.data.frame(points.files)%>%
   mutate(campaignid = str_replace(campaignid, "2021-05_PtCloates_BRUVS", "2021-05_PtCloates_stereo-BRUVS")) %>% 
   mutate(campaignid = str_replace(campaignid, "2021-08_PtCloates_BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs")) %>% 
   dplyr::filter(campaignid%in%c("2021-05_PtCloates_stereo-BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS"))
-
-#2021-05_PtCloates_stereo-BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS
 
 maxn<-points%>%
   dplyr::group_by(campaignid,sample,filename,periodtime,frame,family,genus,species)%>%

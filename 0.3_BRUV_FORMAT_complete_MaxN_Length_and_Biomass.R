@@ -8,7 +8,7 @@ install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
 library(GlobalArchive)
 # To connect to life.history
 library(httpuv)
-library(googlesheets)
+library(googlesheets4)
 # To tidy data
 library(tidyr)
 library(plyr)
@@ -28,14 +28,15 @@ error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
 # Study name---
 study<-"2021-05_Abrolhos_stereo-BRUVs" 
 
-## Set your working directory ----
-working.dir<-getwd()
-
-# Read in the data----
-setwd(tidy.dir)
-dir()
+#### SET DIRECTORIES AND READ IN DATA ####
+working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+data_dir <- paste(working.dir, "tidy_data", sep="/")
+fig_dir <- paste(working.dir, "figures", sep="/")
+out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
 # Read in metadata----
+setwd(data_dir)
+
 metadata<-read_csv(file=paste(study,"checked.metadata.csv",sep = "."),na = c("", " "))%>%
   dplyr::mutate(id=paste(campaignid,sample,sep="."))%>%
   glimpse()
@@ -229,7 +230,7 @@ write.csv(check.mass,file=paste(study,"check.mass.csv",sep = "_"), row.names=FAL
 
 # CHECK these mass estimates before using them!!!
 # WRITE FINAL complete and expanded data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 write.csv(complete.maxn, file=paste(study,"complete.maxn.csv",sep = "."), row.names=FALSE)
@@ -245,11 +246,8 @@ setwd(working.dir)
 # NINGALOO PT CLOATES ####
 study<-"Ningaloo_PtCloates_stereo-BRUVs"
 
-## Set your working directory ----
-working.dir<- dirname(rstudioapi::getActiveDocumentContext()$path)
-
 # Read in the data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 # Read in metadata----
@@ -264,13 +262,29 @@ dat<-read_csv(file=paste(study,"checked.maxn.csv",sep = "."),na = c("", " "))%>%
   dplyr::select(c(id,campaignid,sample,family,genus,species,maxn))%>%
   tidyr::complete(nesting(id,campaignid,sample),nesting(family,genus,species)) %>%
   replace_na(list(maxn = 0))%>%
-  group_by(sample,family,genus,species)%>%
+  group_by(id,sample,family,genus,species)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
   ungroup()%>% #always a good idea to ungroup() after you have finished using the group_by()!
   mutate(scientific=paste(family,genus,species,sep=" "))%>%
-  dplyr::select(sample,scientific,maxn)%>%
-  spread(scientific,maxn, fill = 0)%>% #why do we need this?
+  dplyr::select(sample,id,scientific,maxn) %>% 
+  pivot_wider(names_from=scientific, values_from=maxn, id_cols=c(sample, id)) %>% 
+  #dplyr::rename(sample = "id") %>% 
   glimpse()
+
+check <- read_csv(file=paste(study,"checked.maxn.csv",sep = "."),na = c("", " "))%>%
+  dplyr::mutate(id=paste(campaignid,sample,sep="."))%>%
+  full_join(metadata)%>%
+  dplyr::select(c(id,campaignid,sample,family,genus,species,maxn))%>%
+  tidyr::complete(nesting(id,campaignid,sample),nesting(family,genus,species)) %>%
+  replace_na(list(maxn = 0))%>%
+  group_by(id,sample,family,genus,species)%>%
+  dplyr::summarise(maxn=sum(maxn))%>%
+  ungroup()%>% #always a good idea to ungroup() after you have finished using the group_by()!
+  mutate(scientific=paste(family,genus,species,sep=" "))%>%
+  dplyr::select(sample,id,scientific,maxn) %>% 
+  dplyr::group_by(sample, id, scientific) %>%
+  dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+  dplyr::filter(n > 1L) 
 
 # Make family, genus and species names to merge back in after data is complete ---
 maxn.families<-read_csv(file=paste(study,"checked.maxn.csv",sep = "."),na = c("", " "))%>%
@@ -287,8 +301,7 @@ complete.maxn<-dat%>%
   full_join(metadata)%>% # Joining metadata will use a lot of memory - # out if you need too
   glimpse()
 
-unique(dat$sample)
-unique(complete.maxn$sample)
+unique(dat$sample)==unique(complete.maxn$sample)
 
 # Make complete.length.number.mass: fill in 0s and join in factors----
 length.families<-read_csv(file=paste(study,"checked.length.csv",sep = "."),na = c("", " "))%>%
@@ -310,8 +323,8 @@ complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."
   left_join(.,metadata)%>%
   glimpse()
 
-length(unique(metadata$id)) # 253
-length(unique(complete.length.number$id)) # 253
+length(unique(metadata$id)) # 132
+length(unique(complete.length.number$id)) # 132
 
 # Make the expanded length data----
 # For use in length analyses - i.e KDE or histograms
@@ -446,7 +459,7 @@ write.csv(check.mass,file=paste(study,"check.mass.csv",sep = "_"), row.names=FAL
 
 # CHECK these mass estimates before using them!!!
 # WRITE FINAL complete and expanded data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 write.csv(complete.maxn, file=paste(study,"complete.maxn.csv",sep = "."), row.names=FALSE)

@@ -105,12 +105,14 @@ study<-"Ningaloo_PtCloates_BOSS"
 ### Metadata ----
 metadata <- ga.list.files("_Metadata.csv") %>% # list all files ending in "_metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.)) %>% # combine into dataframe
+  mutate(sample = ifelse(is.na(sample), sample...2, sample)) %>% 
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>% # This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
-  dplyr::filter(campaignid%in%c("2021-05_PtCloates_BOSS", "2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_Pt-Cloates_Flasher-BOSS", "2021-08_Pt-Cloates_Squid-BOSS"))%>%
-  dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>% 
-  dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>% 
-  dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>% 
+  dplyr::filter(campaignid%in%c("2021-05_PtCloates_BOSS", "2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_Pt-Cloates_BOSS", "2021-08_Pt-Cloates_Squid-BOSS")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>%
   glimpse() %>% 
+  filter(successful.count=="Yes") %>% 
   filter(!location %in% c("Deep Yardie"))
 
 unique(metadata$campaignid) # check the number of campaigns in metadata, and the campaign name

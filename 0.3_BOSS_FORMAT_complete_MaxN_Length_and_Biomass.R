@@ -8,7 +8,7 @@ install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
 library(GlobalArchive)
 # To connect to life.history
 library(httpuv)
-library(googlesheets)
+library(googlesheets4)
 # To tidy data
 library(tidyr)
 library(plyr)
@@ -21,16 +21,14 @@ library(fst)
 # Study name---
 study<-"2021-05_Abrolhos_BOSS" 
 
-## Set your working directory ----
-working.dir<-getwd()
-
-## Save these directory names to use later---- 
-tidy.dir<-paste(working.dir,"data/Tidy",sep="/")
-plots.dir=paste(working.dir,"plots/format",sep="/")
-error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
+#### SET DIRECTORIES AND READ IN DATA ####
+working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+data_dir <- paste(working.dir, "tidy_data", sep="/")
+fig_dir <- paste(working.dir, "figures", sep="/")
+out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
 # Read in the data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 # Read in metadata----
@@ -91,8 +89,8 @@ complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."
   left_join(.,metadata)%>%
   glimpse()
 
-length(unique(metadata$id)) # 1121
-length(unique(complete.length.number$id)) # 1121
+length(unique(metadata$id)) # 75
+length(unique(complete.length.number$id)) # 75
 
 # Make the expanded length data----
 # For use in length analyses - i.e KDE or histograms
@@ -229,7 +227,7 @@ write.csv(check.mass,file=paste(study,"check.mass.csv",sep = "_"), row.names=FAL
 
 
 # WRITE FINAL complete and expanded data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 write.csv(complete.maxn, file=paste(study,"complete.maxn.csv",sep = "."), row.names=FALSE)
@@ -244,7 +242,7 @@ setwd(working.dir)
 
 # NINGALOO PT CLOATES ####
 # Read in the data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 study<-"Ningaloo_PtCloates_BOSS"
@@ -268,6 +266,7 @@ dat<-read_csv(file=paste(study,"checked.maxn.csv",sep = "."),na = c("", " "))%>%
   dplyr::summarise(maxn=sum(maxn))%>%
   ungroup()%>% #always a good idea to ungroup() after you have finished using the group_by()!
   mutate(scientific=paste(family,genus,species,sep=" "))%>%
+  mutate(scientific = ifelse(scientific %in% c("Lutjanidae Pristipomoides sp1"), "Lutjanidae Pristipomoides multidens", scientific)) %>% 
   dplyr::select(sample,scientific,maxn)%>%
   spread(scientific,maxn, fill = 0)%>% #why do we need this?
   glimpse()
@@ -310,8 +309,8 @@ complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."
   left_join(.,metadata)%>%
   glimpse()
 
-length(unique(metadata$id)) # 253
-length(unique(complete.length.number$id)) # 253
+length(unique(metadata$id)) # 278
+length(unique(complete.length.number$id)) # 278
 
 # Make the expanded length data----
 # For use in length analyses - i.e KDE or histograms
@@ -448,7 +447,7 @@ write.csv(check.mass,file=paste(study,"check.mass.csv",sep = "_"), row.names=FAL
 
 
 # WRITE FINAL complete and expanded data----
-setwd(tidy.dir)
+setwd(data_dir)
 dir()
 
 write.csv(complete.maxn, file=paste(study,"complete.maxn.csv",sep = "."), row.names=FALSE)

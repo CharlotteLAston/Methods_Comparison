@@ -37,7 +37,7 @@ study<-"2021-05_Abrolhos_stereo-BRUVs"
 setwd(staging.dir)
 
 ### Import metadata ---
-metadata<-read.csv(paste(study,"metadata.csv",sep="_"))
+metadata<-read.csv(paste(study,"Metadata.csv",sep="_"))
 
 ### Import MaxN file---
 maxn<-read_csv(paste(study,"maxn.csv",sep="_"))%>%
