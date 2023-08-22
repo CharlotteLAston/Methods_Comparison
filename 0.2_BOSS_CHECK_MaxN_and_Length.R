@@ -41,7 +41,7 @@ metadata<-read.csv(paste(study,"metadata.csv",sep="_"))
 maxn<-read_csv(paste(study,"maxn.csv",sep="_"))%>%
   mutate(maxn=as.numeric(maxn))%>%
   mutate(species=tolower(species))%>%
-  select(campaignid,sample,family,genus,species,maxn)%>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn)%>%
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   glimpse()
 
@@ -50,7 +50,7 @@ length<-read_csv(file=paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "
   mutate(number=as.numeric(number))%>%
   mutate(range=as.numeric(range))%>%
   mutate(length=as.numeric(length))%>%
-  select(campaignid,sample,family,genus,species,length,number,range)%>%
+  dplyr::select(campaignid,sample,family,genus,species,length,number,range)%>%
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   mutate(species=tolower(species))%>%
@@ -285,7 +285,7 @@ metadata<-read.csv(paste(study,"metadata.csv",sep="_"))
 maxn<-read_csv(paste(study,"maxn.csv",sep="_"))%>%
   mutate(maxn=as.numeric(maxn))%>%
   mutate(species=tolower(species))%>%
-  select(campaignid,sample,family,genus,species,maxn)%>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn)%>%
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   glimpse()
 
@@ -294,7 +294,7 @@ length<-read_csv(file=paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "
   mutate(number=as.numeric(number))%>%
   mutate(range=as.numeric(range))%>%
   mutate(length=as.numeric(length))%>%
-  select(campaignid,sample,family,genus,species,length,number,range)%>%
+  dplyr::select(campaignid,sample,family,genus,species,length,number,range)%>%
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   mutate(species=tolower(species))%>%

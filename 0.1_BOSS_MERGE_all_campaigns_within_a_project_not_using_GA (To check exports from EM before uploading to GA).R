@@ -36,9 +36,10 @@ setwd(working.dir)
 study<-"2021-05_Abrolhos_BOSS" 
 
 ### Metadata ----
-metadata <- ga.list.files("_Metadata.csv") %>% # list all files ending in "_metadata.csv"
+metadata <- ga.list.files("_metadata.csv") %>% # list all files ending in "_metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.)) %>% # combine into dataframe
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>% # This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  mutate(campaignid = ifelse(str_detect(campaignid, "_metadata.csv"), str_replace(campaignid, "_metadata.csv", ""), campaignid)) %>% 
   dplyr::filter(campaignid%in%c("2021-05_Abrolhos_BOSS"))%>%
   glimpse()
 
@@ -103,15 +104,16 @@ write.csv(length3dpoints,paste(study,"length3dpoints.csv",sep="_"),row.names = F
 study<-"Ningaloo_PtCloates_BOSS" 
 
 ### Metadata ----
-metadata <- ga.list.files("_Metadata.csv") %>% # list all files ending in "_metadata.csv"
+setwd(download.dir)
+metadata <- ga.list.files("_metadata.csv") %>% # list all files ending in "_metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.)) %>% # combine into dataframe
   mutate(sample = ifelse(is.na(sample), sample...2, sample)) %>% 
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>% # This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
-  dplyr::filter(campaignid%in%c("2021-05_PtCloates_BOSS", "2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_Pt-Cloates_BOSS", "2021-08_Pt-Cloates_Squid-BOSS")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "_metadata.csv", "")) %>% 
+  dplyr::filter(campaignid%in%c("2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_Pt-Cloates_BOSS", "2021-08_Pt-Cloates_Squid-BOSS")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>%
-  glimpse() %>% 
   filter(successful.count=="Yes") %>% 
   filter(!location %in% c("Deep Yardie"))
 
@@ -129,7 +131,7 @@ points<-as.data.frame(points.files)%>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.))%>%
-  dplyr::filter(campaignid%in%c("2021-05_PtCloates_BOSS","2022-05_PtCloates_BOSS", "2021-08_Pt-Cloates_BOSS"))
+  dplyr::filter(campaignid%in%c("2022-05_PtCloates_BOSS", "2021-08_Pt-Cloates_BOSS"))
 
 maxn<-points%>%
   dplyr::select(-c(sample)) %>%

@@ -1,0 +1,8 @@
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method","cumsum.wi"
+">50 Maturity but < Maturity.biog+macroalgae+method","biog+macroalgae+method",359.528848980681,374.726597350136,0.33228,NA,4,0,0,0.343,0.451,0.334,0,1,1,0,0,0,0,1,0.451
+">50 Maturity but < Maturity.biog+depth+method","biog+depth+method",361.368702531716,376.566245306443,0.29711,NA,4,0,1.84,2.182,0.18,0.133,1,0,1,0,0,0,0,1,0.631
+"> Length Maturity but < 1.25x Maturity.method","method",122.14572686214,132.444885337242,0.25083,NA,2,0,0,0,0.312,0.752,0,0,0,0,0,0,0,1,0.312
+"> Length Maturity but < 1.25x Maturity.method+tpi","method+tpi",122.747292915987,135.90570493429,0.25898,NA,3.08,0,0.602,3.461,0.231,0.133,0,0,0,0,1,0,0,1,0.543
+"> 1.25x Maturity.macroalgae+tpi","macroalgae+tpi",35.8382865492873,52.7119009060717,0.07509,NA,4.29,0,0,2.483,0.287,0.075,0,1,0,0,1,0,0,0,0.287
+"> 1.25x Maturity.biog+macroalgae","biog+macroalgae",36.7888663548892,51.7832273608202,0.02155,NA,3.71,0,0.951,1.554,0.178,0.119,0,1,1,0,0,0,0,0,0.465
+"> 1.25x Maturity.biog+macroalgae+method","biog+macroalgae+method",37.2682053169712,54.6561317678117,0.04283,NA,4.72,0,1.43,4.427,0.14,0.028,0,1,1,0,0,0,0,1,0.605

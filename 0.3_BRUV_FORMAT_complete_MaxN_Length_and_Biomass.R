@@ -18,11 +18,6 @@ library(readr)
 library(ggplot2)
 library(fst)
 
-## Save these directory names to use later---- 
-tidy.dir<-paste(working.dir,"data/Tidy",sep="/")
-plots.dir=paste(working.dir,"plots/format",sep="/")
-error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
-
 
 # ABROLHOS ####
 # Study name---

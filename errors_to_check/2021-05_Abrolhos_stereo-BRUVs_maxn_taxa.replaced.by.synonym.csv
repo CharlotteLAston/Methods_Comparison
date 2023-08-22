@@ -1,6 +1,5 @@
 "campaignid","sample","family","genus","species","family_correct","genus_correct","species_correct"
 "2021-05_Abrolhos_stereo-BRUVs","npz6.18","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
-"2021-05_Abrolhos_stereo-BRUVs","npz6.20","Carangidae","Carangoides","sp","Carangidae","Carangoides","spp"
 "2021-05_Abrolhos_stereo-BRUVs","npz6.20","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
 "2021-05_Abrolhos_stereo-BRUVs","npz6.22","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
 "2021-05_Abrolhos_stereo-BRUVs","npz6.24","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
@@ -9,4 +8,3 @@
 "2021-05_Abrolhos_stereo-BRUVs","npz9.10","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
 "2021-05_Abrolhos_stereo-BRUVs","npz9.26","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
 "2021-05_Abrolhos_stereo-BRUVs","npz9.5","Muraenidae","Gymnothorax","thrysoideus","Muraenidae","Gymnothorax","thyrsoideus"
-"2021-05_Abrolhos_stereo-BRUVs","npz9.7","Sparidae","Pagrus","auratus","Sparidae","Chrysophrys","auratus"

@@ -9,7 +9,7 @@
 rm(list=ls())
 
 # libraries----
-detach("package:plyr", unload=TRUE)#will error - don't worry
+#detach("package:plyr", unload=TRUE)#will error - don't worry
 library(tidyr)
 library(dplyr)
 options(dplyr.width = Inf) #enables head() to display all coloums
@@ -114,7 +114,7 @@ ta.sr <- maxn %>%
   dplyr::summarise(maxn = sum(maxn)) %>%
   tidyr::spread(scientific, maxn, fill = 0) %>% 
   dplyr::ungroup() %>%
-  dplyr::mutate(total.abundance = rowSums(.[, 3:125], na.rm = TRUE )) %>% #Add in Totals
+  dplyr::mutate(total.abundance = rowSums(.[, 3:(ncol(.))], na.rm = TRUE )) %>% #Add in Totals
   dplyr::mutate(species.richness = rowSums(.[, 3:(ncol(.))] > 0)) %>% # double check these
   dplyr::select(sample, total.abundance, species.richness,method) %>%
   tidyr::gather(., "scientific", "maxn", 2:3) %>%
@@ -191,19 +191,19 @@ all.species <- length %>%
   #dplyr::filter(!family%in%c("Monacanthidae", "Scorpididae", "Mullidae"))%>%    # Brooke removed leatherjackets, sea sweeps and goat fish
   #dplyr::filter(!species%in%c("albimarginatus","longimanus")) %>%
   dplyr::mutate(minlegal.wa = as.double(minlegal.wa)) %>%
-  dplyr::select(-method) %>% 
+  # dplyr::select(-method) %>% 
   glimpse()
 
 complete.length <- all.species %>%
-  dplyr::right_join(metadata, by = c("sample")) %>% # add in all samples
+  dplyr::right_join(metadata, by = c("sample", "method")) %>% # add in all samples
   dplyr::select(sample,scientific,length,number,method) %>%
   tidyr::complete(nesting(sample,method), scientific) %>%
   replace_na(list(number = 0)) %>% #we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
   dplyr::ungroup()%>%
   dplyr::filter(!is.na(scientific)) %>% # this should not do anything
-  dplyr::left_join(.,metadata) %>%
-  dplyr::left_join(.,allhab) %>%
-  dplyr::filter(successful.length%in%c("Y")) %>%
+  dplyr::left_join(.,metadata, by = c("sample", "method")) %>%
+  dplyr::left_join(.,allhab, by=c("sample", "method", "latitude", "longitude", "date", "location", "site", "depth")) %>%
+  dplyr::filter(successful.length%in%c("Y", "Yes")) %>%
   dplyr::mutate(scientific=as.character(scientific)) %>%
   dplyr::glimpse()
 
@@ -225,15 +225,23 @@ maturity <- readRDS("maturity.RDS")
 mat.dat <- maturity %>% 
   mutate(scientific = paste0(Family, sep=" ", Genus, sep=" ", Species)) %>% 
   filter(scientific %in% c("Sparidae Chrysophrys auratus", "Labridae Choerodon rubescens", "Lethrinidae Lethrinus miniatus",
-                           "Glaucosomatidae Glaucosoma hebraicum", "NA Centroberyx gerrardi",
-                           "Lutjanidae Pristipomoides multidens", "Lethrinidae Lethrinus nebulosus")) %>% 
-  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Labridae Choerodon rubescens"), 27, FB.length.at.maturity.cm)) %>%   # Got this value from somewhere else on the internet, probs a fisheries paper
+                           "Glaucosomatidae Glaucosoma hebraicum", "NA Centroberyx gerrardi", "Carangidae Seriola hippos",
+                           "Lutjanidae Pristipomoides multidens")) %>% 
+  # Tim has decided he wants the values from the fish.indicator.species sheet so this is me manually changing them #
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Labridae Choerodon rubescens"), 37.9, FB.length.at.maturity.cm)) %>%   # Got this value from somewhere else on the internet, probs a fisheries paper
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Sparidae Chrysophrys auratus"), 36.5, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lethrinidae Lethrinus miniatus"), 37.2, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Glaucosomatidae Glaucosoma hebraicum"), 31.1, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("NA Centroberyx gerrardi"), 26.9, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lutjanidae Pristipomoides multidens"), 52.6, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lethrinidae Lethrinus nebulosus"), 35, FB.length.at.maturity.cm)) %>%
   filter(!is.na(FB.length.at.maturity.cm)) %>% 
   mutate(scientific = str_replace(scientific, "NA", "Berycidae"))
 
 length.dat <- complete.length %>% 
   filter(scientific %in% c("Sparidae Chrysophrys auratus", "Labridae Choerodon rubescens", "Lethrinidae Lethrinus miniatus",
-                           "Glaucosomatidae Glaucosoma hebraicum", "Berycidae Centroberyx gerrardi")) %>% 
+                           "Glaucosomatidae Glaucosoma hebraicum", "Berycidae Centroberyx gerrardi",
+                           "Lutjanidae Pristipomoides multidens", "Lethrinidae Lethrinus nebulosus")) %>% 
   left_join(., mat.dat, by="scientific") %>% 
   rename(length.mat = "FB.length.at.maturity.cm") %>% 
   mutate(length.mat = length.mat*10) %>% 
@@ -465,13 +473,25 @@ maturity <- readRDS("maturity.RDS")
 mat.dat <- maturity %>% 
   mutate(scientific = paste0(Family, sep=" ", Genus, sep=" ", Species)) %>% 
   filter(scientific %in% c("Sparidae Chrysophrys auratus", "Lethrinidae Lethrinus nebulosus",
-                   "Lutjanidae Pristipomoides multidens")) %>% 
-  #mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Labridae Choerodon rubescens"), 27, FB.length.at.maturity.cm)) %>%   # Got this value from somewhere else on the internet, probs a fisheries paper
+                           "Lutjanidae Pristipomoides multidens", "Lethrinidae Lethrinus miniatus",
+                           "Labridae Choerodon rubescens", "Lethrinidae Lethrinus punctulatus", 
+                           "Serranidae Epinephelus multinotatus", "Serranidae Epinephelides armatus")) %>% 
+  # Tim has decided he wants to use the values from the fish.indicator.species sheet so this is me going through and changing all the values #
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Sparidae Chrysophrys auratus"), 36.5, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lethrinidae Lethrinus nebulosus"), 35, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lutjanidae Pristipomoides multidens"), 52.6, FB.length.at.maturity.cm)) %>%
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lethrinidae Lethrinus miniatus"), 37.2, FB.length.at.maturity.cm)) %>% 
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Lethrinidae Lethrinus punctulatus"), 20.6, FB.length.at.maturity.cm)) %>%   # Got this value from somewhere else on the internet, probs a fisheries paper
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Labridae Choerodon rubescens"), 37.9, FB.length.at.maturity.cm)) %>%   # Got this value from somewhere else on the internet, probs a fisheries paper
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Serranidae Epinephelus multinotatus"), 39.1, FB.length.at.maturity.cm)) %>% 
+  mutate(FB.length.at.maturity.cm = ifelse(scientific %in% c("Serranidae Epinephelides armatus"), 28.1, FB.length.at.maturity.cm)) %>% 
   filter(!is.na(FB.length.at.maturity.cm)) 
 
 length.dat <- complete.length %>% 
   filter(scientific %in% c("Sparidae Chrysophrys auratus", "Lethrinidae Lethrinus nebulosus",
-                           "Lutjanidae Pristipomoides multidens")) %>% 
+                           "Lutjanidae Pristipomoides multidens", "Lethrinidae Lethrinus miniatus",
+                           "Labridae Choerodon rubescens", "Lethrinidae Lethrinus punctulatus", 
+                           "Serranidae Epinephelus multinotatus", "Serranidae Epinephelides armatus")) %>% 
   left_join(., mat.dat, by="scientific") %>% 
   rename(length.mat = "FB.length.at.maturity.cm") %>% 
   mutate(length.mat = length.mat*10) %>% 

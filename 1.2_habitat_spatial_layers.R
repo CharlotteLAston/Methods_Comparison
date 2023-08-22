@@ -57,7 +57,8 @@ fbath_df <- as.data.frame(bathy, xy = TRUE, na.rm = T) %>%                      
 saveRDS(fbath_df, paste0(name, 'bathymetry.rds', sep = "_"))
 
 #### CALCULATE BATHY DERIVATIVES ####
-aus <- st_read("WACoastline.shp", crs = 4283) %>% #Shapefile of Australia
+aus <- st_read("cstauscd_r.mif", crs = 4283) %>% #Shapefile of Australia
+  dplyr::filter(!FEAT_CODE %in% "sea") %>%
   st_crop(e) %>%
   st_union(.) %>%
   st_cast("MULTILINESTRING") %>%

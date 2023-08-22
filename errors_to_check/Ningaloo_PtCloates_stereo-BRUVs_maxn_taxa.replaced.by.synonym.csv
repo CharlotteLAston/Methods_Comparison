@@ -1,6 +1,4 @@
 "campaignid","sample","family","genus","species","family_correct","genus_correct","species_correct"
-"2021-05_PtCloates_stereo-BRUVS","22","Muraenidae","Gymnothorax","sp","Muraenidae","Gymnothorax","spp"
-"2021-05_PtCloates_stereo-BRUVS","26","Lutjanidae","Pristipomoides","sp","Lutjanidae","Pristipomoides","spp"
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Rhynchobatidae","Rhynchobatus","australiae","Rhinidae","Rhynchobatus","australiae"
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Haemulidae","Diagramma","pictum","Haemulidae","Diagramma","pictum labiosum"
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Rhynchobatidae","Rhynchobatus","australiae","Rhinidae","Rhynchobatus","australiae"

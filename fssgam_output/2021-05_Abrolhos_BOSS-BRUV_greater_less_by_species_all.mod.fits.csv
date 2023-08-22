@@ -1,0 +1,12 @@
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method","cumsum.wi"
+"> Length Maturity_Labridae Choerodon rubescens","method",91.9730402247666,102.272198699869,0.04331,NA,2,0,0,0,0.805,0.945,0,0,0,0,0,0,0,1,0.805
+"< Length Maturity_Lethrinidae Lethrinus miniatus","detrended+macroalgae+method",105.450191017133,125.114862123174,0.13219,NA,5.54,0,0,1.357,0.567,0.129,0,1,0,0,0,0,1,1,0.567
+"> Length Maturity_Lethrinidae Lethrinus miniatus","biog+detrended+method",214.426883958627,231.954120400352,0.31711,NA,4.85,0,0,0.103,0.851,0.471,0,0,1,0,0,0,1,1,0.851
+"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method","macroalgae+method",130.025583539847,142.795668253744,0.01332,NA,3,0,0,0,0.286,0.655,0,1,0,0,0,0,0,1,0.286
+"< Length Maturity_Sparidae Chrysophrys auratus.biog+macroalgae+method","biog+macroalgae+method",131.070779061391,146.341341512416,0.01333,NA,4.02,0,1.045,3.546,0.169,0.111,0,1,1,0,0,0,0,1,0.455
+"< Length Maturity_Sparidae Chrysophrys auratus.detrended+macroalgae+method","detrended+macroalgae+method",131.112453881482,148.586637315688,0.01333,NA,4.79,0,1.087,5.791,0.166,0.036,0,1,0,0,0,0,1,1,0.621
+"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method+tpi","macroalgae+method+tpi",131.603564036442,149.03782413955,0.01335,NA,4.75,0,1.578,6.242,0.13,0.029,0,1,0,0,1,0,0,1,0.751
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+method+roughness","biog+method+roughness",161.805041782302,179.311371459044,0.225,NA,4.82,0,0,3.491,0.284,0.083,0,0,1,0,0,1,0,1,0.284
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+macroalgae+method","biog+macroalgae+method",161.825306837227,177.022624156856,0.22366,NA,4,0,0.02,1.202,0.281,0.26,0,1,1,0,0,0,0,1,0.565
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+method","biog+method",163.050138902078,175.820325986508,0.2105,NA,3,0,1.245,0,0.152,0.475,0,0,1,0,0,0,0,1,0.717
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+detrended+method","biog+detrended+method",163.794295400082,181.192131021926,0.22419,NA,4.72,0,1.989,5.372,0.105,0.032,0,0,1,0,0,0,1,1,0.822

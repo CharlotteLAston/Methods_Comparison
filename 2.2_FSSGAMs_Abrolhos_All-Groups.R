@@ -1,72 +1,75 @@
 ###
-# Project: Parks - Abrolhos
-# Data:    BOSS & BRUV fish, habitat
-# Task:    Modelling fish lengths w/ FSSGAM
-# author:  Claude, Brooke, Kingsley
-# date:    Nov-Dec 2021
+# Project: Methods Comparison
+# Data:    Abrolhos BOSS & BRUV fish
+# Task:    Modelling fish abundance w/ FSSGAM
+# Author:  Charlotte (Claude)
+# Date:    July 2023
 ##
 
-# Part 1-FSS modeling
 rm(list=ls())
 
-## librarys
-# detach("package:plyr", unload=TRUE)#will error - don't worry
-library(tidyr)
-library(dplyr)
-options(dplyr.width = Inf) #enables head() to display all coloums
+# libraries----
+library(devtools)
+# devtools::install_github("beckyfisher/FSSgam_package") # Run once
+library(FSSgam)
+library(tidyverse)
 library(mgcv)
 library(MuMIn)
 library(car)
 library(doBy)
-library(gplots)
-library(RColorBrewer)
-library(doParallel) #this can removed?
 library(doSNOW)
-library(gamm4)
-library(RCurl) #needed to download data from GitHub
-library(FSSgam)
+# devtools::install_github("UWAMEGFisheries/GlobalArchive") # Run once
 library(GlobalArchive)
 library(ggplot2)
+library(corrr)
 
-## set study name
-study <- "2021-05_Abrolhos_BOSS-BRUV" 
-name <- study
-
-#### SET DIRECTORIES AND READ IN DATA ####
+#### SET DIRECTORIES ####
 working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 data_dir <- paste(working.dir, "tidy_data", sep="/")
 fig_dir <- paste(working.dir, "figures", sep="/")
 out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
+study <- "2021-05_Abrolhos_BOSS-BRUV" 
+name <- study
+
+##### READ IN FORMATTED DATA ####
 setwd(data_dir)
-dat <- readRDS("dat.length.rds")%>%
+
+dat <-  readRDS(paste0(name, sep="_", "dat_length.rds")) %>% 
   glimpse()
-
-abrolhos.indicator <- c("Sparidae Chrysophrys auratus", "Labridae Choerodon rubescens", "Lethrinidae Lethrinus miniatus",
-                        "Glaucosomatidae Glaucosoma herbraicum", "Berycidae Centroberyx gerrardi")
-
-
-
-#### ABUNDANCE INDICATOR FISH >MATURE LENGTH ####
-dat1 <- dat %>% 
-  mutate(length = ifelse(is.na(length), 0, length)) %>% 
-  mutate(number = ifelse(scientific %in% abrolhos.indicator, number, 0)) %>% 
-  mutate(length.mat = ifelse(scientific %in% "Sparidae Chrysophrys auratus", 262,
-                             ifelse(scientific %in% "Labridae Choerodon rubescens", 270,
-                                    ifelse(scientific %in% "Lethrinidae Lethrinus miniatus", 361,
-                                           ifelse(scientific %in% "Glaucosomatidae Glaucosoma herbraicum", 301,
-                                                  ifelse(scientific %in% "Berycidae Centroberyx gerrardi", 250, 0)))))) %>% 
-  mutate(number = ifelse(length >= length.mat, number, 0))%>% 
-  group_by(sample) %>% 
-  mutate(abundance = sum(number)) %>% 
-  ungroup() %>% 
-  mutate(sample = as.factor(sample)) %>% 
-  distinct(sample, .keep_all=T) %>% 
-  dplyr::select("sample", "method", "depth", "macroalgae", "biog", "mean.relief","tpi","roughness","detrended", "abundance")
-  
 
 # Set the predictors for modeling
 pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") 
+
+# Format data
+
+dat.response <- dat %>% 
+  filter(status %in% "No-take") %>% 
+  group_by(method, sample, scientific, Maturity) %>% 
+  summarise(Abundance = length(Maturity)) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = "Maturity", values_from="Abundance", id_cols=c("method", "sample", "scientific")) %>% 
+  mutate(greater_mat_125 = ifelse(is.na(greater_mat_125), 0, greater_mat_125),
+         greater_mat_less_125 = ifelse(is.na(greater_mat_less_125), 0, greater_mat_less_125),
+         greater_50_less_mat = ifelse(is.na(greater_50_less_mat), 0, greater_50_less_mat)) %>% 
+  pivot_longer(cols= c(greater_mat_125, greater_mat_less_125, greater_50_less_mat), names_to="Maturity", values_to="Abundance") %>% 
+  mutate(Maturity = factor(Maturity, levels = c("less_50","greater_50_less_mat", "greater_mat_less_125", "greater_mat_125"))) %>% 
+  mutate(Maturity = fct_recode(Maturity, "< 50 Length Maturity" = "less_50", ">50 Maturity but < Maturity"="greater_50_less_mat",
+                               "> Length Maturity but < 1.25x Maturity" = "greater_mat_less_125",
+                               "> 1.25x Maturity"="greater_mat_125")) %>% 
+  group_by(method, sample, Maturity) %>% 
+  summarise(Abundance = sum(Abundance)) %>% 
+  glimpse()
+
+dat.preds <- dat %>% 
+  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") %>% 
+  distinct()
+
+dat <- dat.response %>% 
+  inner_join(., dat.preds, by=c("sample", "method")) %>% 
+  mutate(method = as.factor(method),
+         sample = as.factor(sample))
+
 
 # Check the correlations between predictor variables
 summary(dat[,pred.vars])
@@ -89,28 +92,28 @@ for (i in pred.vars) {
 }
 
 # Check to make sure Response vector has not more than 80% zeros
-unique.vars <- unique(as.character(dat$scientific))
+unique.vars <- unique(as.character(dat$Maturity))
 
 resp.vars <- character()
 for(i in 1:length(unique.vars)){
-  temp.dat <- dat[which(dat$scientific == unique.vars[i]), ]
-  if(length(which(temp.dat$maxn == 0)) / nrow(temp.dat) < 0.8){ # Change here
+  temp.dat <- dat[which(dat$Maturity == unique.vars[i]), ]
+  if(length(which(temp.dat$Abundance == 0)) / nrow(temp.dat) < 0.9){ # Change here
     resp.vars <- c(resp.vars, unique.vars[i])}
 }
-resp.vars   
+resp.vars <- unique(as.character(dat$Maturity))
 
 # Run the full subset model selection
-savedir <- "output/"
+savedir <- out_dir
 use.dat <- as.data.frame(dat) 
-factor.vars <- c("status") # Status as a factors with 2 levels
+factor.vars <- c("method") # Method as a factors with 2 levels
 out.all     <- list()
 var.imp     <- list()
 
-# Loop through the FSS function for each Taxa----
+# Loop through the FSS function for each response variable----
 for(i in 1:length(resp.vars)){
   print(resp.vars[i])
-  use.dat <- as.data.frame(dat[which(dat$scientific == resp.vars[i]), ])
-  Model1  <- gam(maxn ~ s(depth, k = 3, bs='cr'),
+  use.dat <- as.data.frame(dat[which(dat$Maturity == resp.vars[i]), ])
+  Model1  <- gam(Abundance ~ s(depth, k=3, bs='cr'),
                  family = tw(),  data = use.dat)
   
   model.set <- generate.model.set(use.dat = use.dat,
@@ -152,292 +155,222 @@ names(out.all) <- resp.vars
 names(var.imp) <- resp.vars
 all.mod.fits   <- do.call("rbind",out.all)
 all.var.imp    <- do.call("rbind",var.imp)
-write.csv(all.mod.fits[ , -2], file = paste(savedir, paste(name, "all.mod.fits.csv", sep = "_"), sep = "/"))
-write.csv(all.var.imp, file = paste(savedir, paste(name, "all.var.imp.csv", sep = "_"), sep = "/"))
+write.csv(all.mod.fits[ , -2], file = paste(savedir, paste(name, "mat_groups", "all.mod.fits.csv", sep = "_"), sep = "/"))
+write.csv(all.var.imp, file = paste(savedir, paste(name, "mat_groups","all.var.imp.csv", sep = "_"), sep = "/"))
 
-##### ABUNDANCE INDICATOR SPECIES >MATURE LENGTH*2 ####
-dat2 <- dat %>% 
-  mutate(length = ifelse(is.na(length), 0, length)) %>% 
-  mutate(number = ifelse(scientific %in% abrolhos.indicator, number, 0)) %>% 
-  mutate(length.mat = ifelse(scientific %in% "Sparidae Chrysophrys auratus", 262,
-                             ifelse(scientific %in% "Labridae Choerodon rubescens", 270,
-                                    ifelse(scientific %in% "Lethrinidae Lethrinus miniatus", 361,
-                                           ifelse(scientific %in% "Glaucosomatidae Glaucosoma herbraicum", 301,
-                                                  ifelse(scientific %in% "Berycidae Centroberyx gerrardi", 250, 0)))))) %>% 
-  filter(length>=(length.mat*2)) %>% 
-  group_by(sample) %>% 
-  mutate(abundance = sum(number)) %>% 
+#* Check top models make sense, particularly for 95% 0s ####
+
+use.dat <- dat %>% 
+  filter(Maturity %in% c("> 1.25x Maturity"))
+
+Best1 <- gam(Abundance~s(tpi, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat %>% 
+  filter(Maturity %in% c("> Length Maturity but < 1.25x Maturity"))
+
+Best1 <- gam(Abundance~s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat%>% 
+  filter(Maturity %in% c(">50 Maturity but < Maturity"))
+
+Best1 <- gam(Abundance~ s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+
+#### MODELS OF ALL LENGTH GROUPS THAN BY SPECIES ####
+
+# Check to make sure Response vector has not more than 80% zeros
+dat <-  readRDS(paste0(name, sep="_", "dat_length.rds")) %>% 
+  glimpse()
+
+# Set the predictors for modeling
+pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") 
+
+# Format data
+
+dat.response <- dat %>% 
+  filter(status %in% "No-take") %>% 
+  group_by(method, sample, scientific, Maturity) %>% 
+  summarise(Abundance = length(Maturity)) %>% 
   ungroup() %>% 
-  distinct(sample, .keep_all=T) %>% 
-  dplyr::select("sample", "method", "depth", "macroalgae", "biog", "mean.relief","tpi","roughness","detrended", "abundance")
+  pivot_wider(names_from = "Maturity", values_from="Abundance", id_cols=c("method", "sample", "scientific")) %>% 
+  mutate(greater_mat_125 = ifelse(is.na(greater_mat_125), 0, greater_mat_125),
+         greater_mat_less_125 = ifelse(is.na(greater_mat_less_125), 0, greater_mat_less_125),
+         greater_50_less_mat = ifelse(is.na(greater_50_less_mat), 0, greater_50_less_mat)) %>% 
+  pivot_longer(cols= c(greater_mat_125, greater_mat_less_125, greater_50_less_mat), names_to="Maturity", values_to="Abundance") %>% 
+  mutate(Maturity = factor(Maturity, levels = c("less_50","greater_50_less_mat", "greater_mat_less_125", "greater_mat_125"))) %>% 
+  mutate(Maturity = fct_recode(Maturity, "< 50 Length Maturity" = "less_50", ">50 Maturity but < Maturity"="greater_50_less_mat",
+                               "> Length Maturity but < 1.25x Maturity" = "greater_mat_less_125",
+                               "> 1.25x Maturity"="greater_mat_125")) %>% 
+  glimpse()
+
+dat.preds <- dat %>% 
+  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") %>% 
+  distinct()
+
+dat.species <- dat.response %>% 
+  inner_join(., dat.preds, by=c("sample", "method")) %>% 
+  mutate(method = as.factor(method),
+         sample = as.factor(sample)) %>% 
+  mutate(Mat.Species = paste0(Maturity, sep="_", scientific))
 
 
+unique.vars <- unique(as.character(dat.species$Mat.Species))
 
-# # Re-set the predictors for modeling
-pred.vars = c("depth", 
-              "macroalgae", 
-              "biog", 
-              "mean.relief",
-              "tpi",
-              "roughness",
-              "detrended")
-
-
-
-#* Run the full subset model selection ####
-savedir <- "fssgam_output"
-
-use.dat=as.data.frame(dat2) 
-str(use.dat)
-
-name<- paste(study,"indicator_length_mat_x2",sep="_")
-
-factor.vars=c("method")# Method as a Factor with two levels
-out.all=list()
-var.imp=list()
-
-### Can't use random effect because there aren't enough samples 
-### Can't do for mat *2 because we didn't see any of them on the BRUVs for indicator species 
-use.dat <- as.data.frame(dat2) 
-use.dat$method <- as.factor(use.dat$method)
-use.dat$sample <- as.factor(use.dat$sample)
-Model1=gam(abundance~s(depth,k=3,bs='cr'),
-           family=tw(),  data=use.dat)
-
-model.set=generate.model.set(use.dat=use.dat,
-                             test.fit=Model1,
-                             pred.vars.cont=pred.vars,
-                             pred.vars.fact=factor.vars,
-                             factor.smooth.interactions = NA,
-                             # smooth.smooth.interactions = c("depth", "biog"),
-                             k=3
-                             #null.terms="s(sample,bs='re')"
-)
-out.list=fit.model.set(model.set,
-                       max.models=600,
-                       parallel=T)
-names(out.list)
-
-out.list$failed.models # examine the list of failed models
-mod.table=out.list$mod.data.out  # look at the model selection table
-mod.table=mod.table[order(mod.table$AICc),]
-mod.table$cumsum.wi=cumsum(mod.table$wi.AICc)
-out.i=mod.table[which(mod.table$delta.AICc<=5),]
-out.all=c(out.all,list(out.i))
-# var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Either raw importance score
-var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Or importance score weighted by r2
-
-# plot the best models
-setwd(fig_dir)
-for(m in 1:nrow(out.i)){
-  best.model.name=as.character(out.i$modname[m])
-  
-  png(file=paste(name,"mod_fits.png",sep="_"))
-  if(best.model.name!="null"){
-    par(mfrow=c(3,1),mar=c(9,4,3,1))
-    best.model=out.list$success.models[[best.model.name]]
-    plot(best.model,all.terms=T,pages=1,residuals=T,pch=16)
-    #mtext(side=2,text=resp.vars[i],outer=F)
-  }  
-  dev.off()
+resp.vars <- character()
+for(i in 1:length(unique.vars)){
+  temp.dat <- dat.species[which(dat.species$Mat.Species == unique.vars[i]), ]
+  if(length(which(temp.dat$Abundance == 0)) / nrow(temp.dat) < 0.95){ # Change here
+    resp.vars <- c(resp.vars, unique.vars[i])}
 }
-
-
-#* Model fits and importance ####
-all.mod.fits=do.call("rbind",out.all)
-all.var.imp=do.call("rbind",var.imp)
-setwd(out_dir)
-write.csv(all.mod.fits[ , -5], file = paste(name, "all.mod.fits.csv", sep = "_"))
-write.csv(all.var.imp, file = paste(name, "all.var.imp.csv", sep = "_"))
-
-#### OVERALL ABUNDANCE OF INDICATOR SPECIES ####
-dat3 <- dat %>% 
-  mutate(number = ifelse(scientific %in% abrolhos.indicator, number, 0)) %>% 
-  mutate(length.mat = ifelse(scientific %in% "Sparidae Chrysophrys auratus", 262,
-                             ifelse(scientific %in% "Labridae Choerodon rubescens", 270,
-                                    ifelse(scientific %in% "Lethrinidae Lethrinus miniatus", 361,
-                                           ifelse(scientific %in% "Glaucosomatidae Glaucosoma herbraicum", 301,
-                                                  ifelse(scientific %in% "Berycidae Centroberyx gerrardi", 250, 0)))))) %>% 
-  group_by(sample) %>% 
-  mutate(abundance = sum(number)) %>% 
-  ungroup() %>% 
-  distinct(sample, .keep_all=T) %>% 
-  dplyr::select("sample", "method", "depth", "macroalgae", "biog", "mean.relief","tpi","roughness","detrended", "abundance")
-
-
-
-# # Re-set the predictors for modeling
-pred.vars = c("depth", 
-              "macroalgae", 
-              "biog", 
-              "mean.relief",
-              "tpi",
-              "roughness",
-              "detrended")
-
-
-# changed to 90% - smaller than legal size included
-
-#* Run the full subset model selection ####
-savedir <- "fssgam_output"
-
-use.dat=as.data.frame(dat3) 
-str(use.dat)
-
-name<- paste(study,"indicator_abundance",sep="_")
-
-factor.vars=c("method")# Method as a Factor with two levels
-out.all=list()
-var.imp=list()
-
-### Can't use random effect because there aren't enough samples 
-### Can't do for mat *2 because we didn't see any of them on the BRUVs for indicator species 
-use.dat$method <- as.factor(use.dat$method)
-use.dat$sample <- as.factor(use.dat$sample)
-Model1=gam(abundance~s(depth,k=3,bs='cr'),
-           family=tw(),  data=use.dat)
-
-model.set=generate.model.set(use.dat=use.dat,
-                             test.fit=Model1,
-                             pred.vars.cont=pred.vars,
-                             pred.vars.fact=factor.vars,
-                             factor.smooth.interactions = NA,
-                             # smooth.smooth.interactions = c("depth", "biog"),
-                             k=3
-                             #null.terms="s(sample,bs='re')"
-)
-out.list=fit.model.set(model.set,
-                       max.models=600,
-                       parallel=T)
-names(out.list)
-
-out.list$failed.models # examine the list of failed models
-mod.table=out.list$mod.data.out  # look at the model selection table
-mod.table=mod.table[order(mod.table$AICc),]
-mod.table$cumsum.wi=cumsum(mod.table$wi.AICc)
-out.i=mod.table[which(mod.table$delta.AICc<=5),]
-out.all=c(out.all,list(out.i))
-# var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Either raw importance score
-var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Or importance score weighted by r2
-
-# plot the best models
-setwd(fig_dir)
-for(m in 1:nrow(out.i)){
-  best.model.name=as.character(out.i$modname[m])
-  
-  png(file=paste(name,"mod_fits.png",sep="_"))
-  if(best.model.name!="null"){
-    par(mfrow=c(3,1),mar=c(9,4,3,1))
-    best.model=out.list$success.models[[best.model.name]]
-    plot(best.model,all.terms=T,pages=1,residuals=T,pch=16)
-    #mtext(side=2,text=resp.vars[i],outer=F)
-  }  
-  dev.off()
-}
-
-
-#* Model fits and importance ####
-all.mod.fits=do.call("rbind",out.all)
-all.var.imp=do.call("rbind",var.imp)
-setwd(out_dir)
-write.csv(all.mod.fits[ , -5], file = paste(name, "all.mod.fits.csv", sep = "_"))
-write.csv(all.var.imp, file = paste(name, "all.var.imp.csv", sep = "_"))
-
-##### ABUNDANCE INDICATOR SPECIES <MATURE LENGTH ####
-
-dat4 <- dat %>% 
-  mutate(length = ifelse(is.na(length), 0, length)) %>% 
-  mutate(number = ifelse(scientific %in% abrolhos.indicator, number, 0)) %>% 
-  mutate(length.mat = ifelse(scientific %in% "Sparidae Chrysophrys auratus", 262,
-                             ifelse(scientific %in% "Labridae Choerodon rubescens", 270,
-                                    ifelse(scientific %in% "Lethrinidae Lethrinus miniatus", 361,
-                                           ifelse(scientific %in% "Glaucosomatidae Glaucosoma herbraicum", 301,
-                                                  ifelse(scientific %in% "Berycidae Centroberyx gerrardi", 250, 0)))))) %>% 
-  mutate(number = ifelse(length > length.mat, number, 0))%>% 
-  group_by(sample) %>% 
-  mutate(abundance = sum(number)) %>% 
-  ungroup() %>% 
-  mutate(sample = as.factor(sample)) %>% 
-  distinct(sample, .keep_all=T) %>% 
-  dplyr::select("sample", "method", "depth", "macroalgae", "biog", "mean.relief", "sd.relief","tpi","roughness","detrended", "abundance")
-
-
-
-# Re-set the predictors for modeling
-pred.vars = c("depth", 
-              "macroalgae", 
-              "biog", 
-              "mean.relief",
-              "sd.relief",
-              "tpi",
-              "roughness",
-              "detrended")
-
-
-# changed to 90% - smaller than legal size included
+resp.vars   
 
 # Run the full subset model selection
-savedir <- "fssgam_output"
+savedir <- out_dir
+use.dat <- as.data.frame(dat.species) 
+factor.vars <- c("method") # Method as a factors with 2 levels
+out.all     <- list()
+var.imp     <- list()
 
-use.dat=as.data.frame(dat4) 
-str(use.dat)
-
-name<- paste(study,"indicator_length_less_mat",sep="_")
-
-factor.vars=c("method")# Method as a Factor with two levels
-out.all=list()
-var.imp=list()
-
-## Can't use random effect because there aren't enough samples
-use.dat$method <- as.factor(use.dat$method)
-use.dat$sample <- as.factor(use.dat$sample)
-Model1=gam(abundance~s(depth,k=3,bs='cr'),
-           family=tw(),  data=use.dat)
-
-model.set=generate.model.set(use.dat=use.dat,
-                             test.fit=Model1,
-                             pred.vars.cont=pred.vars,
-                             pred.vars.fact=factor.vars,
-                             factor.smooth.interactions = NA,
-                             # smooth.smooth.interactions = c("depth", "biog"),
-                             k=3
-                             #null.terms="s(sample,bs='re')"
-)
-out.list=fit.model.set(model.set,
-                       max.models=600,
-                       parallel=T)
-names(out.list)
-
-out.list$failed.models # examine the list of failed models
-mod.table=out.list$mod.data.out  # look at the model selection table
-mod.table=mod.table[order(mod.table$AICc),]
-mod.table$cumsum.wi=cumsum(mod.table$wi.AICc)
-out.i=mod.table[which(mod.table$delta.AICc<=5),]
-out.all=c(out.all,list(out.i))
-# var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Either raw importance score
-var.imp=c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Or importance score weighted by r2
-
-# plot the best models
-setwd(fig_dir)
-for(m in 1:nrow(out.i)){
-  best.model.name=as.character(out.i$modname[m])
+# Loop through the FSS function for each response variable----
+for(i in 1:length(resp.vars)){
+  print(resp.vars[i])
+  use.dat <- as.data.frame(dat.species[which(dat.species$Mat.Species == resp.vars[i]), ])
+  Model1  <- gam(Abundance ~ s(depth, k=3, bs='cr') + method,
+                 family = tw(),  data = use.dat)
   
-  png(file=paste(name,"mod_fits.png",sep="_"))
-  if(best.model.name!="null"){
-    par(mfrow=c(3,1),mar=c(9,4,3,1))
-    best.model=out.list$success.models[[best.model.name]]
-    plot(best.model,all.terms=T,pages=1,residuals=T,pch=16)
-    #mtext(side=2,text=resp.vars[i],outer=F)
-  }  
-  dev.off()
+  model.set <- generate.model.set(use.dat = use.dat,
+                                  test.fit = Model1,
+                                  pred.vars.cont = pred.vars,
+                                  pred.vars.fact = factor.vars,
+                                  linear.vars = "depth",
+                                  k = 3,
+                                  factor.smooth.interactions = F
+  )
+  out.list <- fit.model.set(model.set,
+                            max.models = 600,
+                            parallel = T)
+  names(out.list)
+  
+  out.list$failed.models # examine the list of failed models
+  mod.table <- out.list$mod.data.out  # look at the model selection table
+  mod.table <- mod.table[order(mod.table$AICc), ]
+  mod.table$cumsum.wi <- cumsum(mod.table$wi.AICc)
+  out.i   <- mod.table[which(mod.table$delta.AICc <= 2), ]
+  out.all <- c(out.all,list(out.i))
+  var.imp <- c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Or importance score weighted by r2
+  
+  # plot the best models
+  for(m in 1:nrow(out.i)){
+    best.model.name = as.character(out.i$modname[m])
+    png(file = paste(savedir, paste(name, m, resp.vars[i], "mod_fits.png", sep = "_"), sep = "/"))
+    if(best.model.name != "null"){
+      par(mfrow = c(3, 1), mar = c(9, 4, 3, 1))
+      best.model = out.list$success.models[[best.model.name]]
+      plot(best.model,all.terms = T, pages = 1, residuals = T, pch = 16)
+      mtext(side = 2, text = resp.vars[i], outer = F)}  
+    dev.off()
+  }
 }
 
+# Save model fits and importance scores
+names(out.all) <- resp.vars
+names(var.imp) <- resp.vars
+all.mod.fits   <- do.call("rbind",out.all)
+all.var.imp    <- do.call("rbind",var.imp)
+write.csv(all.mod.fits[ , -2], file = paste(savedir, paste(name, "mat_groups", "by_species", "all.mod.fits.csv", sep = "_"), sep = "/"))
+write.csv(all.var.imp, file = paste(savedir, paste(name, "mat_groups", "by_species", "all.var.imp.csv", sep = "_"), sep = "/"))
 
-# Model fits and importance
-all.mod.fits=do.call("rbind",out.all)
-all.var.imp=do.call("rbind",var.imp)
-setwd(out_dir)
-write.csv(all.mod.fits[ , -5], file = paste(name, "all.mod.fits.csv", sep = "_"))
-write.csv(all.var.imp, file = paste(name, "all.var.imp.csv", sep = "_"))
+#* Check top models make sense, particularly for 95% 0s ####
 
+use.dat <- dat.species %>% 
+  filter(Mat.Species %in% c("> 1.25x Maturity_Labridae Choerodon rubescens"))
+
+Best1 <- gam(Abundance~s(tpi, k = 3, bs = "cr") + depth + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat.species %>% 
+  filter(Mat.Species %in% c("> 1.25x Maturity_Lethrinidae Lethrinus miniatus"))
+
+Best1 <- gam(Abundance~s(detrended, k = 3, bs = "cr") + s(roughness, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat.species %>% 
+  filter(Mat.Species %in% c("> Length Maturity but < 1.25x Maturity_Lethrinidae Lethrinus miniatus"))
+
+Best1 <- gam(Abundance~ s(biog, k = 3, bs = "cr") + s(detrended, k = 3, bs = "cr") + s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat.species%>% 
+  filter(Mat.Species %in% c(">50 Maturity but < Maturity_Lethrinidae Lethrinus miniatus"))
+
+Best1 <- gam(Abundance~ s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat.species %>% 
+  filter(Mat.Species %in% c("> 1.25x Maturity_Sparidae Chrysophrys auratus"))
+
+Best1 <- gam(Abundance~ s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+use.dat <- dat.species%>% 
+  filter(Mat.Species %in% c("> Length Maturity but < 1.25x Maturity_Sparidae Chrysophrys auratus"))
+
+Best1 <- gam(Abundance~ s(biog, k = 3, bs = "cr") + s(macroalgae, k = 3, bs = "cr") + method,
+             family=tw(), data=use.dat)
+
+summary(Best1)
+gam.check(Best1)
+
+
+#### CHECKING FOR WHICH METHOD HAS MORE ZEROES ####
+
+unique.vars <- unique(as.character(dat$Maturity))
+methods <- c("BRUV", "BOSS")
+
+Method.0 <- array(0, dim=c(3,3))
+Method.0[,1] <- unique.vars
+colnames(Method.0) <- c("Method", "BRUV", "BOSS")
+  
+for(M in 1:2){
+  
+  dat.temp <- dat %>% 
+    filter(method %in% c(methods[M]))
+  
+  for(i in 1:length(unique.vars)){
+    temp.dat <- dat.temp %>% 
+      filter(Maturity %in% c(unique.vars[i]))
+    temp.0 <- (length(which(temp.dat$Abundance == 0)) / nrow(temp.dat))*100
+    
+    Method.0[i,M+1] <- temp.0
+  }
+}
+  
+  
 

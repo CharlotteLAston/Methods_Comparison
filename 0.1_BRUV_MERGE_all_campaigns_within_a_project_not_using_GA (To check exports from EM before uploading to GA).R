@@ -38,9 +38,10 @@ setwd(working.dir)
 study<-"2021-05_Abrolhos_stereo-BRUVs" 
 
 ### Metadata ----
-metadata <- ga.list.files("_Metadata.csv")%>% # list all files ending in "_Metadata.csv"
+metadata <- ga.list.files("_metadata.csv")%>% # list all files ending in "_Metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.))%>% # combine into dataframe
   dplyr::select(sample,campaignid,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "_metadata.csv", "")) %>% 
   dplyr::filter(campaignid%in%c("2021-05_Abrolhos_stereo-BRUVs"))%>%
   filter(successful.count == "Y"|successful.count=="Yes") %>% 
   glimpse()
@@ -59,7 +60,8 @@ points<-as.data.frame(points.files)%>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.))%>%
-  dplyr::filter(campaignid%in%c("2021-05_Abrolhos_stereo-BRUVs"))
+  dplyr::filter(campaignid%in%c("2021-05_Abrolhos_BRUVS")) %>% 
+  mutate(campaignid = "2021-05_Abrolhos_stereo-BRUVs")
 
 maxn<-points%>%
   dplyr::group_by(campaignid,sample,filename,periodtime,frame,family,genus,species)%>%
@@ -74,7 +76,7 @@ maxn<-points%>%
   dplyr::mutate(maxn=as.numeric(maxn))%>%
   dplyr::filter(maxn>0)%>%
   dplyr::inner_join(metadata)%>%
-  dplyr::filter(successful.count=="Y")%>%
+  dplyr::filter(successful.count=="Yes"|successful.count=="Y")%>%
   dplyr::filter(maxn>0)%>%
   glimpse()
 
@@ -91,6 +93,8 @@ unique(maxn$sample)
 ### Combine Length, Lengths and 3D point files into length3dpoints----
 length3dpoints<-ga.create.em.length3dpoints()%>%
   dplyr::select(-c(time,comment))%>% # take time out as there is also a time column in the metadata
+  dplyr::filter(campaignid%in%c("2021-05_Abrolhos_BRUVS")) %>% 
+  mutate(campaignid = "2021-05_Abrolhos_stereo-BRUVs") %>% 
   dplyr::inner_join(metadata)%>%
   dplyr::filter(successful.length=="Y"|successful.length=="Yes")%>%
   glimpse()
@@ -105,10 +109,12 @@ write.csv(length3dpoints,paste(study,"length3dpoints.csv",sep="_"),row.names = F
 study<-"Ningaloo_PtCloates_stereo-BRUVs" 
 
 ### Metadata ----
-metadata <-ga.list.files("_Metadata.csv")%>% # list all files ending in "_Metadata.csv"
+metadata <-ga.list.files("_metadata.csv")%>% # list all files ending in "_Metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.))%>% # combine into dataframe
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>%
-  dplyr::filter(campaignid%in%c("2021-05_PtCloates_stereo-BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS"))%>%# This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  dplyr::mutate(campaignid = str_replace(campaignid, "_metadata.csv", "")) %>% 
+  dplyr::filter(campaignid%in%c("2021-08_PtCloates_BRUVS", "2022-05_PtCloates_stereo-BRUVS"))%>%# This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  mutate(campaignid = str_replace(campaignid, "2021-08_PtCloates_BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs")) %>% 
   filter(successful.count=="Y"|successful.count=="Yes") %>% 
   glimpse()
 
@@ -126,9 +132,9 @@ points<-as.data.frame(points.files)%>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.))%>%
-  mutate(campaignid = str_replace(campaignid, "2021-05_PtCloates_BRUVS", "2021-05_PtCloates_stereo-BRUVS")) %>% 
+  #mutate(campaignid = str_replace(campaignid, "2021-05_PtCloates_BRUVS", "2021-05_PtCloates_stereo-BRUVS")) %>% 
   mutate(campaignid = str_replace(campaignid, "2021-08_PtCloates_BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs")) %>% 
-  dplyr::filter(campaignid%in%c("2021-05_PtCloates_stereo-BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS"))
+  dplyr::filter(campaignid%in%c("2021-08_Pt-Cloates_stereo-BRUVs", "2022-05_PtCloates_stereo-BRUVS"))
 
 maxn<-points%>%
   dplyr::group_by(campaignid,sample,filename,periodtime,frame,family,genus,species)%>%
@@ -160,7 +166,7 @@ unique(maxn$sample)
 ### Combine Length, Lengths and 3D point files into length3dpoints----
 length3dpoints<-ga.create.em.length3dpoints()%>%
   dplyr::select(-c(time,comment))%>% # take time out as there is also a time column in the metadata
-  mutate(campaignid = str_replace(campaignid, "2021-05_PtCloates_BRUVS", "2021-05_PtCloates_stereo-BRUVS")) %>% 
+  #mutate(campaignid = str_replace(campaignid, "2021-05_PtCloates_BRUVS", "2021-05_PtCloates_stereo-BRUVS")) %>% 
   mutate(campaignid = str_replace(campaignid, "2021-08_PtCloates_BRUVS", "2021-08_Pt-Cloates_stereo-BRUVs")) %>% 
   dplyr::inner_join(metadata)%>%
   dplyr::filter(successful.length=="Yes")%>%
