@@ -48,32 +48,34 @@ dat.greater.less <- greater_less %>%
                                               "> Length Maturity_Labridae Choerodon rubescens",
                                               "> Length Maturity_Lethrinidae Lethrinus miniatus", 
                                               "< Length Maturity_Lethrinidae Lethrinus miniatus",
-                                              "> Length Maturity_Sparidae Chrysophrys auratus",
-                                              "< Length Maturity_Sparidae Chrysophrys auratus")))%>%
+                                              "> Length Maturity_Sparidae Chrysophrys auratus")))%>%
   # greater or less than length maturity
   mutate(label=ifelse(predictor=="method"&resp.var=="> Length Maturity","X",label))%>%
   mutate(label=ifelse(predictor=="biog"&resp.var=="> Length Maturity","X",label))%>%
   mutate(label=ifelse(predictor=="detrended"&resp.var=="> Length Maturity","X",label))%>%
   mutate(label=ifelse(predictor=="method"&resp.var=="< Length Maturity","X",label))%>%
   mutate(label=ifelse(predictor=="macroalgae"&resp.var=="< Length Maturity","X",label))%>%
+  
   # greater or less than length maturity by species
   mutate(label=ifelse(predictor=="method"&resp.var=="> Length Maturity_Labridae Choerodon rubescens","X",label))%>%
-  
-  mutate(label=ifelse(predictor=="macroalgae"&resp.var=="< Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
-  mutate(label=ifelse(predictor=="detrended"&resp.var=="< Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
+  mutate(label=ifelse(predictor=="roughness"&resp.var=="> Length Maturity_Labridae Choerodon rubescens","X",label))%>%  
+  mutate(label=ifelse(predictor=="sd.relief"&resp.var=="> Length Maturity_Labridae Choerodon rubescens","X",label))%>% 
+ 
+   mutate(label=ifelse(predictor=="macroalgae"&resp.var=="< Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
+  mutate(label=ifelse(predictor=="sd.relief"&resp.var=="< Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   mutate(label=ifelse(predictor=="method"&resp.var=="< Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   
   mutate(label=ifelse(predictor=="biog"&resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   mutate(label=ifelse(predictor=="detrended"&resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   mutate(label=ifelse(predictor=="method"&resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   
-  mutate(label=ifelse(predictor=="macroalgae"&resp.var=="< Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
-  mutate(label=ifelse(predictor=="method"&resp.var=="< Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
+  #mutate(label=ifelse(predictor=="macroalgae"&resp.var=="< Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
+  #mutate(label=ifelse(predictor=="method"&resp.var=="< Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
   
   mutate(label=ifelse(predictor=="method"&resp.var=="> Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
   mutate(label=ifelse(predictor=="biog"&resp.var=="> Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
   mutate(label=ifelse(predictor=="roughness"&resp.var=="> Length Maturity_Sparidae Chrysophrys auratus","X",label))%>%
-  mutate(predictor = fct_relevel(predictor,c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "method"))) %>% 
+  mutate(predictor = fct_relevel(predictor,c("biog", "depth", "detrended","macroalgae", "mean.relief","roughness", "sd.relief", "tpi","method"))) %>% 
   glimpse()
 
 # Theme-
@@ -128,7 +130,7 @@ imp.full.greater.less<- ggplot(dat.greater.less%>%dplyr::filter(resp.var%in%c("<
   theme_classic()+
   Theme1+
   geom_text(aes(label=label)) +
-  geom_vline(xintercept=7.5, colour="white", linewidth=3) +
+  geom_vline(xintercept=8.5, colour="white", linewidth=3) +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(), 
@@ -139,20 +141,19 @@ imp.full.greater.less
 imp.species.greater.less <- ggplot(dat.greater.less%>%dplyr::filter(resp.var%in%c("> Length Maturity_Labridae Choerodon rubescens",
                                                                                "> Length Maturity_Lethrinidae Lethrinus miniatus",
                                                                                "< Length Maturity_Lethrinidae Lethrinus miniatus",
-                                                                               "> Length Maturity_Sparidae Chrysophrys auratus",
-                                                                               "< Length Maturity_Sparidae Chrysophrys auratus")), 
+                                                                               "> Length Maturity_Sparidae Chrysophrys auratus")), 
                    aes(x=predictor,y=resp.var,fill=importance)) +
   geom_tile(show.legend=F) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
   scale_y_discrete(labels=c("> Length Maturity\nChoerodon rubescens","> Length Maturity\nLethrinus miniatus","< Length Maturity\nLethrinus miniatus",
                             "< Length Maturity\nChrysophrys auratus", "> Length Maturity\nChrysophrys auratus"))+
-  scale_x_discrete(labels = c("Depth", "Macroalgae", "Biogenic\nReef", "Mean\nRelief","TPI", "Roughness", "Detrended\nBathymetry", "Method"))+
+  scale_x_discrete(labels = c("% Biogenic\nReef", "Depth", "Detrended\nbathymetry","% Macroalgae", "Mean Relief","Roughness","SD Relief", "TPI","Method"))+
   labs(x = NULL, y = NULL, title = "By indicator species") +
   theme_classic()+
   Theme1+
   geom_text(aes(label=label)) +
-  geom_vline(xintercept=7.5, colour="white", linewidth=3) +
+  geom_vline(xintercept=8.5, colour="white", linewidth=3) +
   theme(plot.title = element_text(hjust = -0.2, size=8)) # Looks crap here but title comes back in exported version
 imp.species.greater.less
 

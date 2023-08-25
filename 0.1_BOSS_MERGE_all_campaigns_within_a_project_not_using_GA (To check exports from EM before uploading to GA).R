@@ -105,16 +105,16 @@ study<-"Ningaloo_PtCloates_BOSS"
 
 ### Metadata ----
 setwd(download.dir)
-metadata <- ga.list.files("_metadata.csv") %>% # list all files ending in "_metadata.csv"
+metadata <- ga.list.files("_Metadata.csv") %>% # list all files ending in "_metadata.csv"
   purrr::map_df(~ga.read.files_em.csv(.)) %>% # combine into dataframe
   mutate(sample = ifelse(is.na(sample), sample...2, sample)) %>% 
-  dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,observer,successful.count,successful.length) %>% # This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
+  dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,site,depth,successful.count,successful.length) %>% # This line ONLY keep the 15 columns listed. Remove or turn this line off to keep all columns (Turn off with a # at the front).
   dplyr::mutate(campaignid = str_replace(campaignid, "_metadata.csv", "")) %>% 
-  dplyr::filter(campaignid%in%c("2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_Pt-Cloates_BOSS", "2021-08_Pt-Cloates_Squid-BOSS")) %>%
+  dplyr::filter(campaignid%in%c("2022-05_PtCloates_Naked-BOSS","2022-05_PtCloates_Squid-BOSS","2021-08_PtCloates_Flasher-BOSS", "2021-08_PtCloates_Squid-BOSS")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>%
   dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>%
-  filter(successful.count=="Yes") %>% 
+  filter(successful.count=="Yes"|successful.count=="Y") %>% 
   filter(!location %in% c("Deep Yardie"))
 
 unique(metadata$campaignid) # check the number of campaigns in metadata, and the campaign name
@@ -131,7 +131,10 @@ points<-as.data.frame(points.files)%>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.))%>%
-  dplyr::filter(campaignid%in%c("2022-05_PtCloates_BOSS", "2021-08_Pt-Cloates_BOSS"))
+  dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>%
+  dplyr::filter(campaignid%in%c("2022-05_PtCloates_BOSS", "2021-08_PtCloates_BOSS"))
 
 maxn<-points%>%
   dplyr::select(-c(sample)) %>%
@@ -148,8 +151,12 @@ maxn<-points%>%
   dplyr::mutate(maxn=as.numeric(maxn)) %>%
   dplyr::filter(maxn>0) %>%
   dplyr::inner_join(metadata) %>%
-  dplyr::filter(successful.count=="Yes") %>%
+  dplyr::filter(successful.count=="Yes"|successful.count=="Y") %>%
   dplyr::filter(maxn>0)%>%
+  glimpse()
+
+test <- metadata %>%
+  anti_join(maxn)%>%
   glimpse()
 
 ### Save MaxN file ----
@@ -162,6 +169,9 @@ length3dpoints<-ga.create.em.length3dpoints()%>%
   dplyr::select(-c(time,comment))%>% # take time out as there is also a time column in the metadata
   dplyr::select(-c(sample)) %>%
   dplyr::rename(sample=period)%>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Squid-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Naked-", "")) %>%
+  dplyr::mutate(campaignid = str_replace(campaignid, "Flasher-", "")) %>%
   dplyr::inner_join(metadata)%>%
   dplyr::filter(successful.length=="Yes")%>%
   glimpse()

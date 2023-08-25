@@ -1,0 +1,4 @@
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","sand","biog","relief","tpi","roughness","detrended","sdrel","method","cumsum.wi"
+"> Length Maturity.depth+method+relief","depth+method+relief",1099.90805892391,1124.90067183529,0.32131,NA,4.89,0,0,0,0.645,0.611,1,0,0,1,0,0,0,0,1,0.645
+"> Length Maturity.depth+method+sdrel","depth+method+sdrel",1101.43533271312,1126.39371467844,0.31744,NA,4.86,0,1.527,1.493,0.301,0.29,1,0,0,0,0,0,0,1,1,0.946
+"< Length Maturity","depth+method+roughness",894.216631860723,919.122368947495,0.19629,NA,4.81,0,0,1.638,0.782,0.248,1,0,0,0,0,1,0,0,1,0.782

@@ -1,7 +1,7 @@
-"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method","cumsum.wi"
-"> Length Maturity","biog+detrended+method",314.328116971684,329.708485587348,0.42626,NA,4.04,0,0,0,0.625,0.689,0,0,1,0,0,0,1,1,0.625
-"< Length Maturity.macroalgae+method","macroalgae+method",260.7248259731,273.4958474846,0.18634,NA,3,0,0,0,0.273,0.547,0,1,0,0,0,0,0,1,0.273
-"< Length Maturity.macroalgae+method+tpi","macroalgae+method+tpi",261.137623428537,278.623570337653,0.20015,NA,4.8,0,0.413,5.128,0.222,0.042,0,1,0,0,1,0,0,1,0.495
-"< Length Maturity.detrended+macroalgae+method","detrended+macroalgae+method",261.981626266976,279.403460993469,0.20608,NA,4.74,0,1.257,5.908,0.146,0.029,0,1,0,0,0,0,1,1,0.641
-"< Length Maturity.biog+macroalgae+method","biog+macroalgae+method",262.372543860888,277.569914212225,0.18852,NA,4,0,1.648,4.074,0.12,0.071,0,1,1,0,0,0,0,1,0.761
-"< Length Maturity.depth+method","depth+method",262.672292910418,275.442377676787,0.13247,NA,3,0,1.947,1.947,0.103,0.207,1,0,0,0,0,0,0,1,0.864
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","sd.relief","method","cumsum.wi"
+"> Length Maturity","biog+detrended+method",314.329100296436,329.7110798025,0.42626,NA,4.04,0,0,0,0.62,0.685,0,0,1,0,0,0,1,0,1,0.62
+"< Length Maturity.macroalgae+method","macroalgae+method",260.7248259731,273.495847484599,0.18634,NA,3,0,0,0,0.241,0.507,0,1,0,0,0,0,0,0,1,0.241
+"< Length Maturity.macroalgae+method+tpi","macroalgae+method+tpi",261.137624844664,278.623573833727,0.20015,NA,4.8,0,0.413,5.128,0.196,0.039,0,1,0,0,1,0,0,0,1,0.437
+"< Length Maturity.detrended+macroalgae+method","detrended+macroalgae+method",261.981625675238,279.403459741731,0.20608,NA,4.74,0,1.257,5.908,0.129,0.026,0,1,0,0,0,0,1,0,1,0.566
+"< Length Maturity.biog+macroalgae+method","biog+macroalgae+method",262.37254504347,277.569919493396,0.18852,NA,4,0,1.648,4.074,0.106,0.066,0,1,1,0,0,0,0,0,1,0.672
+"< Length Maturity.depth+method","depth+method",262.672294254903,275.442379021272,0.13247,NA,3,0,1.947,1.947,0.091,0.192,1,0,0,0,0,0,0,0,1,0.763

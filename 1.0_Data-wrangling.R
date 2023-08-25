@@ -69,7 +69,7 @@ length <- bind_rows(boss.length,bruv.length)%>%
   glimpse()
 
 #habitat
-allhab <- readRDS("merged_habitat.rds")%>%
+allhab <- readRDS("Abrolhos_merged_habitat.rds")%>%
   dplyr::select(-status) %>%
   ga.clean.names()%>%
   glimpse()
@@ -137,7 +137,8 @@ pred.vars = c("depth",
               "mean.relief",
               "tpi",
               "roughness",
-              "detrended") 
+              "detrended",
+              "sd.relief") 
 
 # predictor variables Removed at first pass---
 # broad.Sponges and broad.Octocoral.Black and broad.Consolidated 
@@ -297,6 +298,16 @@ setwd(working.dir)
 name <- "Ningaloo_PtCloates_BOSS-BRUV"  # set study name
 
 # load and join datasets
+
+# metadata 
+metadata.boss <- read.csv(paste0("Ningaloo_PtCloates_BOSS", sep=".", "checked.metadata.csv")) %>% 
+  mutate(method="BOSS")
+metadata.bruv <- read.csv(paste0("Ningaloo_PtCloates_stereo-BRUVs", sep=".", "checked.metadata.csv")) %>% 
+  mutate(method="BRUV")
+
+metadata <- bind_rows(metadata.boss, metadata.bruv) %>% 
+  mutate(id = paste0(campaignid, sep="_", sample))
+
 #MaxN
 setwd(data_dir)
 boss.maxn   <- read.csv("Ningaloo_PtCloates_BOSS.complete.maxn.csv")%>%
@@ -307,8 +318,10 @@ bruv.maxn <- read.csv("Ningaloo_PtCloates_stereo-BRUVs.complete.maxn.csv")%>%
   dplyr::mutate(method = "BRUV")%>%
   glimpse() %>% 
   dplyr::select(!date)
+
 #join
 maxn <- bind_rows(boss.maxn,bruv.maxn)%>%
+  dplyr::filter(sample !=10) %>%
   glimpse()
 
 
@@ -324,27 +337,26 @@ bruv.length <- read.csv("Ningaloo_PtCloates_stereo-BRUVs.complete.length.csv")%>
 #join
 length <- bind_rows(boss.length,bruv.length)%>%
   dplyr::mutate(scientific = paste(family,genus,species, sep = " "))%>%
+  dplyr::filter(sample !=10) %>% 
   glimpse()
 
 #habitat
-allhab <- readRDS("merged_habitat.rds")%>%
-  dplyr::select(-status) %>%
-  ga.clean.names()%>%
+allhab <- readRDS(paste0(name, sep="_", "merged_habitat.rds")) %>%
+  ga.clean.names() %>%
   glimpse()
 
 allhab <- allhab %>%
-  transform(kelps = kelps / broad.total.points.annotated) %>%
-  transform(macroalgae = macroalgae / broad.total.points.annotated) %>%
-  transform(sand = sand / broad.total.points.annotated) %>%
-  transform(rock = rock / broad.total.points.annotated) %>%
-  transform(biog = biog / broad.total.points.annotated) %>%
+  transform(sand = sand / totalpts) %>%
+  transform(rock = rock / totalpts) %>%
+  transform(biog = biog / totalpts) %>% 
+  mutate_if(is.numeric, ~ replace(., is.nan(.), 0)) %>% 
   glimpse()
 
 names(maxn)
 
-metadata <- maxn %>%
-  distinct(id, method,latitude, longitude, time, location, status, site, 
-           depth, observer, successful.count, successful.length)
+# metadata <- maxn %>%
+#   distinct(id, method,latitude, longitude, time, location, status, site, 
+#            depth, observer, successful.count, successful.length)
 
 # look at top species ----
 maxn.sum <- maxn %>%
@@ -389,13 +401,13 @@ names(dat.maxn)
 names(allhab)
 
 pred.vars = c("depth", 
-              "macroalgae", 
               "sand", 
               "biog", 
-              "mean.relief",
+              "relief",
               "tpi",
               "roughness",
-              "detrended") 
+              "detrended",
+              "sdrelief") 
 
 # predictor variables Removed at first pass---
 # broad.Sponges and broad.Octocoral.Black and broad.Consolidated 
@@ -440,14 +452,14 @@ all.species <- length %>%
   glimpse()
 
 complete.length <- all.species %>%
-  dplyr::right_join(metadata, by = c("id")) %>% # add in all samples
+  dplyr::right_join(metadata, by = c("campaignid", "sample")) %>% # add in all samples
   mutate(scientific = ifelse(scientific %in% c("Lutjanidae Pristipomoides sp1"), "Lutjanidae Pristipomoides multidens", scientific)) %>% # Changes it to multidens to make it easy but it's really sp1
-  dplyr::select(sample,id,campaignid,scientific,length,number,method) %>%
+  dplyr::select(sample,campaignid,scientific,length,number,method) %>%
   tidyr::complete(nesting(sample,method), scientific) %>%
   replace_na(list(number = 0)) %>% #we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
   dplyr::ungroup()%>%
   dplyr::filter(!is.na(scientific)) %>% # this should not do anything
-  dplyr::left_join(.,metadata, by="id") %>%
+  dplyr::left_join(.,metadata, by="sample") %>%
   dplyr::left_join(.,allhab) %>%
   dplyr::filter(successful.length%in%c("Yes", "Y")) %>%
   dplyr::mutate(scientific=as.character(scientific)) %>%
@@ -493,12 +505,10 @@ length.dat <- complete.length %>%
                            "Labridae Choerodon rubescens", "Lethrinidae Lethrinus punctulatus", 
                            "Serranidae Epinephelus multinotatus", "Serranidae Epinephelides armatus")) %>% 
   left_join(., mat.dat, by="scientific") %>% 
-  rename(length.mat = "FB.length.at.maturity.cm") %>% 
+  dplyr::rename(length.mat = "FB.length.at.maturity.cm") %>% 
   mutate(length.mat = length.mat*10) %>% 
-  mutate(Maturity = ifelse(length < (length.mat*0.5), "less_50", 
-                           ifelse(length>(length.mat*0.5) & length < length.mat, "greater_50_less_mat",
-                                  ifelse(length > length.mat & length < (length.mat*1.25), "greater_mat_less_125","greater_mat_125")))) %>% 
-  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat")) 
+  mutate(Maturity2 = ifelse(length<length.mat, "less_mat", "greater_mat")) %>% 
+  dplyr::select(-campaignid.x, -campaignid.y)
 
 # Set predictor variables---
 names(complete.length)

@@ -280,7 +280,7 @@ metadata<-read.csv(paste(study,"metadata.csv",sep="_"))
 maxn<-read_csv(paste(study,"maxn.csv",sep="_"))%>%
   mutate(maxn=as.numeric(maxn))%>%
   mutate(species=tolower(species))%>%
-  select(campaignid,sample,family,genus,species,maxn)%>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn)%>%
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   glimpse()
 
@@ -289,7 +289,7 @@ length<-read_csv(file=paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "
   mutate(number=as.numeric(number))%>%
   mutate(range=as.numeric(range))%>%
   mutate(length=as.numeric(length))%>%
-  select(campaignid,sample,family,genus,species,length,number,range)%>%
+  dplyr::select(campaignid,sample,family,genus,species,length,number,range)%>%
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
   replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
   mutate(species=tolower(species))%>%
@@ -358,12 +358,12 @@ url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPL
 
 master<-googlesheets4::read_sheet(url)%>%ga.clean.names()%>%
   filter(grepl('Australia', global.region))%>% # Change country here
-  filter(grepl('SW', marine.region))%>% # Select marine region (currently this is only for Australia)
+  filter(grepl('NW', marine.region))%>% # Select marine region (currently this is only for Australia)
   dplyr::mutate(all=as.numeric(all))%>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
   dplyr::mutate(b=as.numeric(b))%>%
-  select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
+  dplyr::select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
   distinct()%>%
   glimpse()
 

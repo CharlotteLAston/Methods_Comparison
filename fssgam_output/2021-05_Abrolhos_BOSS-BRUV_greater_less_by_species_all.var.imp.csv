@@ -1,6 +1,6 @@
-"","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","method"
-"> Length Maturity_Labridae Choerodon rubescens",0,0.002,0.002,0.179,0.17,0.002,0.002,0.98
-"< Length Maturity_Lethrinidae Lethrinus miniatus",0.021,0.876,0.118,0,0.036,0.002,0.814,0.688
-"> Length Maturity_Lethrinidae Lethrinus miniatus",0,0.029,0.853,0.003,0.004,0.026,0.994,0.994
-"< Length Maturity_Sparidae Chrysophrys auratus",0.018,0.751,0.255,0.037,0.245,0.037,0.228,0.751
-"> Length Maturity_Sparidae Chrysophrys auratus",0.058,0.293,0.822,0.001,0.064,0.341,0.122,0.822
+"","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","sd.relief","method"
+"> Length Maturity_Labridae Choerodon rubescens",0,0,0,0,0,0.871,0.129,1,1
+"< Length Maturity_Lethrinidae Lethrinus miniatus",0.002,0.94,0.007,0,0.044,0.001,0.271,0.94,0.548
+"> Length Maturity_Lethrinidae Lethrinus miniatus",0,0.028,0.817,0.003,0.004,0.025,0.969,0.042,0.969
+"< Length Maturity_Sparidae Chrysophrys auratus",0.014,0.551,0.159,0.025,0.163,0.026,0.303,0.443,0.727
+"> Length Maturity_Sparidae Chrysophrys auratus",0.056,0.287,0.803,0.001,0.063,0.341,0.12,0.025,0.803

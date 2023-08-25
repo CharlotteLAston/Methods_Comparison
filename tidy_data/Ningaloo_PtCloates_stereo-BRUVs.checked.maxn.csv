@@ -43,7 +43,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Lutjanidae","Pristipomoides","sp1",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Mullidae","Parupeneus","spp",3
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Nemipteridae","Pentapodus","nagasakiensis",2
-"2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Rhinidae","Rhynchobatus","australiae",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Rhynchobatidae","Rhynchobatus","australiae",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","SUS","SUS","sus",2
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Serranidae","Epinephelus","areolatus",3
 "2021-08_Pt-Cloates_stereo-BRUVs","PCB16","Tetraodontidae","Lagocephalus","sceleratus",1
@@ -254,7 +254,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP17","Sphyrnidae","Sphyrna","lewini",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP17","Unknown","Unknown","unknown",10
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Carangidae","Carangoides","chrysophrys",2
-"2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Haemulidae","Diagramma","pictum labiosum",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Haemulidae","Diagramma","pictum",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Labridae","Bodianus","solatus",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Lethrinidae","Gymnocranius","euanus",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP18","Lethrinidae","Gymnocranius","sp1",1
@@ -332,7 +332,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Lethrinidae","Lethrinus","rubrioperculatus",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Lutjanidae","Aphareus","rutilans",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Lutjanidae","Lutjanus","sebae",2
-"2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Rhinidae","Rhynchobatus","australiae",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Rhynchobatidae","Rhynchobatus","australiae",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBP9","Sphyraenidae","Sphyraena","qenie",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV1","Acanthuridae","Naso","spp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV1","Balistidae","Abalistes","filamentosus",1
@@ -380,7 +380,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Gymnocranius","sp1",5
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Lethrinus","nebulosus",2
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Lethrinus","rubrioperculatus",3
-"2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Lethrinus","spp",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Lethrinus","sp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lethrinidae","Unknown","sp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lutjanidae","Aprion","virescens",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV18","Lutjanidae","Lutjanus","sebae",1
@@ -537,7 +537,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Carcharhinidae","Carcharhinus","spp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Chaetodontidae","Heniochus","acuminatus",2
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Echeneidae","Echeneis","naucrates",1
-"2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Haemulidae","Diagramma","pictum labiosum",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Haemulidae","Diagramma","pictum",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Lethrinidae","Gymnocranius","euanus",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Lethrinidae","Gymnocranius","sp1",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCBRUV7","Lethrinidae","Lethrinus","miniatus",1
@@ -646,7 +646,7 @@
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Pomacanthidae","Apolemichthys","trimaculatus",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Pomacanthidae","Chaetodontoplus","personifer",3
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Pomacanthidae","Pomacanthus","semicirculatus",1
-"2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Scaridae","Scarus","spp",1
+"2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Scaridae","Scarus","sp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Serranidae","Unknown","spp",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Unknown","Unknown","unknown",1
 "2021-08_Pt-Cloates_stereo-BRUVs","PCPREF5","Unknown","Unknown","spp",1
@@ -683,7 +683,7 @@
 "2022-05_PtCloates_stereo-BRUVS","13","Carangidae","Carangoides","chrysophrys",6
 "2022-05_PtCloates_stereo-BRUVS","13","Carangidae","Decapterus","spp",2
 "2022-05_PtCloates_stereo-BRUVS","13","Cirrhitidae","Cirrhitichthys","aprinus",2
-"2022-05_PtCloates_stereo-BRUVS","13","Haemulidae","Diagramma","pictum labiosum",1
+"2022-05_PtCloates_stereo-BRUVS","13","Haemulidae","Diagramma","pictum",1
 "2022-05_PtCloates_stereo-BRUVS","13","Lethrinidae","Gymnocranius","euanus",1
 "2022-05_PtCloates_stereo-BRUVS","13","Lethrinidae","Gymnocranius","sp1",4
 "2022-05_PtCloates_stereo-BRUVS","13","Lethrinidae","Lethrinus","rubrioperculatus",1
@@ -766,7 +766,7 @@
 "2022-05_PtCloates_stereo-BRUVS","2","Carcharhinidae","Carcharhinus","albimarginatus",1
 "2022-05_PtCloates_stereo-BRUVS","2","Chaetodontidae","Heniochus","acuminatus",2
 "2022-05_PtCloates_stereo-BRUVS","2","Cirrhitidae","Paracirrhites","forsteri",2
-"2022-05_PtCloates_stereo-BRUVS","2","Haemulidae","Diagramma","pictum labiosum",1
+"2022-05_PtCloates_stereo-BRUVS","2","Haemulidae","Diagramma","pictum",1
 "2022-05_PtCloates_stereo-BRUVS","2","Labridae","Bodianus","solatus",2
 "2022-05_PtCloates_stereo-BRUVS","2","Labridae","Unknown","spp",1
 "2022-05_PtCloates_stereo-BRUVS","2","Lethrinidae","Gymnocranius","euanus",1
@@ -1073,7 +1073,7 @@
 "2022-05_PtCloates_stereo-BRUVS","40","Lutjanidae","Pristipomoides","sp1",3
 "2022-05_PtCloates_stereo-BRUVS","40","Nemipteridae","Pentapodus","nagasakiensis",3
 "2022-05_PtCloates_stereo-BRUVS","40","Pinguipedidae","Parapercis","nebulosa",4
-"2022-05_PtCloates_stereo-BRUVS","40","Pinguipedidae","Parapercis","spp",2
+"2022-05_PtCloates_stereo-BRUVS","40","Pinguipedidae","Parapercis","sp",2
 "2022-05_PtCloates_stereo-BRUVS","40","SUS","SUS","sus",3
 "2022-05_PtCloates_stereo-BRUVS","40","Scombridae","Scomberomorus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","40","Tetraodontidae","Lagocephalus","sceleratus",1
@@ -1102,7 +1102,7 @@
 "2022-05_PtCloates_stereo-BRUVS","43","Carangidae","Carangoides","fulvoguttatus",6
 "2022-05_PtCloates_stereo-BRUVS","43","Carcharhinidae","Loxodon","macrorhinus",1
 "2022-05_PtCloates_stereo-BRUVS","43","Carcharhinidae","Loxodon","macrorhinus",1
-"2022-05_PtCloates_stereo-BRUVS","43","Haemulidae","Diagramma","pictum labiosum",1
+"2022-05_PtCloates_stereo-BRUVS","43","Haemulidae","Diagramma","pictum",1
 "2022-05_PtCloates_stereo-BRUVS","43","Labridae","Bodianus","solatus",2
 "2022-05_PtCloates_stereo-BRUVS","43","Lethrinidae","Gymnocranius","sp1",7
 "2022-05_PtCloates_stereo-BRUVS","43","Lethrinidae","Lethrinus","miniatus",1
@@ -1415,7 +1415,7 @@
 "2022-05_PtCloates_stereo-BRUVS","64","Carangidae","Carangoides","fulvoguttatus",2
 "2022-05_PtCloates_stereo-BRUVS","64","Carangidae","Decapterus","spp",2
 "2022-05_PtCloates_stereo-BRUVS","64","Carcharhinidae","Carcharhinus","albimarginatus",2
-"2022-05_PtCloates_stereo-BRUVS","64","Haemulidae","Diagramma","pictum labiosum",1
+"2022-05_PtCloates_stereo-BRUVS","64","Haemulidae","Diagramma","pictum",1
 "2022-05_PtCloates_stereo-BRUVS","64","Labridae","Bodianus","solatus",1
 "2022-05_PtCloates_stereo-BRUVS","64","Labridae","Choerodon","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","64","Labridae","Suezichthys","cyanolaemus",1

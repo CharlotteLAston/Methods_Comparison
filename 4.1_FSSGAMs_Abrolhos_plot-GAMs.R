@@ -59,8 +59,6 @@ rug.2.colour = sapply(1:2,function(i)alpha(rug.2.colour[i],avalues[i]))
 
 rug.3.colour <- c("white")
 
-dat.white = dat %>% 
-  filter(method %in% "BRUV")
 
 # Set the study name
 study <- "2021-05_Abrolhos_BOSS-BRUV" 
@@ -76,6 +74,9 @@ out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
 setwd(data_dir)
 dat <- readRDS(paste0(name, sep="_", "dat_length.rds"))
+
+dat.white = dat %>% 
+  filter(method %in% "BRUV")
 
 # Format data
 
@@ -247,7 +248,7 @@ dat.response <- dat %>%
   glimpse()
 
 dat.preds <- dat %>% 
-  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") %>% 
+  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "sd.relief") %>% 
   distinct()
 
 dat.species <- dat.response %>% 
@@ -260,14 +261,14 @@ dat.species <- dat.response %>%
 use.dat <- dat.species %>% 
   filter(Mat.Species %in% ("> Length Maturity_Labridae Choerodon rubescens"))
 
-mod=gam(Abundance~s(depth,k=3,bs='cr') + s(biog,k=3,bs='cr')  + method, family=tw, data=use.dat)
+mod=gam(Abundance~s(roughness,k=3,bs='cr') + s(sd.relief,k=3,bs='cr')  + method, family=tw, data=use.dat)
 summary(mod)
 gam.check(mod, pch=19,cex=0.8)
 
 # predict method
 testdata <- expand.grid(method=(mod$model$method),
-                        biog=mean(mod$model$biog),
-                        depth=mean(mod$model$depth)) %>%
+                        sd.relief=mean(mod$model$sd.relief),
+                        roughness=mean(mod$model$roughness)) %>%
   
   distinct()%>%
   glimpse()
@@ -283,7 +284,7 @@ ggmod.baldchin.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   ylab("Predicated abundance of\nC. rubescens > length at maturity")+
   xlab("Method")+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.16))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.8))+
   scale_x_discrete(limits = levels(predicts.baldchin.greater$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), data=predicts.baldchin.greater, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
@@ -293,7 +294,7 @@ ggmod.baldchin.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none")+
-  ggplot2::annotate("text", x=0.5, y=0.15, label="(a)", size = 4, fontface=1)
+  ggplot2::annotate("text", x=0.5, y=0.78, label="(a)", size = 4, fontface=1)
 ggmod.baldchin.greater
 
 kde.baldchin <- dat %>% 
@@ -311,7 +312,7 @@ kde.baldchin <- dat %>%
   new_scale_colour()+
   geom_rug(aes(x = length, color = method), sides = 'b', outside = F, length=unit(0.03, "npc")) +
   scale_colour_manual(values=rug.2.colour, guide="none")+
-  xlim(50,750)+
+  xlim(100,750)+
   ylim(-0.005, NA)+
   geom_segment(x=279, y=0, xend=279, yend=Inf)+
   #geom_vline(xintercept = 600*1.25, linetype="dotted")+
@@ -337,14 +338,14 @@ ggsave(greater.baldchin, filename="Baldchin_greater_maturity.png",height = a4.wi
 use.dat <- dat.species %>% 
   filter(Mat.Species %in% ("< Length Maturity_Lethrinidae Lethrinus miniatus"))
 
-mod=gam(Abundance~s(macroalgae,k=3,bs='cr') + s(detrended,k=3,bs='cr') + method, family=tw, data=use.dat)
+mod=gam(Abundance~s(macroalgae,k=3,bs='cr') + s(sd.relief,k=3,bs='cr') + method, family=tw, data=use.dat)
 summary(mod)
 gam.check(mod, pch=19,cex=0.8)
 
 # predict method
 testdata <- expand.grid(method=(mod$model$method),
                         macroalgae=mean(mod$model$macroalgae),
-                        detrended = mean(mod$model$detrended)) %>%
+                        sd.relief = mean(mod$model$sd.relief)) %>%
   
   distinct()%>%
   glimpse()
@@ -360,7 +361,7 @@ ggmod.redthroat.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   ylab("Predicated abundance of\nL. miniatus < length at maturity")+
   xlab("Method")+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.4))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 0.5))+
   scale_x_discrete(limits = levels(predicts.redthroat.less$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.less, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
@@ -370,7 +371,7 @@ ggmod.redthroat.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none")+
-  ggplot2::annotate("text", x=0.6, y=0.39, label="(a)", size = 4, fontface=1)
+  ggplot2::annotate("text", x=0.6, y=0.49, label="(a)", size = 4, fontface=1)
 ggmod.redthroat.less
 
 #* Red throat > Maturity ####
@@ -455,43 +456,44 @@ ggsave(greater.less.redthroat, filename="Redthroat_greater_less_maturity.png",he
 
 #* Pink Snapper < Maturity ####
 
-use.dat <- dat.species %>% 
-  filter(Mat.Species %in% ("< Length Maturity_Sparidae Chrysophrys auratus"))
-
-mod=gam(Abundance~s(macroalgae, k=3, bs='cr') + method, family=tw, data=use.dat)
-summary(mod)
-gam.check(mod, pch=19, cex=0.8)
-
-# predict method
-testdata <- expand.grid(method=(mod$model$method),
-                        macroalgae=mean(mod$model$macroalgae)) %>%
-  
-  distinct()%>%
-  glimpse()
-
-fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
-
-predicts.snapper.less = testdata%>%data.frame(fits)%>%
-  group_by(method)%>% #only change here
-  summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
-  ungroup()
-
-ggmod.snapper.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
-  ylab("Predicated abundance of\nC.auratus < length at maturity")+
-  xlab("Method")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, NA))+
-  #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_x_discrete(limits = levels(predicts.snapper.less$method))+
-  geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.snapper.less, alpha=0.75)+
-  scale_fill_manual( values = c("#117733", "#88CCEE"))+
-  scale_colour_manual(values=c("#117733", "#88CCEE"))+
-  geom_errorbar(data=predicts.snapper.less, aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
-  theme_classic()+
-  Theme1+
-  theme(plot.title = element_text(hjust = 0))+
-  theme(legend.position = "none")+
-  ggplot2::annotate("text", x=0.5, y=1.25, label="(a)", size = 4, fontface=1)
-ggmod.snapper.less
+# use.dat <- dat.species %>% 
+#   filter(Mat.Species %in% ("< Length Maturity_Sparidae Chrysophrys auratus"))
+# 
+# mod=gam(Abundance~s(biog, k=3, bs='cr') + s(roughness, k=3, bs='cr')  + method, family=tw, data=use.dat)
+# summary(mod)
+# gam.check(mod, pch=19, cex=0.8)
+# 
+# # predict method
+# testdata <- expand.grid(method=(mod$model$method),
+#                         biog=mean(mod$model$biog),
+#                         roughness=mean(mod$model$roughness)) %>%
+#   
+#   distinct()%>%
+#   glimpse()
+# 
+# fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
+# 
+# predicts.snapper.less = testdata%>%data.frame(fits)%>%
+#   group_by(method)%>% #only change here
+#   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
+#   ungroup()
+# 
+# ggmod.snapper.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
+#   ylab("Predicated abundance of\nC.auratus < length at maturity")+
+#   xlab("Method")+
+#   scale_y_continuous(expand = c(0, 0), limits = c(0, 1.5))+
+#   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
+#   scale_x_discrete(limits = levels(predicts.snapper.less$method))+
+#   geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.snapper.less, alpha=0.75)+
+#   scale_fill_manual( values = c("#117733", "#88CCEE"))+
+#   scale_colour_manual(values=c("#117733", "#88CCEE"))+
+#   geom_errorbar(data=predicts.snapper.less, aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+#   theme_classic()+
+#   Theme1+
+#   theme(plot.title = element_text(hjust = 0))+
+#   theme(legend.position = "none")+
+#   ggplot2::annotate("text", x=0.5, y=1.45, label="(a)", size = 4, fontface=1)
+# ggmod.snapper.less
 
 #* Predict snapper > length maturity ####
 use.dat <- dat.species %>% 
@@ -567,6 +569,7 @@ greater.snapper <-grid.arrange(arrangeGrob(ggmod.snapper.greater,
                                              nrow=2))
 
 ggsave(greater.snapper, filename="Snapper_greater_maturity.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+
 # ##### PLOTTING MODELS BY GROUPS #####
 # setwd(data_dir)
 # dat <- readRDS(paste0(name, sep="_", "dat_length.rds"))

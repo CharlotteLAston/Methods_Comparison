@@ -367,12 +367,12 @@ url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPL
 
 master<-googlesheets4::read_sheet(url)%>%ga.clean.names()%>%
   filter(grepl('Australia', global.region))%>% # Change country here
-  filter(grepl('SW', marine.region))%>% # Select marine region (currently this is only for Australia)
+  filter(grepl('NW', marine.region))%>% # Select marine region (currently this is only for Australia)
   dplyr::mutate(all=as.numeric(all))%>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
   dplyr::mutate(b=as.numeric(b))%>%
-  select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
+  dplyr::select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
   distinct()%>%
   glimpse()
 
@@ -381,7 +381,7 @@ synonymsurl <- "https://docs.google.com/spreadsheets/d/1R0uU9Q0VkUDQFgGTK3VnIGxm
 synonyms<- googlesheets4::read_sheet(synonymsurl)%>%
   distinct()%>%
   ga.clean.names()%>%
-  select(-comment)
+  dplyr::select(-comment)
 
 # Update by synonyms ----
 # This function will change the names of species that have been reclassified (i.e. Pagrus auratus to Chrysophrys auratus). This function also fixes some common spelling mistakes (i.e. Chyrosophyrs	auratus to Chrysophrys auratus)
@@ -480,7 +480,7 @@ taxa.maxn.vs.stereo.summary<-length%>%
   mutate(difference=(maxn-stereo.maxn))%>%
   mutate(difference=abs(difference))%>%
   mutate(percent.difference=abs(percent.difference))%>%
-  select(campaignid,sample,family,genus,species,maxn,stereo.maxn,difference,percent.difference)%>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn,stereo.maxn,difference,percent.difference)%>%
   arrange(-difference)%>%
   glimpse()
 

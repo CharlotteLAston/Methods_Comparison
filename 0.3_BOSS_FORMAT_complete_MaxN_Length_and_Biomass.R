@@ -344,7 +344,7 @@ master<-googlesheets4::read_sheet(url)%>%ga.clean.names()%>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
   dplyr::mutate(b=as.numeric(b))%>%
-  select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>% 
+  dplyr::select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>% 
   distinct()%>%
   glimpse()
 
@@ -368,7 +368,7 @@ family.missing.lw <- complete.length.number%>%
 
 #3. Fill length data with relevant a and b and if blank use family---
 length.species.ab<-master%>% #done this way around to avoid duplicating Family coloum
-  select(-family)%>%
+  dplyr::select(-family)%>%
   inner_join(complete.length.number,., by=c("genus","species")) # only keeps row if has a and b
 
 # 4. Make family length.weigth

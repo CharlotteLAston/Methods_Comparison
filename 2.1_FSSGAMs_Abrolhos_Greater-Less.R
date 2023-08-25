@@ -40,7 +40,7 @@ dat <-  readRDS(paste0(name, sep="_", "dat_length.rds")) %>%
   glimpse()
 
 # Set the predictors for modeling
-pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") 
+pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "sd.relief") 
 
 # Format data
 
@@ -59,7 +59,7 @@ dat.response <- dat %>%
   glimpse()
 
 dat.preds <- dat %>% 
-  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") %>% 
+  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "sd.relief") %>% 
   distinct()
 
 dat <- dat.response %>% 
@@ -183,7 +183,7 @@ dat <-  readRDS(paste0(name, sep="_", "dat_length.rds")) %>%
   glimpse()
 
 # Set the predictors for modeling
-pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") 
+pred.vars <- c("depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "sd.relief") 
 
 # Format data
 
@@ -200,7 +200,7 @@ dat.response <- dat %>%
   glimpse()
 
 dat.preds <- dat %>% 
-  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended") %>% 
+  dplyr::select("method","sample","depth", "macroalgae", "biog", "mean.relief","tpi", "roughness", "detrended", "sd.relief") %>% 
   distinct()
 
 dat <- dat.response %>% 
