@@ -67,6 +67,10 @@ dat <- dat.response %>%
   mutate(method = as.factor(method),
          sample = as.factor(sample))
 
+total <- dat %>% 
+  ungroup() %>% 
+  summarise(n=sum(Abundance))
+
 
 # Check the correlations between predictor variables
 summary(dat[,pred.vars])

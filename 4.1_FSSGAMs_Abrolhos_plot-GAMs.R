@@ -110,14 +110,13 @@ dat.greater.less <- dat.response %>%
 dat.small <- dat.greater.less %>% 
   filter(Maturity2 %in% c("< Length Maturity"))
 
-mod <- gam(Abundance~s(detrended, k=3, bs='cr') + s(biog, k=3, bs='cr') + method, family=tw, data=dat.small)
+mod <- gam(Abundance~ s(macroalgae, k=3, bs='cr') + method, family=tw, data=dat.small)
 summary(mod)
 
 gam.check(mod, pch=19,cex=0.8)
 # predict - relief ----
 testdata <- expand.grid(method=(mod$model$method),
-                        detrended=mean(mod$model$detrended),
-                        biog=mean(mod$model$biog)) %>%
+                        macroalgae=mean(mod$model$macroalgae)) %>%
   
   distinct()%>%
   glimpse()
@@ -154,12 +153,13 @@ ggmod.all.less
 use.dat <- dat.greater.less %>% 
   filter(Maturity2 %in% c("> Length Maturity"))
 
-mod <- mod <- gam(Abundance~s(macroalgae,k=3,bs='cr') + method, family=tw, data=dat.small)
+mod <- mod <- gam(Abundance~s(biog,k=3,bs='cr') + s(detrended,k=3,bs='cr') + method, family=tw, data=dat.small)
 summary(mod)
 gam.check(mod, pch=19,cex=0.8)
 
 testdata <- expand.grid(method=(mod$model$method),
-                        macroalgae=mean(mod$model$macroalgae)) %>%
+                        detrended=mean(mod$model$detrended),
+                        biog=mean(mod$model$biog)) %>%
   
   distinct()%>%
   glimpse()
@@ -177,7 +177,7 @@ ggmod.all.greater<- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   ylab("Predicated abundance of\nfish > length at maturity")+
   xlab("Method")+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 2))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
   scale_x_discrete(limits = levels(predicts.all.less$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.all.greater, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
@@ -187,7 +187,7 @@ ggmod.all.greater<- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none")+
-  ggplot2::annotate("text", x=0.6, y=1.9, label="(b)", size = 4, fontface=1)
+  ggplot2::annotate("text", x=0.6, y=2.4, label="(b)", size = 4, fontface=1)
 ggmod.all.greater
 
 
