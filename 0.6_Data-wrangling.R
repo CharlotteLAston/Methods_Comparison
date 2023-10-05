@@ -55,6 +55,12 @@ bruv.maxn <- read.csv("2021-05_Abrolhos_stereo-BRUVs.complete.maxn.csv")%>%
 maxn <- bind_rows(boss.maxn,bruv.maxn)%>%
   glimpse()
 
+maxn.wide <- maxn %>% 
+  pivot_wider(names_from="scientific", values_from="maxn", id_cols=c("sample", "method")) %>% 
+  mutate(" " = "") %>% 
+  relocate(method, .after=last_col())
+setwd(data_dir)
+write.csv(maxn.wide, "Abrolhos_maxn_primer.csv")
 
 #length
 boss.length <- read.csv("2021-05_Abrolhos_BOSS.complete.length.csv")%>%
@@ -163,7 +169,47 @@ for (i in pred.vars) {
 #all looks fine
 #write data to load in to next script
 setwd(data_dir)
-saveRDS(dat.maxn, "dat_maxn.rds")
+saveRDS(dat.maxn, paste0(name, sep="_", "dat_maxn.rds"))
+
+#### CREATE CTI DATA ####
+
+global.region <- 
+url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPLcXd3lJ5g5Bo/edit?ts=5e6f36e2#gid=825736197"
+
+master <- googlesheets4::read_sheet(url)%>%
+  ga.clean.names()%>%
+  filter(grepl('Australia', global.region))%>% # Change country here
+  dplyr::select(family,genus,species,rls.thermal.niche)%>%
+  distinct()%>%
+  glimpse()
+
+cti <- maxn %>%
+  left_join(master)%>%
+  dplyr::filter(!is.na(rls.thermal.niche)) %>%
+  dplyr::mutate(log.maxn = log1p(maxn),weightedSTI = log.maxn*rls.thermal.niche) %>%
+  dplyr::group_by(campaignid,method,sample,location,status)%>%
+  dplyr::summarise(log.maxn=sum(log.maxn),w.STI = sum(weightedSTI),CTI=w.STI/log.maxn)%>%
+  dplyr::ungroup()%>%
+  dplyr::filter(!is.na(CTI)) %>%
+  glimpse()
+
+cti.full <- cti %>% 
+  dplyr::left_join(metadata, by = c("sample", "method")) %>% # add in all samples
+  rename(location = "location.x",
+         status = "status.x") %>% 
+  dplyr::select(-location.y, -status.y) %>% 
+  # dplyr::select(sample,method) %>%
+  # tidyr::complete(nesting(sample,method), scientific) %>%
+  # replace_na(list(number = 0)) %>% #we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
+  # dplyr::ungroup()%>%
+  # dplyr::filter(!is.na(scientific)) %>% # this should not do anything
+  # dplyr::left_join(.,metadata, by = c("sample", "method")) %>%
+  dplyr::left_join(.,allhab, by=c("sample", "method", "latitude", "longitude", "date", "location", "site", "depth")) %>%
+  dplyr::filter(successful.length%in%c("Y", "Yes")) %>%
+  dplyr::glimpse()
+
+setwd(data_dir)
+saveRDS(cti.full, paste0(name, sep="_", "dat_cti.rds"))
 
 #### GET LEGAL LENGTHS FOR FISHING ####
 url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPLcXd3lJ5g5Bo/edit?ts=5e6f36e2#gid=825736197"
@@ -298,7 +344,7 @@ setwd(working.dir)
 name <- "Ningaloo_PtCloates_BOSS-BRUV"  # set study name
 
 # load and join datasets
-
+setwd(data_dir)
 # metadata 
 metadata.boss <- read.csv(paste0("Ningaloo_PtCloates_BOSS", sep=".", "checked.metadata.csv")) %>% 
   mutate(method="BOSS")
@@ -322,8 +368,20 @@ bruv.maxn <- read.csv("Ningaloo_PtCloates_stereo-BRUVs.complete.maxn.csv")%>%
 #join
 maxn <- bind_rows(boss.maxn,bruv.maxn)%>%
   dplyr::filter(sample !=10) %>%
+  group_by(campaignid, method, sample, id, scientific) %>% 
+  mutate(maxn=sum(maxn)) %>% 
+  distinct() %>% 
   glimpse()
 
+maxn.wide <- maxn %>% 
+  filter(!campaignid %in% c("2021-05_PtCloates_stereo-BRUVS")) %>% 
+  mutate(id = as.factor(id)) %>% 
+  pivot_wider(names_from="scientific", values_from="maxn", id_cols=c(sample,id, method)) %>% 
+  mutate(" " = "") %>% 
+  relocate(method, .after=last_col()) %>% 
+  mutate_if(is.integer, ~replace(., is.na(.), 0))
+setwd(data_dir)
+write.csv(maxn.wide, "Ningaloo_maxn_primer.csv")
 
 #length
 boss.length <- read.csv("Ningaloo_PtCloates_BOSS.complete.length.csv")%>%
@@ -350,12 +408,17 @@ allhab <- allhab %>%
   transform(rock = rock / totalpts) %>%
   transform(biog = biog / totalpts) %>% 
   mutate_if(is.numeric, ~ replace(., is.nan(.), 0)) %>% 
+  distinct(campaignid, method, sample, .keep_all=TRUE) %>% 
+  group_by(campaignid, method, sample) %>% 
+  mutate(relief = mean(relief),
+         sdrel = mean(sdrel)) %>% 
+  ungroup() %>% 
   glimpse()
 
 names(maxn)
 
 # metadata <- maxn %>%
-#   distinct(id, method,latitude, longitude, time, location, status, site, 
+#   distinct(id, method,latitude, longitude, time, location, status, site,
 #            depth, observer, successful.count, successful.length)
 
 # look at top species ----
@@ -434,6 +497,67 @@ for (i in pred.vars) {
 setwd(data_dir)
 saveRDS(dat.maxn, "dat_maxn.rds")
 
+#### CREATE CTI DATA ####
+url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPLcXd3lJ5g5Bo/edit?ts=5e6f36e2#gid=825736197"
+
+master <- googlesheets4::read_sheet(url)%>%
+  ga.clean.names()%>%
+  filter(grepl('Australia', global.region))%>% # Change country here
+  dplyr::select(family,genus,species,rls.thermal.niche)%>%
+  distinct()%>%
+  glimpse()
+
+cti <- maxn %>%
+  left_join(master)%>%
+  dplyr::filter(!is.na(rls.thermal.niche)) %>%
+  dplyr::mutate(log.maxn = log1p(maxn),
+                weightedSTI = log.maxn*rls.thermal.niche) %>%
+  dplyr::group_by(campaignid,method,sample,location,status)%>%
+  dplyr::summarise(log.maxn=sum(log.maxn),w.STI = sum(weightedSTI),CTI=w.STI/log.maxn)%>%
+  dplyr::ungroup()%>%
+  dplyr::filter(!is.na(CTI)) %>%
+  glimpse()
+
+cti.full <- cti %>% 
+  # mutate(id = paste0(campaignid, ))
+  dplyr::left_join(metadata, by = c("sample", "method")) %>% # add in all samples
+  rename(location = "location.x",
+         status = "status.x",
+         campaignid = "campaignid.x") %>% 
+  dplyr::select(-location.y, -status.y, -campaignid.y) %>% 
+  # dplyr::select(sample,method) %>%
+  # tidyr::complete(nesting(sample,method), scientific) %>%
+  # replace_na(list(number = 0)) %>% #we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
+  # dplyr::ungroup()%>%
+  # dplyr::filter(!is.na(scientific)) %>% # this should not do anything
+  # dplyr::left_join(.,metadata, by = c("sample", "method")) %>%
+  dplyr::left_join(.,allhab, by=c("campaignid","sample", "method", "latitude", "longitude", "depth")) %>%
+  #dplyr::filter(successful.length%in%c("Y", "Yes")) %>%
+  dplyr::glimpse()
+
+#### GET STATUS FOR SAMPLES THAT ARE CURRENTLY NA ####
+setwd(sp_dir)
+NTZ <- st_read("NTZ and Fished areas for status.shp")%>% # Read in the Commonwealth NPZ so that we can work out which points are inside
+  filter(ZoneName %in% c("National Park Zone")) %>% 
+  st_transform(4283)
+plot(NTZ$geometry)
+
+points <- metadata %>% 
+  st_as_sf(coords = c("longitude", "latitude"), crs=4283) # Convert points to spatial data so we can see where they overlap
+plot(points$geometry, add=T)
+
+inside.points <- st_intersects(points,NTZ) %>% 
+  as.data.frame() %>% 
+  dplyr::select(row.id)
+
+metadata.ntz <- metadata[as.numeric(inside.points$row.id), ]
+
+cti.full <- cti.full %>% 
+  mutate(status = ifelse(is.na(status) & id %in% c(metadata.ntz$id), "No-Take", "Fished"))
+
+setwd(data_dir)
+saveRDS(cti.full, paste0(name, sep="_", "dat_cti.rds"))
+
 #### GET LEGAL LENGTHS FOR FISHING ####
 
 all.species <- length %>%
@@ -476,6 +600,74 @@ testbruv <- complete.length %>%
 length(unique(testboss$id))
 
 length(unique(testbruv$id))
+
+# GET FISHED LENGTH FOR TIM'S PLOTS
+
+# Filter by fished species, manually adding in 'spp' fished species and removing species not counted as targeted
+fished.species <- length %>%
+  dplyr::left_join(master) %>%
+  dplyr::mutate(fishing.type = ifelse(scientific %in% c("Serranidae Plectropomus spp","Scombridae Scomberomorus spp",
+                                                        "Lethrinidae Gymnocranius spp","Lethrinidae Lethrinus spp",
+                                                        "Lethrinidae Unknown spp","Platycephalidae Platycephalus spp", 
+                                                        "Lutjanidae Pristipomoides spp", "Lutjanidae Pristipomoides sp1",
+                                                        "Lethrinidae Gymnocranius sp1")
+                                      ,"R",fishing.type))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Serranidae Plectropomus spp"), "450", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Scombridae Scomberomorus spp"), "900", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius sp1"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Lethrinus spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Unknown spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Platycephalidae Platycephalus spp"), "280", minlegal.wa))%>%
+  dplyr::filter(fishing.type %in% c("B/R","B/C/R","R","C/R","C"))%>%
+  dplyr::filter(!family%in%c("Monacanthidae", "Scorpididae", "Mullidae", 
+                             "Carcharhinidae", "Sphyrnidae", "Pomacanthidae"))%>%    # Remove non-targeted families   
+  dplyr::mutate(minlegal.wa = as.double(minlegal.wa)) %>%
+  glimpse()
+
+fished.spp <- as.data.frame(unique(fished.species$scientific))
+
+without.min.length <- fished.species %>%
+  filter(is.na(minlegal.wa))%>%
+  distinct(scientific) 
+
+legal <- fished.species %>%
+  tidyr::replace_na(list(minlegal.wa=0)) %>%
+  dplyr::filter(length>minlegal.wa) %>%
+  dplyr::group_by(campaignid, sample) %>%
+  dplyr::summarise(number = sum(number)) %>%
+  dplyr::mutate(scientific = "greater than legal size") %>%
+  dplyr::glimpse()
+
+sublegal <- fished.species %>%
+  dplyr::filter(length<minlegal.wa) %>%
+  dplyr::group_by(campaignid, sample) %>%
+  dplyr::summarise(number = sum(number)) %>%
+  dplyr::mutate(scientific = "smaller than legal size") %>%
+  dplyr::glimpse()
+
+combined.length <- bind_rows(legal, sublegal) 
+
+unique(combined.length$scientific)
+
+dat.length <- combined.length %>%
+  ungroup() %>%
+  dplyr::right_join(metadata, by = c("campaignid","sample")) %>% # add in all samples
+  dplyr::select(campaignid, sample,scientific,number, method) %>%
+  tidyr::complete(nesting(campaignid, sample, method), scientific) %>%
+  replace_na(list(number = 0)) %>% # we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
+  dplyr::ungroup() %>%
+  dplyr::filter(!is.na(scientific)) %>% # this should not do anything
+  dplyr::left_join(.,metadata) %>%
+  dplyr::left_join(.,allhab) %>%
+  dplyr::filter(successful.length%in%c("Y", "Yes", "yes")) %>%
+  dplyr::mutate(scientific = as.character(scientific)) %>%
+  dplyr::mutate(depth = ifelse(depth %in% "?", z, depth)) %>%                   # Samples didn't have in situ depth recorded
+  dplyr::mutate(depth = as.numeric(depth)) %>%                                  # To numeric
+  dplyr::mutate(depth = ifelse(depth > 0, depth * -1, depth)) %>%               # All to the same direction (negative)
+  #dplyr::filter(!is.na(z)) %>%
+  dplyr::glimpse()
+
 
 
 #### GET LENGTH AT MATURITY ####
@@ -545,28 +737,16 @@ for (i in pred.vars) {
   plot(log(x+1))
 }
 
-#### GET STATUS FOR SAMPLES THAT ARE CURRENTLY NA ####
-setwd(sp_dir)
-NTZ <- st_read("NTZ and Fished areas for status.shp")%>% # Read in the Commonwealth NPZ so that we can work out which points are inside
-  filter(ZoneName %in% c("National Park Zone")) %>% 
-  st_transform(4283)
-plot(NTZ$geometry)
-
-points <- metadata %>% 
-  st_as_sf(coords = c("longitude", "latitude"), crs=4283) # Convert points to spatial data so we can see where they overlap
-plot(points$geometry, add=T)
-
-inside.points <- st_intersects(points,NTZ) %>% 
-  as.data.frame() %>% 
-  dplyr::select(row.id)
-
-metadata.ntz <- metadata[as.numeric(inside.points$row.id), ]
 
 length.dat <- dat.length %>% 
   mutate(status = ifelse(is.na(status) & id %in% c(metadata.ntz$id), "No-Take", "Fished"))
 
 setwd(data_dir)
 filename <- paste0(name, sep="_", "dat_length.rds") 
+saveRDS(length.dat, filename)
+
+setwd(data_dir)
+filename <- paste0(name, sep="_", "dat_length_fishing.rds") 
 saveRDS(length.dat, filename)
 
 

@@ -69,7 +69,8 @@ dat <- dat.response %>%
 
 total <- dat %>% 
   ungroup() %>% 
-  summarise(n=sum(Abundance))
+  group_by(method) %>% 
+  summarise(n=length(unique(.$scientific)))
 
 
 # Check the correlations between predictor variables

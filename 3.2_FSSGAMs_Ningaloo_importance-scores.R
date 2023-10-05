@@ -145,7 +145,7 @@ imp.species.greater.less <- ggplot(dat.greater.less%>%dplyr::filter(resp.var%in%
                        limits = c(0, 1))+
   scale_y_discrete(labels=c("> Length Maturity\nLethrinus miniatus","> Length Maturity\nLethrinus nebulosus",
                             "< Length Maturity\nPristipomoides spp.", "> Length Maturity\nPristipomoids spp."))+
-  scale_x_discrete(labels = c("% Biogenic\nReef","Depth","Detrended\nBathymetry", "Mean\nRelief", "Roughness", "SD Relief", "Sand", "TPI","Method"))+
+  scale_x_discrete(labels = c("% Biogenic\nReef","Depth","Detrended\nBathymetry", "Mean\nRelief", "Roughness", "SD Relief", "% Sand", "TPI","Method"))+
   labs(x = NULL, y = NULL, title = "By indicator species") +
   theme_classic()+
   Theme1+

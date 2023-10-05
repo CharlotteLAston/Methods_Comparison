@@ -109,7 +109,7 @@ dat.greater.less <- dat.response %>%
 
 #### ALL SPECIES GREATER LESS THAN ####
 
-#* MODEL < LM (macroalgae) ----
+#* MODEL < LM  ----
 
 dat.small <- dat.greater.less %>% 
   filter(Maturity2 %in% c("< Length Maturity"))

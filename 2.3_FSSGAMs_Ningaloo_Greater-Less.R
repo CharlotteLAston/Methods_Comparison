@@ -52,26 +52,31 @@ pred.vars <- c("depth", "sand", "biog", "relief","tpi", "roughness", "detrended"
 
 dat.response <- dat %>% 
   dplyr::filter(status %in% "No-Take") %>% 
-  dplyr::group_by(method, sample, scientific, Maturity2) %>% 
+  dplyr::group_by(campaignid, method, sample, scientific, Maturity2) %>% 
   dplyr::summarise(Abundance = length(Maturity2)) %>% 
   ungroup() %>% 
-  pivot_wider(names_from = "Maturity2", values_from="Abundance", id_cols=c("method", "sample", "scientific")) %>% 
+  pivot_wider(names_from = "Maturity2", values_from="Abundance", id_cols=c("campaignid","method", "sample", "scientific")) %>% 
   mutate(less_mat = ifelse(is.na(less_mat), 0, less_mat),
          greater_mat = ifelse(is.na(greater_mat), 0, greater_mat)) %>% 
   pivot_longer(cols= c(less_mat, greater_mat), names_to="Maturity2", values_to="Abundance") %>% 
   mutate(Maturity2 = fct_recode(Maturity2,  "< Length Maturity" = "less_mat", "> Length Maturity"="greater_mat" )) %>% 
-  dplyr::group_by(method, sample, Maturity2) %>% 
+  dplyr::group_by(campaignid, method, sample, Maturity2) %>% 
   dplyr::summarise(Abundance = sum(Abundance)) %>% 
   glimpse()
 
 dat.preds <- dat %>% 
-  dplyr::select("method","sample","depth", "sand", "biog", "relief","tpi", "roughness", "detrended", "sdrel") %>% 
+  dplyr::select("campaignid","method","sample","depth", "sand", "biog", "relief","tpi", "roughness", "detrended", "sdrel") %>% 
   distinct()
 
 dat <- dat.response %>% 
-  inner_join(., dat.preds, by=c("sample", "method")) %>% 
+  inner_join(., dat.preds, by=c("campaignid","sample", "method")) %>% 
   mutate(method = as.factor(method),
          sample = as.factor(sample))
+
+# total <- dat %>% 
+#   ungroup() %>% 
+#   group_by(method) %>% 
+#   summarise(n=length(unique(.$scientific)))
 
 
 # Check the correlations between predictor variables
