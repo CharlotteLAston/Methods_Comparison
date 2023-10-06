@@ -40,10 +40,10 @@ Theme1 <-
     #legend.position = c(0.2, 0.8),
     text=element_text(size=10),
     strip.text.y = element_text(size = 10,angle = 0),
-    #axis.title.x=element_text(vjust=0.3, size=12),
-    #axis.title.y=element_text(vjust=0.6, angle=90, size=12),
-    #axis.text.x=element_text(size=12),
-    #axis.text.y=element_text(size=12),
+    axis.title.x=element_text(vjust=0.3, size=12),
+    axis.title.y=element_text(vjust=0.6, angle=90, size=12),
+    axis.text.x=element_text(size=12),
+    axis.text.y=element_text(size=12),
     axis.line.x=element_line(colour="black", size=0.5,linetype='solid'),
     axis.line.y=element_line(colour="black", size=0.5,linetype='solid'),
     strip.background = element_blank())
@@ -412,7 +412,7 @@ ggmod.redthroat.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   ylab("Predicated abundance of\nL. miniatus > length at maturity")+
   xlab("Method")+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 6))+
   scale_x_discrete(limits = levels(predicts.redthroat.greater$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.greater, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
@@ -1089,7 +1089,7 @@ miniatus <-grid.arrange(arrangeGrob(ggmod.redthroat.less +
                                       ggplot2::annotate("text", x=0.6, y=0.475, label="(a)", size = 4, fontface=1),
                                     ggmod.redthroat.greater + 
                                       theme(legend.position="none") + 
-                                      ggplot2::annotate("text", x=0.6, y=2.35, label="(b)", size = 4, fontface=1),
+                                      ggplot2::annotate("text", x=0.6, y=5.8, label="(b)", size = 4, fontface=1),
                                     ggmod.redthroat.greater.ni + 
                                       theme(legend.position="none") +
                                       ggplot2::annotate("text", x=0.6, y=5.8, label="(c)", size = 4, fontface=1),
