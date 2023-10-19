@@ -25,6 +25,7 @@ library(forcats)
 library(grid)
 library(gridExtra)
 library(ggnewscale)
+library(gtable)
 
 # set theme
 # Theme-
@@ -61,9 +62,6 @@ rug.2.colour = sapply(1:2,function(i)alpha(rug.2.colour[i],avalues[i]))
 rug.3.colour <- c("white")
 
 
-# Set the study name
-study <- "2021-05_Abrolhos_BOSS-BRUV" 
-name <- study
 
 ## Set working directory----
 ## Set your working directory ----
@@ -72,6 +70,9 @@ data_dir <- paste(working.dir, "tidy_data", sep="/")
 fig_dir <- paste(working.dir, "figures", sep="/")
 out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
+# Set the study name
+study <- "2021-05_Abrolhos_BOSS-BRUV" 
+name <- study
 
 setwd(data_dir)
 dat <- readRDS(paste0(name, sep="_", "dat_length.rds"))
@@ -190,7 +191,6 @@ ggmod.all.greater.ab <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   
 ggmod.all.greater.ab
 
-
 ## kde plot of length 
 
 kde.all.ab <- dat %>% 
@@ -257,6 +257,7 @@ dat.species <- dat.response %>%
   mutate(method = as.factor(method),
          sample = as.factor(sample))
 
+dat.species.ab <- dat.species
 #* Baldchin Grouper > Maturity ####
  
 use.dat <- dat.species %>% 
@@ -361,7 +362,7 @@ testdata <- expand.grid(method=(mod$model$method),
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.redthroat.less = testdata%>%data.frame(fits)%>%
+predicts.redthroat.less.ab = testdata%>%data.frame(fits)%>%
   group_by(method)%>% #only change here
   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -403,7 +404,7 @@ testdata <- expand.grid(method=(mod$model$method),
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.redthroat.greater = testdata%>%data.frame(fits)%>%
+predicts.redthroat.greater.ab = testdata%>%data.frame(fits)%>%
   group_by(method)%>% #only change here
   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -426,7 +427,7 @@ ggmod.redthroat.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
 ggmod.redthroat.greater
 
 
-kde.redthroat <- dat %>% 
+kde.redthroat.ab <- dat %>% 
   mutate(length=length/10) %>% 
   filter(scientific %in% "Lethrinidae Lethrinus miniatus") %>% 
   ggplot() +
@@ -452,7 +453,7 @@ kde.redthroat <- dat %>%
   ylab("Count\n")+
   xlab("Length (cm)") #+
   # ggplot2::annotate("text", x=210, y=0.6, label="(c)", size = 4, fontface=1) 
-kde.redthroat
+kde.redthroat.ab
 
 # setwd(fig_dir)
 # plot.layout <- matrix(c(1,2,
@@ -646,7 +647,7 @@ testdata <- expand.grid(method=(mod$model$method),
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.all.less = testdata%>%data.frame(fits)%>%
+predicts.all.less.ni = testdata%>%data.frame(fits)%>%
   group_by(method)%>% #only change here
   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -688,7 +689,7 @@ testdata <- expand.grid(method=(mod$model$method),
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.all.greater = testdata%>%data.frame(fits)%>%
+predicts.all.greater.ni = testdata%>%data.frame(fits)%>%
   group_by(method)%>% #only change here
   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -740,28 +741,91 @@ kde.all.ni <- dat %>%
 kde.all.ni
 
 #* Save whole indicator plots ####
+
+
+## Combine the greater and less than plots into 1 plot
+# Abrolhos
+predicts.all.less <- predicts.all.less %>% 
+  mutate(Model = "< LM")
+
+predicts.all.greater <- predicts.all.greater %>% 
+  mutate(Model = "> LM")
+
+predicts.all <- rbind(predicts.all.less, predicts.all.greater) %>% 
+  mutate(across(Model, factor, levels=c("< LM","> LM")))
+
+ggmod.all.ab <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
+  ylab("Predicated abundance")+
+  xlab("Method")+
+  #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
+  #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
+  scale_x_discrete(limits = levels(predicts.all.less$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.all, alpha=0.75)+
+  scale_fill_manual( values = c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
+  geom_errorbar(data=predicts.all,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  facet_grid(.~Model)+
+  theme_classic()+
+  Theme1+
+  theme(strip.text.x = element_text(size = 10))+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none")
+ggmod.all.ab
+
+# Ningaloo
+predicts.all.less.ni <- predicts.all.less.ni %>% 
+  mutate(Model = "< LM")
+
+predicts.all.greater.ni <- predicts.all.greater.ni %>% 
+  mutate(Model = "> LM")
+
+predicts.all.ni <- rbind(predicts.all.less.ni, predicts.all.greater.ni) %>% 
+  mutate(across(Model, factor, levels=c("< LM","> LM")))
+
+ggmod.all.ni <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
+  ylab("Predicated abundance")+
+  xlab("Method")+
+  #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
+  #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
+  scale_x_discrete(limits = levels(predicts.all.less$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.all.ni, alpha=0.75)+
+  scale_fill_manual( values = c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
+  geom_errorbar(data=predicts.all.ni,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  facet_grid(.~Model)+
+  theme_classic()+
+  Theme1+
+  theme(strip.text.x = element_text(size = 10))+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none")
+ggmod.all.ni
+
+ 
+
 setwd(fig_dir)
 legend <- gtable_filter(ggplotGrob(kde.all.ni), "guide-box")
+plot_layout <- rbind(c(1,1),
+                     c(2,2),
+                     c(3,4))
 
-indicator.all <-grid.arrange(arrangeGrob(ggmod.all.less.ab + 
+
+indicator.all <-grid.arrange(arrangeGrob(ggmod.all.ni + 
                                            theme(legend.position="none") +
-                                           ggplot2::annotate("text", x=0.6, y=2.8, label="(a)", size = 4, fontface=1),
-                                    ggmod.all.greater.ab + 
-                                      theme(legend.position="none") + 
-                                      ggplot2::annotate("text", x=0.6, y=5, label="(b)", size = 4, fontface=1),
-                                    ggmod.all.less.ni + 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=0.6, y=3.4, label="(c)", size = 4, fontface=1),
-                                    ggmod.all.greater.ni + 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=0.65, y=3.4, label="(d)", size = 4, fontface=1),
-                                    kde.all.ab + 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=13, y=11, label="(e)", size = 4, fontface=1),
-                                    kde.all.ni + 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=10, y=11, label="(f)", size = 4, fontface=1),
-                                    nrow=3, ncol=2), right=legend)
+                                           ggtitle("(a) Ningaloo") +
+                                           theme(plot.title = element_text(hjust=0.05)),
+                                           #ggplot2::annotate("text", x=0.5, y=4, label="(a)", size = 4, fontface=1),
+                                         ggmod.all.ab + 
+                                           theme(legend.position="none")+
+                                           ggtitle("(b) Abrolhos") +
+                                           theme(plot.title = element_text(hjust=0.05)),#+
+                                           #ggplot2::annotate("text", x=13, y=11, label="(b)", size = 4, fontface=1),
+                                         kde.all.ni + 
+                                           theme(legend.position="none") +
+                                           ggplot2::annotate("text", x=8, y=60, label="(c)", size = 4, fontface=1),
+                                         kde.all.ab + 
+                                           theme(legend.position="none") +
+                                           ggplot2::annotate("text", x=13, y=11.75, label="(d)", size = 4, fontface=1),
+                                         layout_matrix = plot_layout), right=legend)
 
 ggsave(indicator.all, filename=paste0("All_indicator_greater_less_LM.png"), height = a4.width*1.2, width = a4.width, units  ="mm", dpi = 300 )
 
@@ -800,6 +864,8 @@ dat.species <- dat.response %>%
   mutate(method = as.factor(method),
          sample = as.factor(sample))
 
+dat.species.ni <- dat.species
+
 #* Redthroat > Maturity ####
 
 use.dat <- dat.species %>% 
@@ -819,7 +885,7 @@ testdata <- expand.grid(method=(mod$model$method),
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.redthroat.greater = testdata%>%data.frame(fits)%>%
+predicts.redthroat.greater.ni = testdata%>%data.frame(fits)%>%
   group_by(method)%>% #only change here
   summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -1078,27 +1144,88 @@ kde.goldband
 
 #### Save grouped plots ####
 #* L miniatus ####
+predicts.redthroat.less.ab <- predicts.redthroat.less.ab %>% 
+  mutate(Model = "< LM")
+
+predicts.redthroat.greater.ab <- predicts.redthroat.greater.ab %>% 
+  mutate(Model = "> LM")
+
+predicts.redthroat.ab <- rbind(predicts.redthroat.less.ab, predicts.redthroat.greater.ab) %>% 
+  mutate(across(Model, factor, levels=c("< LM","> LM")))
+
+use.dat.redthroat <- dat.species.ab %>% 
+  filter(scientific %in% c("Lethrinidae Lethrinus miniatus"))
+
+ggmod.redthroat.ab <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
+  ylab("Predicated abundance")+
+  xlab("Method")+
+  #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
+  #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
+  scale_x_discrete(limits = levels(predicts.all.less$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.redthroat.ab, alpha=0.75)+
+  scale_fill_manual( values = c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
+  geom_errorbar(data=predicts.redthroat.ab,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  facet_grid(.~Model)+
+  theme_classic()+
+  Theme1+
+  theme(strip.text.x = element_text(size = 10))+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none")
+ggmod.redthroat.ab
+
+# Ningaloo
+# predicts.redthroat.less.ni <- predicts.redthroat.less.ni %>% 
+#   mutate(Model = "< LM")
+
+predicts.redthroat.greater.ni <- predicts.redthroat.greater.ni %>% 
+  mutate(Model = "> LM")
+
+predicts.redthroat.ni <- predicts.redthroat.greater.ni%>% 
+  mutate(across(Model, factor, levels=c("< LM","> LM")))
+
+use.dat.redthroat.ni <- dat.species.ni %>% 
+  filter(scientific %in% c("Lethrinidae Lethrinus miniatus"))
+
+ggmod.redthroat.ni <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
+  ylab("Predicated abundance")+
+  xlab("Method")+
+  #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
+  #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
+  scale_x_discrete(limits = levels(predicts.redthroat.less$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.redthroat.ni, alpha=0.75)+
+  scale_fill_manual( values = c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
+  geom_errorbar(data=predicts.redthroat.ni,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  facet_grid(.~Model, drop=FALSE)+
+  theme_classic()+
+  Theme1+
+  theme(strip.text.x = element_text(size = 10))+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none")
+ggmod.redthroat.ni
+ 
+
 setwd(fig_dir)
 legend <- gtable_filter(ggplotGrob(kde.all.ni), "guide-box")
-plot_layout <- rbind(c(1,2),
-                     c(NA,3),
-                     c(4,5))
+plot_layout <- rbind(c(1,1),
+                     c(2,2),
+                     c(3,4))
 
-miniatus <-grid.arrange(arrangeGrob(ggmod.redthroat.less + 
+miniatus <-grid.arrange(arrangeGrob(ggmod.redthroat.ni + 
                                       theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=0.6, y=0.475, label="(a)", size = 4, fontface=1),
-                                    ggmod.redthroat.greater + 
-                                      theme(legend.position="none") + 
-                                      ggplot2::annotate("text", x=0.6, y=5.8, label="(b)", size = 4, fontface=1),
-                                    ggmod.redthroat.greater.ni + 
+                                      ggtitle("(a) Ningaloo") +
+                                      theme(plot.title = element_text(hjust=0.05)),
+                                    ggmod.redthroat.ab + 
                                       theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=0.6, y=5.8, label="(c)", size = 4, fontface=1),
-                                    kde.redthroat+ 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=23, y=5, label="(d)", size = 4, fontface=1),
+                                      ggtitle("(b) Abrolhos") +
+                                      theme(plot.title = element_text(hjust=0.05)),
                                     kde.redthroat.ni+ 
                                       theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=23, y=27, label="(e)", size = 4, fontface=1),
+                                      ggplot2::annotate("text", x=23, y=29, label="(c)", size = 4, fontface=1),
+                                    kde.redthroat.ab+ 
+                                      theme(legend.position="none") +
+                                      ggplot2::annotate("text", x=23, y=5, label="(d)", size = 4, fontface=1),
                                     layout_matrix = plot_layout,
                                     nrow=3, ncol=2), right=legend)
 

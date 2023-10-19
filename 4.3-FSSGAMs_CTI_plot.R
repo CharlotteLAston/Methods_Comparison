@@ -85,7 +85,7 @@ sst <- readRDS(paste0(zone, "_SST_winter.rds")) %>%
 
 #* MODEL CTI ----
 
-mod.abrolhos <- gam(CTI~ s(biog, k=3, bs='cr') + s(detrended, k=3, bs='cr') + method, family=gaussian, data=dat)
+mod.abrolhos <- gam(CTI~ s(biog, k=3, bs='cr') + s(detrended, k=3, bs='cr') + method, family=gaussian, data=dat.abrolhos)
 summary(mod)
 
 gam.check(mod.abrolhos, pch=19,cex=0.8)
@@ -99,7 +99,7 @@ testdata.abrolhos <- expand.grid(method=(mod.abrolhos$model$method),
 
 fits.abrolhos <- predict.gam(mod.abrolhos, newdata=testdata.abrolhos, type='response', se.fit=T)
 
-predicts.CTI.abrolhos = testdata.abrolhos%>%data.frame(fits)%>%
+predicts.CTI.abrolhos = testdata.abrolhos%>%data.frame(fits.abrolhos)%>%
   group_by(method)%>% #only change here
   summarise(CTI=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
@@ -113,18 +113,19 @@ ggmod.CTI.Abrolhos <- ggplot(data=dat.abrolhos, aes(x=method, y=CTI)) +
   geom_errorbar(data=predicts.CTI.abrolhos, aes(ymin =CTI-se.fit,ymax = CTI+se.fit), colour="grey20",width = 0.5) +
   geom_point(aes(x=1.5, y=sst.mean, colour=method, fill=method), size=0.1, alpha=0 ,data=sst)+
   geom_point(aes(x=method, y=CTI, color=method, fill=method),size=5,data=predicts.CTI.abrolhos, alpha=0.75)+
-  ylim(19,22.5)+
+  ylim(19,26)+
   scale_fill_manual(values=c("#117733", "#88CCEE", "grey80"))+
   scale_colour_manual(values=c("#117733", "#88CCEE", "grey80"))+
   geom_segment(aes(y=(20.59861-0.2589768), x=1.5, xend=1.5, yend=(20.59861+0.2589768)), col="grey50", linewidth=0.35, linetype="dashed", show.legend=F)+
   annotation_custom(grob=circleGrob(r=unit(1,"npc"), gp = gpar(fill = "gray80", col="gray80", alpha=0.75)),
-                    xmin=1.46, xmax=1.54, ymin=(20.59861-0.04), ymax=(20.59861+0.04))+
+                    xmin=1.48, xmax=1.52, ymin=(20.59861-0.1), ymax=(20.59861+0.1))+
   theme_classic()+
   Theme1+
-  theme(plot.title = element_text(hjust = 0))+
+  theme(plot.title = element_text(hjust = 0))
   #theme(legend.position = "none")+
-  ggplot2::annotate("text", x=0.6, y=22.5, label="(a)", size = 4, fontface=1)
 ggmod.CTI.Abrolhos
+
+
 
 #### NINGALOO #####
 # Set the study name
@@ -134,8 +135,6 @@ name <- study
 setwd(data_dir)
 dat.ningaloo <- readRDS(paste0(name, sep="_", "dat_cti.rds")) %>% 
   filter(!campaignid %in% "2021-05_PtCloates_stereo-BRUVS" )
-
-#### ABROLHOS ####
 
 ## Get SST
 setwd(sp_dir)
@@ -166,10 +165,11 @@ testdata.ningaloo <- expand.grid(method=(mod.ningaloo$model$method),
 
 fits.ningaloo <- predict.gam(mod.ningaloo, newdata=testdata.ningaloo, type='response', se.fit=T)
 
-predicts.CTI.ningaloo = testdata.ningaloo%>%data.frame(fits)%>%
+predicts.CTI.ningaloo = testdata.ningaloo%>%data.frame(fits.ningaloo)%>%
   group_by(method)%>% #only change here
   summarise(CTI=mean(fit),se.fit=mean(se.fit))%>%
-  ungroup()
+  ungroup() %>% 
+  mutate(across(method, factor, levels=c("BOSS","BRUV")))
 
 ## Plot for ningaloo 
 
@@ -184,12 +184,12 @@ ggmod.CTI.ningaloo <- ggplot(data=dat.ningaloo, aes(x=method, y=CTI)) +
   scale_colour_manual(values=c("#117733", "#88CCEE", "grey80"))+
   geom_segment(aes(y=(22.70781-0.3957936), x=1.5, xend=1.5, yend=(22.70781+0.3957936)), col="grey50", linewidth=0.35, linetype="dashed", show.legend=F)+
   annotation_custom(grob=circleGrob(r=unit(1,"npc"), gp = gpar(fill = "gray80", col="gray80", alpha=0.75)),
-                    xmin=1.46, xmax=1.54, ymin=(22.70781-0.04), ymax=(22.70781+0.04))+
-  #ylim(21,24)+
+                    xmin=1.48, xmax=1.52, ymin=(22.70781-0.1), ymax=(22.70781+0.1))+
+  ylim(19,26)+
   theme_classic()+
   Theme1+
-  theme(plot.title = element_text(hjust = 0))+
-  ggplot2::annotate("text", x=0.6, y=24, label="(b)", size = 4, fontface=1)
+  theme(plot.title = element_text(hjust = 0))
+  
 ggmod.CTI.ningaloo
 
 #### PUT PLOTS TOGETHER AND SAVE #####
@@ -198,8 +198,12 @@ y.label <- textGrob(expression(paste("Temperature (",degree~C,")")), gp=gpar(fon
 x.label <- textGrob("Method", gp=gpar(fontsize=13))
 legend <- gtable_filter(ggplotGrob(ggmod.CTI.Abrolhos), "guide-box")
 
-CTI.Plots <-grid.arrange(arrangeGrob(ggmod.CTI.Abrolhos + theme(legend.position="none"),
-                                     ggmod.CTI.ningaloo + theme(legend.position="none")),
+CTI.Plots <-grid.arrange(arrangeGrob(ggmod.CTI.ningaloo + 
+                                       theme(legend.position="none") +
+                                       ggplot2::annotate("text", x=0.675, y=26, label="(a) Ningaloo", size = 4, fontface=1),
+                                     ggmod.CTI.Abrolhos +
+                                       theme(legend.position="none") + 
+                                       ggplot2::annotate("text", x=0.675, y=26, label="(b) Abrolhos", size = 4, fontface=1)),
                          right=legend,
                          left=y.label,
                          bottom=x.label)
