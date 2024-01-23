@@ -68,7 +68,7 @@ setwd(data_dir)
 
 pco.abrolhos <- read.csv("Abrolhos_pco.csv")                 #import CAP.xlsx data sheet (manually exported from primer)
 vectors.abrolhos <- read.csv("Abrolhos_vectors.csv") %>%  #import CAP.xlsx vectors sheet (manually exported from primer)
-  filter(r>=0.5) %>% 
+  filter(r>=0.5|taxa %in% "Lethrinidae Lethrinus miniatus") %>% 
   mutate(taxa.short = str_extract(taxa, "(?<=\\s)[:alpha:]+\\s[:alpha:]+")) %>%
   mutate(genus = str_extract(taxa.short, "[:alpha:]+(?=\\s)"),
          species = str_extract(taxa.short, "(?<=\\s)[:alpha:]+")) %>% 
@@ -131,12 +131,14 @@ vectors.abrolhos <- vectors.abrolhos %>%
                           ifelse(taxa.short %in% "C. rubescens", PCO1, 
                                  ifelse(taxa.short %in% "P. spilurus", PCO1-0.35,
                                         ifelse(taxa.short %in% "S. cyanolaemus", PCO1+0.63,
-                                               ifelse(taxa.short %in% "Chromis spp", PCO1+0.32, NA)))))) %>% 
+                                               ifelse(taxa.short %in% "Chromis spp", PCO1+0.32, 
+                                                      ifelse(taxa.short %in% "L. miniatus", PCO1+0, NA))))))) %>% 
   mutate(PCO2.lab = ifelse(taxa.short %in% "C. auratus", PCO2+0.037, 
                            ifelse(taxa.short %in% "C. rubescens", PCO2+0.11, 
                                   ifelse(taxa.short %in% "P. spilurus", PCO2-0.03,
                                          ifelse(taxa.short %in% "S. cyanolaemus", PCO2+0.04,
-                                                ifelse(taxa.short %in% "Chromis spp", PCO2+0.01, NA))))))
+                                                ifelse(taxa.short %in% "Chromis spp", PCO2+0.01, 
+                                                       ifelse(taxa.short %in% "L. miniatus", PCO2+0.03, NA)))))))
 #### Plot PCO ####
 gg.cap.abrolhos <- ggplot()+
   # annotation_custom(pic.p.n, xmin=-0.65, xmax=0.65, ymin=0.5, ymax=0.56)+
@@ -165,7 +167,7 @@ gg.cap.abrolhos <- ggplot()+
   ylab ("PCO2 (36.5%)") +
   geom_segment(data=vectors.abrolhos,aes(x=0,y=0,xend=(PCO1),yend=(PCO2)),size = 0.5,colour="darkgrey",arrow = arrow(angle=25,length=unit(0.25,"cm"))) +
   geom_text(data= vectors.abrolhos ,aes(x=(PCO1.lab),y=((PCO2.lab)),label = taxa.short),size = 4,colour="black",fontface='italic',angle=0)+
-  ggplot2::annotate("text", x=-1.75, y=1, label="(a)", size = 4, fontface=1)
+  ggplot2::annotate("text", x=-1.65, y=1, label="(b) Abrolhos", size = 4, fontface=1)
 gg.cap.abrolhos
 #ggsave(paste(wd, "04-out", paste0("04-PCO-method_", primer, ".png"), sep="/"), gg.cap,width = 20, height = 20,units = "cm")
 
@@ -179,7 +181,8 @@ vectors.ningaloo <- vectors.ningaloo %>%
   mutate(PCO2.lab = ifelse(taxa.short %in% "Gymnocranius sp1", PCO2+0.03, 
                            ifelse(taxa.short %in% "L. miniatus", PCO2-0.031, 
                                   ifelse(taxa.short %in% "L. rubrioperculatus", PCO2,
-                                         ifelse(taxa.short %in% "P. nebulosa", PCO2-0.025, NA)))))
+                                         ifelse(taxa.short %in% "P. nebulosa", PCO2-0.025, NA))))) %>% 
+  mutate(taxa.short = ifelse(taxa.short %in% "Gymnocranius sp1", "Gymnocranius spp.", taxa.short))
 
 gg.cap.ningaloo <- ggplot()+
   # annotation_custom(pic.p.n, xmin=-0.65, xmax=0.65, ymin=0.5, ymax=0.56)+
@@ -208,7 +211,7 @@ geom_point(data=pco.ningaloo, aes(x=PCO1, y=PCO2, fill=method),alpha=1, size=5,s
   ylab ("PCO2 (6.1%)") +
   geom_segment(data=vectors.ningaloo,aes(x=0,y=0,xend=(PCO1),yend=(PCO2)),size = 0.5,colour="darkgrey",arrow = arrow(angle=25,length=unit(0.25,"cm")))+
   geom_text(data= vectors.ningaloo, aes(x=(PCO1.lab),y=((PCO2.lab)),label = taxa.short),size = 4,colour="black",fontface='italic',angle=0)+
-  ggplot2::annotate("text", x=-1, y=0.7, label="(b)", size = 4, fontface=1)
+  ggplot2::annotate("text", x=-0.95, y=0.7, label="(a) Ningaloo", size = 4, fontface=1)
 gg.cap.ningaloo
 
 ## Put the plots together 
@@ -217,8 +220,8 @@ setwd(fig_dir)
 #x.label <- textGrob("Method", gp=gpar(fontsize=13))
 legend <- gtable_filter(ggplotGrob(gg.cap.ningaloo), "guide-box")
 
-PCO.Plots <-grid.arrange(arrangeGrob(gg.cap.abrolhos,
-                                     gg.cap.ningaloo + theme(legend.position="none")))
+PCO.Plots <-grid.arrange(arrangeGrob(gg.cap.ningaloo + theme(legend.position="none"),
+                                     gg.cap.abrolhos))
 
 ggsave(PCO.Plots , filename=paste0("PCO_plots_both_areas.png"),height = a4.width*1.35, width = a4.width*1.2, units  ="mm", dpi = 300 )
 

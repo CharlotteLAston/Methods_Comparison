@@ -37,18 +37,19 @@ library(metR)
 rm(list=ls())
 
 #### SET DIRECTORIES ####
-working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
-
 working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 data_dir <- paste(working.dir, "tidy_data", sep="/")
 fig_dir <- paste(working.dir, "figures", sep="/")
 out_dir <- paste(working.dir, "fssgam_output", sep="/")
 sp_dir <- paste(working.dir, "spatial_data", sep="/")
 
+a4.width <- 160
+
 #### ABROLHOS DATA ####
 #* Read in sampling points ####
 study <- "2021-05_Abrolhos_BOSS-BRUV" 
 name <- study
+
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
@@ -78,6 +79,12 @@ nw_mpa <- aumpa[aumpa$NetName %in% c("North-west"), ]
 ab_nmp <- sw_mpa[sw_mpa$ResName %in% c("Abrolhos", "Jurien", "Shark Bay"), ]    # just nat parks nearby
 cwatr  <- st_read('amb_coastal_waters_limit.shp')                    # coastal waters line trimmed in 'R/GA_coast_trim.R'
 
+
+fisher.ceo <- st_read("Fisheries_Guide_CEO_Notices_Determinations_DPIRD_060.shp") %>% 
+  filter(legal==6) %>% 
+  mutate(waname = "Reef Observation Area") 
+
+
 cbathy <- raster("bath_250_good.tif") 
 bath_r <- rast(cbathy)
 crs(bath_r) <- wgscrs
@@ -90,7 +97,7 @@ st_crs(aus)         <- st_crs(aumpa)
 st_crs(dirkh)       <- st_crs(aumpa) 
 st_crs(abro)       <- st_crs(aumpa) 
 
-# roas <- st_read("data/spatial/shp/Abrolhos_ROAs.shp")                           # from matt's state reserve shapefile 
+
 
 # simplify state parks names
 ab_mpa$waname <- gsub("( \\().+(\\))", "", ab_mpa$ZONE_TYPE)
@@ -98,7 +105,7 @@ ab_mpa$waname <- gsub(" [1-4]", "", ab_mpa$waname)
 # ab_mpa$waname[ab_mpa$ZONE_TYPE == unique(ab_mpa$ZONE_TYPE)[14]] <- 
 #   c("Special Purpose Zone\n(Habitat Protection)")
 
-ab_mpa$waname[ab_mpa$NAME == "Hamelin Pool"]     <- "Marine Nature Reserve"
+ab_mpa$waname[ab_mpa$NAME == "Hamelin Pool"]     <- "Sanctuary Zone"
 ab_mpa$waname[ab_mpa$NAME == "Abrolhos Islands"] <- "Fish Habitat Protection Area"
 
 ab_mpa$waname <- dplyr::recode(ab_mpa$waname, 
@@ -107,6 +114,13 @@ ab_mpa$waname <- dplyr::recode(ab_mpa$waname,
                                  "Special Purpose Zone\n(Shore Based Activities)",
                                "Special Purpose Zone (Seagrass Protection) (IUCN IV)" = "Special Purpose Zone",
 )
+
+
+ab_fpa <- ab_mpa %>% 
+  filter(waname %in% "Fish Habitat Protection Area")
+
+ab_mpa <- ab_mpa %>% 
+  filter(waname != "Fish Habitat Protection Area")
 
 # # reduce terrestrial parks
 # terrnp <- terrnp[terrnp$leg_catego %in% c("Nature Reserve", "National Park"), ] # exclude state forests etc
@@ -137,8 +151,8 @@ wampa_cols <- scale_fill_manual(values = c("Fish Habitat Protection Area" = "#fa
                                            "Sanctuary Zone" = "#bfd054",
                                            "General Use Zone" = "#bddde1",
                                            "Recreation Zone" = "#f4e952",
-                                           "Special Purpose Zone" = "#c5bcc9",
-                                           "Marine Nature Reserve" = "#bfd054"
+                                           "Special Purpose Zone" = "#c5bcc9"
+                                           #"Marine Nature Reserve" = "#bfd054"
 ))
 
 # WA terrestrial parks colours
@@ -158,22 +172,26 @@ p1 <- ggplot() +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = dirkh, fill = "seashell2", colour = "grey80", size = 0.1) +
   new_scale_fill() +
-  #geom_sf(data = ab_mpa, aes(fill = waname), alpha = 2/5, colour = NA) +
-  geom_sf(data = wampa, aes(fill = waname), alpha = 2/5, colour = NA) +
+  geom_sf(data = ab_mpa, aes(fill = waname), alpha = 2/5, colour = NA) +
+  # geom_sf(data = wampa, aes(fill = waname), alpha = 2/5, colour = NA) +
   wampa_cols +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
-  # geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  # labs(fill = "State Managed Areas") +
-  # waterr_cols +
-  # new_scale_fill() +
-  geom_sf(data = ab_nmp, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
+  geom_sf(data = ab_nmp, aes(fill = ZoneName), alpha = 2/5, colour = NA) +
   nmpa_cols +
+  labs(fill = "Australian Marine Parks") +
+  new_scale_fill() +
+  geom_sf(data = ab_fpa, aes(fill = waname), alpha = 2/5, colour = NA) +
+  geom_sf(data = fisher.ceo, aes(fill = waname), alpha = 2/5, colour=NA)+
+  wampa_cols +
+  labs(fill = "Fisheries Protection Area") +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
+  labs(x = NULL, y = NULL, fill = "Fisheries Protection Area") +
   guides(fill = guide_legend(order = 1)) +
-  annotate("rect", xmin = 113, xmax = 113.7, ymin = -28.15, ymax = -27.05,
-           colour = "goldenrod1", fill = "white", alpha = 0.2, size = 0.6) +
+  annotate("rect", xmin = 113.02, xmax = 113.29, ymin = -27.19, ymax = -27.08,
+           colour = "goldenrod1", fill = "white", alpha = 1/5, size = 0.4) +
+  annotate("rect", xmin = 113.24, xmax = 113.58, ymin = -28.13, ymax = -28.02,
+           colour = "goldenrod1", fill = "white", alpha = 1/5, size = 0.4) +
   annotate("point", y = c(-28.7761, -27.7115, -24.8838), x = c(114.6113, 114.1714, 113.6571), size = 0.75) +
   annotate("text", y = c(-28.7761, - 27.7115, -24.8838), x = c(114.95, 114.48, 114.075),
            label = c("Geraldton", "Kalbarri", "Carnarvon"), size = 3) +
@@ -385,12 +403,12 @@ name = "State Marine Parks")
 ningaloo.site.plot <- ggplot() +
   # geom_raster(data = bathdf, aes(x, y, fill = Depth), alpha = 0.9) +
   # scale_fill_gradient(low = "black", high = "grey70") +
-  geom_contour_filled(data = bathy, aes(x = x, y = y, z = bath_250_good,
-                                         fill = after_stat(level)),
-                      breaks = c(0, -40, -70, -120, -7000)) +
-  geom_contour(data = bathy, aes(x = x, y = y, z = bath_250_good),
-  binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
-  scale_fill_grey(start = 1, end = 0.5, guide = "none") +
+  # geom_contour_filled(data = bathy, aes(x = x, y = y, z = bath_250_good,
+  #                                        fill = after_stat(level)),
+  #                     breaks = c(0, -40, -70, -120, -7000)) +
+  # geom_contour(data = bathy, aes(x = x, y = y, z = bath_250_good),
+  # binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
+  # scale_fill_grey(start = 1, end = 0.5, guide = "none") +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
   new_scale_fill() +
   #geom_sf(data = nw_mpa, aes(fill = waname), alpha = 2/5, colour = NA) +
@@ -416,9 +434,9 @@ ningaloo.site.plot <- ggplot() +
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
-  theme_minimal()+
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())
+  theme_minimal()
+  # theme(panel.grid.major = element_blank(),
+  #       panel.grid.minor = element_blank())
 ningaloo.site.plot
 
 inset.map <- ggplot() +
@@ -547,12 +565,12 @@ sample.2022 <- ggplot() +
   wampa_fills +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
-  geom_sf(data = nw_mpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
+  geom_sf(data = nw_mpa, aes(fill = ZoneName), alpha = 2/5, colour = NA) +
   nmpa_cols +
   labs(x = NULL, y = NULL, colour = NULL) +
   new_scale_colour() +
   geom_sf(data = ningaloo.meta.2022, aes(colour = method),
-          alpha = 3/5, shape = 10, size=3) +
+          alpha = 4/5, shape = 10, size=3) +
   scale_colour_manual(values = c("#117733", "#88CCEE")) +
   coord_sf(xlim = c(113.5, 113.65), ylim = c(-22.775, -22.66)) +
   labs(colour = NULL, x = NULL, y = NULL) +

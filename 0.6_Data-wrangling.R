@@ -62,6 +62,14 @@ maxn.wide <- maxn %>%
 setwd(data_dir)
 write.csv(maxn.wide, "Abrolhos_maxn_primer.csv")
 
+species.richness.A <- maxn %>% 
+  filter(!genus %in% "Unknown") %>% 
+  filter(!family %in% "SUS") %>% 
+  group_by(method) %>% 
+  distinct(scientific, .keep_all = T) %>% 
+  summarise(SR = n())
+
+
 #length
 boss.length <- read.csv("2021-05_Abrolhos_BOSS.complete.length.csv")%>%
   dplyr::mutate(method = "BOSS")%>%
@@ -97,10 +105,13 @@ metadata <- maxn %>%
 # look at top species ----
 maxn.sum <- maxn %>%
   mutate(scientific = paste(genus, species, sep = " ")) %>%
-  group_by(scientific) %>%
+  group_by(method, scientific) %>%
   dplyr::summarise(maxn = sum(maxn)) %>%
-  top_n(10)%>%
-  ungroup()
+  #top_n(10)%>%
+  ungroup() %>% 
+  group_by(method) %>% 
+  summarise(total = sum(maxn))
+
 
 ## Total frequency of occurrence
 ggplot(maxn.sum, aes(x = reorder(scientific, maxn), y = maxn)) +   
@@ -383,6 +394,14 @@ maxn.wide <- maxn %>%
 setwd(data_dir)
 write.csv(maxn.wide, "Ningaloo_maxn_primer.csv")
 
+species.richness <- maxn %>% 
+  filter(!genus %in% "Unknown") %>% 
+  filter(!family %in% "SUS") %>% 
+  group_by(method) %>% 
+  distinct(scientific, .keep_all = T) %>% 
+  summarise(SR = n())
+
+
 #length
 boss.length <- read.csv("Ningaloo_PtCloates_BOSS.complete.length.csv")%>%
   dplyr::mutate(method = "BOSS")%>%
@@ -424,10 +443,12 @@ names(maxn)
 # look at top species ----
 maxn.sum <- maxn %>%
   mutate(scientific = paste(genus, species, sep = " ")) %>%
-  group_by(scientific) %>%
+  group_by(method, scientific) %>%
   dplyr::summarise(maxn = sum(maxn)) %>%
-  top_n(10)%>%
-  ungroup()
+  #top_n(10)%>%
+  ungroup() %>% 
+  group_by(method) %>% 
+  summarise(total = sum(maxn))
 
 ## Total frequency of occurrence
 ggplot(maxn.sum, aes(x = reorder(scientific, maxn), y = maxn)) +   

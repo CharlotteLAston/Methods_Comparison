@@ -372,16 +372,16 @@ ggmod.redthroat.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   xlab("Method")+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 0.5))+
-  scale_x_discrete(limits = levels(predicts.redthroat.less$method))+
-  geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.less, alpha=0.75)+
+  scale_x_discrete(limits = levels(predicts.redthroat.less.ab$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.less.ab, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
-  geom_errorbar(data=predicts.redthroat.less,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  geom_errorbar(data=predicts.redthroat.less.ab,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
   theme_classic()+
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
-  theme(legend.position = "none") #+
-  # ggplot2::annotate("text", x=0.6, y=0.49, label="(a)", size = 4, fontface=1)
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=0.6, y=0.49, label="(a)", size = 4, fontface=1)
 ggmod.redthroat.less
 
 #* Red throat > Maturity ####
@@ -410,20 +410,20 @@ predicts.redthroat.greater.ab = testdata%>%data.frame(fits)%>%
   ungroup()
 
 ggmod.redthroat.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
-  ylab("Predicated abundance of\nL. miniatus > length at maturity")+
-  xlab("Method")+
+  ylab("Abundance")+
+  xlab(NULL)+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 6))+
-  scale_x_discrete(limits = levels(predicts.redthroat.greater$method))+
-  geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.greater, alpha=0.75)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4))+
+  scale_x_discrete(limits = levels(predicts.redthroat.greater.ab$method))+
+  geom_point(aes(x=method, y=Abundance, color=method, fill="#C77CFF", size=2), predicts.redthroat.greater.ab, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
-  geom_errorbar(data=predicts.redthroat.greater,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
+  geom_errorbar(data=predicts.redthroat.greater.ab, aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
   theme_classic()+
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
-  theme(legend.position = "none") #+
-  # ggplot2::annotate("text", x=0.6, y=2.45, label="(b)", size = 4, fontface=1)
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=0.6, y=3.9, label="(b)", size = 4, fontface=1)
 ggmod.redthroat.greater
 
 
@@ -455,16 +455,16 @@ kde.redthroat.ab <- dat %>%
   # ggplot2::annotate("text", x=210, y=0.6, label="(c)", size = 4, fontface=1) 
 kde.redthroat.ab
 
-# setwd(fig_dir)
-# plot.layout <- matrix(c(1,2,
-#                         3,3), ncol=2, byrow=TRUE)
-# 
-# greater.less.redthroat <-grid.arrange(arrangeGrob(ggmod.redthroat.less,
-#                                              ggmod.redthroat.greater,
-#                                             kde.redthroat,
-#                                             layout_matrix = plot.layout))
-# 
-# ggsave(greater.less.redthroat, filename="Redthroat_greater_less_maturity.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+setwd(fig_dir)
+plot.layout <- matrix(c(1,2,
+                        3,3), ncol=2, byrow=TRUE)
+
+greater.less.redthroat <-grid.arrange(arrangeGrob(ggmod.redthroat.less,
+                                             ggmod.redthroat.greater,
+                                            kde.redthroat.ab,
+                                            layout_matrix = plot.layout))
+
+ggsave(greater.less.redthroat, filename="Redthroat_greater_less_maturity.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
 
 #* Pink Snapper < Maturity ####
 
@@ -1157,11 +1157,11 @@ use.dat.redthroat <- dat.species.ab %>%
   filter(scientific %in% c("Lethrinidae Lethrinus miniatus"))
 
 ggmod.redthroat.ab <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
-  ylab("Predicated abundance")+
-  xlab("Method")+
+  ylab("Abundance")+
+  xlab(NULL)+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
   #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
-  scale_x_discrete(limits = levels(predicts.all.less$method))+
+  scale_x_discrete(limits = levels(predicts.redthroat.ab$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.redthroat.ab, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
@@ -1173,6 +1173,17 @@ ggmod.redthroat.ab <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none")
 ggmod.redthroat.ab
+
+setwd(fig_dir)
+plot.layout <- matrix(c(1,1,
+                        2,2), ncol=2, byrow=TRUE)
+
+greater.less.redthroat <-grid.arrange(arrangeGrob(ggmod.redthroat.ab,
+                                                  kde.redthroat.ab,
+                                                  layout_matrix = plot.layout))
+
+ggsave(greater.less.redthroat, filename="Redthroat_greater_less_maturity_abrolhos.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+
 
 # Ningaloo
 # predicts.redthroat.less.ni <- predicts.redthroat.less.ni %>% 
@@ -1188,11 +1199,11 @@ use.dat.redthroat.ni <- dat.species.ni %>%
   filter(scientific %in% c("Lethrinidae Lethrinus miniatus"))
 
 ggmod.redthroat.ni <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
-  ylab("Predicated abundance")+
-  xlab("Method")+
+  ylab("Abundance")+
+  xlab(NULL)+
   #geom_bar(aes(fill=method, colour=method), stat = "summary", fun = "mean", alpha=0.2)+
   #scale_y_continuous(expand = c(0, 0), limits = c(0, 2.5))+
-  scale_x_discrete(limits = levels(predicts.redthroat.less$method))+
+  scale_x_discrete(limits = levels(predicts.redthroat.ni$method))+
   geom_point(aes(x=method, y=Abundance, color=method, fill=method, size=2), data=predicts.redthroat.ni, alpha=0.75)+
   scale_fill_manual( values = c("#117733", "#88CCEE"))+
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
@@ -1205,31 +1216,41 @@ ggmod.redthroat.ni <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   theme(legend.position = "none")
 ggmod.redthroat.ni
  
-
 setwd(fig_dir)
-legend <- gtable_filter(ggplotGrob(kde.all.ni), "guide-box")
-plot_layout <- rbind(c(1,1),
-                     c(2,2),
-                     c(3,4))
+plot.layout <- matrix(c(1,1,
+                        2,2), ncol=2, byrow=TRUE)
 
-miniatus <-grid.arrange(arrangeGrob(ggmod.redthroat.ni + 
-                                      theme(legend.position="none") +
-                                      ggtitle("(a) Ningaloo") +
-                                      theme(plot.title = element_text(hjust=0.05)),
-                                    ggmod.redthroat.ab + 
-                                      theme(legend.position="none") +
-                                      ggtitle("(b) Abrolhos") +
-                                      theme(plot.title = element_text(hjust=0.05)),
-                                    kde.redthroat.ni+ 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=23, y=29, label="(c)", size = 4, fontface=1),
-                                    kde.redthroat.ab+ 
-                                      theme(legend.position="none") +
-                                      ggplot2::annotate("text", x=23, y=5, label="(d)", size = 4, fontface=1),
-                                    layout_matrix = plot_layout,
-                                    nrow=3, ncol=2), right=legend)
+greater.less.redthroat.ni <-grid.arrange(arrangeGrob(ggmod.redthroat.ni,
+                                                  kde.redthroat.ni,
+                                                  layout_matrix = plot.layout))
 
-ggsave(miniatus, filename=paste0("Redthroat_greater_less_LM.png"), height = a4.width*1.2, width = a4.width, units  ="mm", dpi = 300 )
+ggsave(greater.less.redthroat.ni, filename="Redthroat_greater_less_maturity_ningaloo.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+
+
+# setwd(fig_dir)
+# legend <- gtable_filter(ggplotGrob(kde.all.ni), "guide-box")
+# plot_layout <- rbind(c(1,1),
+#                      c(2,2),
+#                      c(3,4))
+# 
+# miniatus <-grid.arrange(arrangeGrob(ggmod.redthroat.ni + 
+#                                       theme(legend.position="none") +
+#                                       ggtitle("(a) Ningaloo") +
+#                                       theme(plot.title = element_text(hjust=0.05)),
+#                                     ggmod.redthroat.ab + 
+#                                       theme(legend.position="none") +
+#                                       ggtitle("(b) Abrolhos") +
+#                                       theme(plot.title = element_text(hjust=0.05)),
+#                                     kde.redthroat.ni+ 
+#                                       theme(legend.position="none") +
+#                                       ggplot2::annotate("text", x=23, y=29, label="(c)", size = 4, fontface=1),
+#                                     kde.redthroat.ab+ 
+#                                       theme(legend.position="none") +
+#                                       ggplot2::annotate("text", x=23, y=5, label="(d)", size = 4, fontface=1),
+#                                     layout_matrix = plot_layout,
+#                                     nrow=3, ncol=2), right=legend)
+# 
+# ggsave(miniatus, filename=paste0("Redthroat_greater_less_LM.png"), height = a4.width*1.2, width = a4.width, units  ="mm", dpi = 300 )
 
 #* All other species put together ####
 setwd(fig_dir)

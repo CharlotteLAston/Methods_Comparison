@@ -78,7 +78,8 @@ sst <- readRDS(paste0(zone, "_SST_winter.rds")) %>%
   ungroup()%>%
   dplyr::filter(!is.na(sst)) %>%
   dplyr::mutate(year = as.numeric(year))%>%
-  dplyr::filter(year %in% c(2018,2019,2022,2021,2022)) %>% 
+  dplyr::filter(year %in% c(2017,2018,2019,2022,2021, 2022)) %>% 
+  group_by(year) %>% 
   dplyr::summarise(sst.mean = mean(sst), se = (sd(sst)/sqrt(5)))%>%
   mutate(method = "SST") %>% 
   glimpse()
@@ -86,7 +87,7 @@ sst <- readRDS(paste0(zone, "_SST_winter.rds")) %>%
 #* MODEL CTI ----
 
 mod.abrolhos <- gam(CTI~ s(biog, k=3, bs='cr') + s(detrended, k=3, bs='cr') + method, family=gaussian, data=dat.abrolhos)
-summary(mod)
+summary(mod.abrolhos)
 
 gam.check(mod.abrolhos, pch=19,cex=0.8)
 # predict - relief ----
@@ -102,26 +103,29 @@ fits.abrolhos <- predict.gam(mod.abrolhos, newdata=testdata.abrolhos, type='resp
 predicts.CTI.abrolhos = testdata.abrolhos%>%data.frame(fits.abrolhos)%>%
   group_by(method)%>% #only change here
   summarise(CTI=mean(fit),se.fit=mean(se.fit))%>%
-  ungroup()
+  ungroup() %>% 
+  mutate(year = 2021)
 
 ## Plot for Abrolhos 
 
 # Method ----
-ggmod.CTI.Abrolhos <- ggplot(data=dat.abrolhos, aes(x=method, y=CTI)) +
+ggmod.CTI.Abrolhos <- ggplot() +
   ylab(NULL)+
   xlab(NULL)+
-  geom_errorbar(data=predicts.CTI.abrolhos, aes(ymin =CTI-se.fit,ymax = CTI+se.fit), colour="grey20",width = 0.5) +
-  geom_point(aes(x=1.5, y=sst.mean, colour=method, fill=method), size=0.1, alpha=0 ,data=sst)+
-  geom_point(aes(x=method, y=CTI, color=method, fill=method),size=5,data=predicts.CTI.abrolhos, alpha=0.75)+
+  geom_errorbar(data=predicts.CTI.abrolhos, aes(ymin =CTI-se.fit,ymax = CTI+se.fit, x=year), colour="grey20",width = 0.3) +
+  geom_point(aes(x=year, y=CTI, color=method, fill=method),size=5,data=predicts.CTI.abrolhos, alpha=0.75)+
+  geom_line(aes(x=year, y=sst.mean), data=sst)+
+  geom_ribbon(data=sst, aes(x=year, ymin=sst.mean-se, ymax=sst.mean+se), fill="grey20", alpha=0.2)+
   ylim(19,26)+
-  scale_fill_manual(values=c("#117733", "#88CCEE", "grey80"))+
-  scale_colour_manual(values=c("#117733", "#88CCEE", "grey80"))+
-  geom_segment(aes(y=(20.59861-0.2589768), x=1.5, xend=1.5, yend=(20.59861+0.2589768)), col="grey50", linewidth=0.35, linetype="dashed", show.legend=F)+
-  annotation_custom(grob=circleGrob(r=unit(1,"npc"), gp = gpar(fill = "gray80", col="gray80", alpha=0.75)),
-                    xmin=1.48, xmax=1.52, ymin=(20.59861-0.1), ymax=(20.59861+0.1))+
+  xlim(2017,2021.5)+ 
+  scale_fill_manual(values=c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
   theme_classic()+
   Theme1+
-  theme(plot.title = element_text(hjust = 0))
+  theme(plot.title = element_text(hjust = 0))+
+  geom_vline(xintercept=2018, linetype="dashed")+
+  ylab(expression(paste("Temperature (",degree~C,")")))+
+  xlab("Year")+
   #theme(legend.position = "none")+
 ggmod.CTI.Abrolhos
 
@@ -143,7 +147,8 @@ sst.ningaloo <- readRDS(paste0(zone, "_SST_winter.rds")) %>%
   ungroup()%>%
   dplyr::filter(!is.na(sst)) %>%
   dplyr::mutate(year = as.numeric(year))%>%
-  dplyr::filter(year %in% c(2018,2019,2022,2021,2022)) %>% 
+  dplyr::filter(year %in% c(2017,2018,2019,2022,2021,2022)) %>% 
+  group_by(year) %>% 
   dplyr::summarise(sst.mean = mean(sst), se = (sd(sst)/sqrt(5)))%>%
   mutate(method = "SST") %>% 
   glimpse()
@@ -169,26 +174,27 @@ predicts.CTI.ningaloo = testdata.ningaloo%>%data.frame(fits.ningaloo)%>%
   group_by(method)%>% #only change here
   summarise(CTI=mean(fit),se.fit=mean(se.fit))%>%
   ungroup() %>% 
-  mutate(across(method, factor, levels=c("BOSS","BRUV")))
+  mutate(across(method, factor, levels=c("BOSS","BRUV"))) %>% 
+  mutate(year=2021)
 
 ## Plot for ningaloo 
 
 # Method ----
-ggmod.CTI.ningaloo <- ggplot(data=dat.ningaloo, aes(x=method, y=CTI)) +
-  ylab(NULL)+
-  xlab(NULL)+
-  geom_errorbar(data=predicts.CTI.ningaloo, aes(ymin =CTI-se.fit,ymax = CTI+se.fit), colour="grey20",width = 0.5) +
-  geom_point(aes(x=1.5, y=sst.mean, colour=method, fill=method), size=0.1, alpha=0 ,data=sst.ningaloo)+
-  geom_point(aes(x=method, y=CTI, color=method, fill=method), size=5, data=predicts.CTI.ningaloo, alpha=0.75)+
-  scale_fill_manual(values=c("#117733", "#88CCEE", "grey80"))+
-  scale_colour_manual(values=c("#117733", "#88CCEE", "grey80"))+
-  geom_segment(aes(y=(22.70781-0.3957936), x=1.5, xend=1.5, yend=(22.70781+0.3957936)), col="grey50", linewidth=0.35, linetype="dashed", show.legend=F)+
-  annotation_custom(grob=circleGrob(r=unit(1,"npc"), gp = gpar(fill = "gray80", col="gray80", alpha=0.75)),
-                    xmin=1.48, xmax=1.52, ymin=(22.70781-0.1), ymax=(22.70781+0.1))+
+ggmod.CTI.ningaloo <- ggplot() +
+  geom_errorbar(data=predicts.CTI.ningaloo, aes(ymin =CTI-se.fit,ymax = CTI+se.fit, x=year), colour="grey20",width = 0.3) +
+  geom_point(aes(x=year, y=CTI, color=method, fill=method),size=5,data=predicts.CTI.ningaloo, alpha=0.75)+
+  geom_line(aes(x=year, y=sst.mean), data=sst.ningaloo)+
+  geom_ribbon(data=sst.ningaloo, aes(x=year, ymin=sst.mean-se, ymax=sst.mean+se), fill="grey20", alpha=0.2)+
   ylim(19,26)+
+  xlim(2017,2021.5)+ 
+  scale_fill_manual(values=c("#117733", "#88CCEE"))+
+  scale_colour_manual(values=c("#117733", "#88CCEE"))+
   theme_classic()+
   Theme1+
-  theme(plot.title = element_text(hjust = 0))
+  ylab(expression(paste("Temperature (",degree~C,")")))+
+  xlab("Year")+
+  theme(plot.title = element_text(hjust = 0))+
+  geom_vline(xintercept=2018, linetype="dashed")
   
 ggmod.CTI.ningaloo
 
