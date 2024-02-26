@@ -64,7 +64,6 @@ rug.3.colour <- c("white")
 
 
 ## Set working directory----
-## Set your working directory ----
 working.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 data_dir <- paste(working.dir, "tidy_data", sep="/")
 fig_dir <- paste(working.dir, "figures", sep="/")
@@ -341,24 +340,25 @@ kde.baldchin
 use.dat <- dat.species %>% 
   filter(Mat.Species %in% ("< Length Maturity_Lethrinidae Lethrinus miniatus"))
 
-mod=gam(Abundance~s(macroalgae,k=3,bs='cr') + s(sd.relief,k=3,bs='cr') + method, family=tw, data=use.dat)
+mod=gam(Abundance~s(depth,k=3,bs='cr')+s(macroalgae,k=3,bs='cr') + s(sd.relief,k=3,bs='cr') + method, family=tw, data=use.dat)
 # summary(mod)
 # gam.check(mod, pch=19,cex=0.8)
 
 # predict method
 testdata <- expand.grid(method=(mod$model$method),
+                        depth=mean(mod$model$depth),
                         macroalgae=mean(mod$model$macroalgae),
                         sd.relief = mean(mod$model$sd.relief)) %>%
   
   distinct()%>%
   glimpse()
 
-testdata <- expand.grid(method=(mod$model$method),
-                        sd.relief=seq(min(mod$model$sd.relief), max(mod$model$sd.relief), length=20),
-                        macroalgae = mean(mod$model$macroalgae)) %>%
-  
-  distinct()%>%
-  glimpse()
+# testdata <- expand.grid(method=(mod$model$method),
+#                         sd.relief=seq(min(mod$model$sd.relief), max(mod$model$sd.relief), length=20),
+#                         macroalgae = mean(mod$model$macroalgae)) %>%
+#   
+#   distinct()%>%
+#   glimpse()
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
@@ -378,23 +378,108 @@ ggmod.redthroat.less <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
   geom_errorbar(data=predicts.redthroat.less.ab,aes(ymin =Abundance-se.fit,ymax = Abundance+se.fit), colour="grey20",width = 0.5) +
   theme_classic()+
+  ylim(0,2.5)+
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none") +
   ggplot2::annotate("text", x=0.6, y=0.49, label="(a)", size = 4, fontface=1)
 ggmod.redthroat.less
 
+# predict sd relief
+
+testdata <- expand.grid(method=(mod$model$method),
+                        depth=mean(mod$model$depth),
+                        sd.relief=seq(min(mod$model$sd.relief), max(mod$model$sd.relief), length=20),
+                        macroalgae = mean(mod$model$macroalgae)) %>%
+  
+  distinct()%>%
+  glimpse()
+
+fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
+
+predicts.redthroat.less.sd = testdata%>%data.frame(fits)%>%
+  group_by(sd.relief)%>% #only change here
+  summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
+  ungroup()
+
+
+ggmod.redthroat.less.sd <- ggplot() +
+  ylab("Abundance of\nL. miniatus < length at maturity")+
+  xlab("Standard Deviation of Relief")+
+  geom_jitter(width = 0.25,height = 0)+
+  #geom_point(data=use.dat, aes(x=sd.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
+  geom_line(data=predicts.redthroat.less.sd, aes(x=sd.relief, y=Abundance), colour='grey20', alpha=0.75)+
+  geom_line(data=predicts.redthroat.less.sd, aes(x=sd.relief, y=Abundance - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.redthroat.less.sd, aes(x=sd.relief, y=Abundance + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  xlim(0, 0.9)+
+  theme_classic()+
+  Theme1+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=0.01, y=0.49, label="(a)", size = 4, fontface=1)
+ggmod.redthroat.less.sd
+
+
+# predict macroalgae
+
+testdata <- expand.grid(method=(mod$model$method),
+                        depth =  mean(mod$model$depth),
+                        macroalgae=seq(min(mod$model$macroalgae), max(mod$model$macroalgae), length=20),
+                        sd.relief = mean(mod$model$sd.relief)) %>%
+  
+  distinct()%>%
+  glimpse()
+
+fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
+
+predicts.redthroat.less.macroalgae = testdata%>%data.frame(fits)%>%
+  group_by(macroalgae)%>% #only change here
+  summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
+  ungroup()
+
+
+ggmod.redthroat.less.macroalgae <- ggplot() +
+  ylab("Abundance of\nL. miniatus < length at maturity")+
+  xlab("% Cover of Macroalgae")+
+  geom_jitter(width = 0.25,height = 0)+
+  #geom_point(data=use.dat, aes(x=sd.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
+  geom_line(data=predicts.redthroat.less.macroalgae, aes(x=macroalgae, y=Abundance), colour='grey20', alpha=0.75)+
+  geom_line(data=predicts.redthroat.less.macroalgae, aes(x=macroalgae, y=Abundance - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.redthroat.less.macroalgae, aes(x=macroalgae, y=Abundance + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  xlim(0, 0.9)+
+  ylim(0, 15) +
+  theme_classic()+
+  Theme1+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=0.01, y=14.5, label="(b)", size = 4, fontface=1)
+ggmod.redthroat.less.macroalgae
+
+# Put the plots together
+
+setwd(fig_dir)
+
+y.label <- textGrob("Abundance of\nL. miniatus < length at maturity", gp=gpar(fontsize=13), rot=90)
+
+greater.less.redthroat.other <-grid.arrange(arrangeGrob(ggmod.redthroat.less.sd + ylab(NULL),
+                                                  ggmod.redthroat.less.macroalgae + ylab(NULL)),
+                                            left=y.label,
+                                            # ncol=2, 
+                                            nrow=1)
+ggsave(greater.less.redthroat.other, filename="Abrolhos_Redthroat_less_other_predictors.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+
 #* Red throat > Maturity ####
 
 use.dat <- dat.species %>% 
   filter(Mat.Species %in% ("> Length Maturity_Lethrinidae Lethrinus miniatus"))
 
-mod=gam(Abundance~s(biog,k=3,bs='cr') + s(detrended,k=3,bs='cr') + method, family=tw, data=use.dat)
+mod=gam(Abundance~ s(depth,k=3,bs='cr') + s(biog,k=3,bs='cr') + s(detrended,k=3,bs='cr') + method, family=tw, data=use.dat)
 # summary(mod)
 # gam.check(mod, pch=19,cex=0.8)
 
 # predict method
 testdata <- expand.grid(method=(mod$model$method),
+                        depth=mean(mod$model$depth),
                         biog=mean(mod$model$biog),
                         detrended = mean(mod$model$detrended)) %>%
   
@@ -426,7 +511,88 @@ ggmod.redthroat.greater <- ggplot(data=use.dat, aes(x=method, y=Abundance)) +
   ggplot2::annotate("text", x=0.6, y=3.9, label="(b)", size = 4, fontface=1)
 ggmod.redthroat.greater
 
+# predict biogenic reef
+testdata <- expand.grid(method=(mod$model$method),
+                        depth=mean(mod$model$depth),
+                        biog=seq(min(mod$model$biog), max(mod$model$biog), length=20),
+                        detrended = mean(mod$model$detrended)) %>%
+  
+  distinct()%>%
+  glimpse()
 
+
+fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
+
+predicts.redthroat.greater.biog = testdata%>%data.frame(fits)%>%
+  group_by(biog)%>% #only change here
+  summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
+  ungroup() %>% 
+  mutate(biog = biog*100)
+
+ggmod.redthroat.greater.biog <- ggplot() +
+  ylab("Abundance of\nL. miniatus < length at maturity")+
+  xlab("% Cover of Biogenic Reef")+
+  geom_jitter(width = 0.25,height = 0)+
+  #geom_point(data=use.dat, aes(x=sd.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
+  geom_line(data=predicts.redthroat.greater.biog, aes(x=biog, y=Abundance), colour='grey20', alpha=0.75)+
+  geom_line(data=predicts.redthroat.greater.biog, aes(x=biog, y=Abundance - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.redthroat.greater.biog, aes(x=biog, y=Abundance + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  #xlim(0, 0.9)+
+  ylim(0, 3) +
+  theme_classic()+
+  Theme1+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=0.01, y=3, label="(a)", size = 4, fontface=1)
+ggmod.redthroat.greater.biog
+
+# predict detrended reef
+testdata <- expand.grid(method=(mod$model$method),
+                        depth=mean(mod$model$depth),
+                        detrended=seq(min(mod$model$detrended), max(mod$model$detrended), length=20),
+                        biog = mean(mod$model$biog)) %>%
+  
+  distinct()%>%
+  glimpse()
+
+
+fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
+
+predicts.redthroat.greater.detrended = testdata%>%data.frame(fits)%>%
+  group_by(detrended)%>% #only change here
+  summarise(Abundance=mean(fit),se.fit=mean(se.fit))%>%
+  ungroup()
+
+ggmod.redthroat.greater.detrended <- ggplot() +
+  ylab("Abundance of\nL. miniatus < length at maturity")+
+  xlab("Detrended Bathymetry (m)")+
+  geom_jitter(width = 0.25,height = 0)+
+  #geom_point(data=use.dat, aes(x=sd.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
+  geom_line(data=predicts.redthroat.greater.detrended, aes(x=detrended, y=Abundance), colour='grey20', alpha=0.75)+
+  geom_line(data=predicts.redthroat.greater.detrended, aes(x=detrended, y=Abundance - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.redthroat.greater.detrended, aes(x=detrended, y=Abundance + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  #xlim(0, 0.9)+
+  scale_y_continuous(breaks = c(0,2,4,6,8,10))+
+  theme_classic()+
+  Theme1+
+  theme(plot.title = element_text(hjust = 0))+
+  theme(legend.position = "none") +
+  ggplot2::annotate("text", x=-40.1, y=9.75, label="(a)", size = 4, fontface=1)
+ggmod.redthroat.greater.detrended
+
+# Put the plots together
+setwd(fig_dir)
+
+y.label <- textGrob("Abundance of\nL. miniatus > length at maturity", gp=gpar(fontsize=13), rot=90)
+
+greater.greater.redthroat.other <-grid.arrange(arrangeGrob(ggmod.redthroat.greater.biog + ylab(NULL),
+                                                        ggmod.redthroat.greater.detrended + ylab(NULL)),
+                                            left=y.label,
+                                            # ncol=2, 
+                                            nrow=1)
+ggsave(greater.greater.redthroat.other, filename="Abrolhos_Redthroat_greater_other_predictors.png",height = a4.width*1, width = a4.width, units  ="mm", dpi = 300 )
+
+#### KDE plot
 kde.redthroat.ab <- dat %>% 
   mutate(length=length/10) %>% 
   filter(scientific %in% "Lethrinidae Lethrinus miniatus") %>% 

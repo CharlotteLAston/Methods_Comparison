@@ -123,6 +123,7 @@ for(i in 1:length(resp.vars)){
                                   pred.vars.cont = pred.vars,
                                   pred.vars.fact = factor.vars,
                                   linear.vars = "depth",
+                                  null.terms = "depth",
                                   k = 3,
                                   factor.smooth.interactions = F
   )
@@ -246,6 +247,7 @@ for(i in 1:length(resp.vars)){
                                   pred.vars.cont = pred.vars,
                                   pred.vars.fact = factor.vars,
                                   linear.vars = "depth",
+                                  null.terms = "depth",
                                   k = 3,
                                   factor.smooth.interactions = F
   )

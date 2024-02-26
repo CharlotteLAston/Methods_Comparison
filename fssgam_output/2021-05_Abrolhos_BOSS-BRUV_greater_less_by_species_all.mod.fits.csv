@@ -1,13 +1,14 @@
 "","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","macroalgae","biog","mean.relief","tpi","roughness","detrended","sd.relief","method","cumsum.wi"
-"> Length Maturity_Labridae Choerodon rubescens","method+roughness+sd.relief",71.3300132151879,90.9963616926448,0.1411,NA,5.58,0,0,0,0.871,0.547,0,0,0,0,0,1,0,1,1,0.871
-"< Length Maturity_Lethrinidae Lethrinus miniatus.macroalgae+method+sd.relief","macroalgae+method+sd.relief",99.9795303066904,117.508791299915,0.18877,NA,4.86,0,0,0.11,0.509,0.413,0,1,0,0,0,0,0,1,1,0.509
-"< Length Maturity_Lethrinidae Lethrinus miniatus.detrended+macroalgae+sd.relief","detrended+macroalgae+sd.relief",101.621214737813,121.306311229012,0.13742,NA,5.57,0,1.642,3.907,0.224,0.062,0,1,0,0,0,0,1,1,0,0.733
-"> Length Maturity_Lethrinidae Lethrinus miniatus","biog+detrended+method",214.426883958583,231.954120400251,0.31711,NA,4.85,0,0,0.103,0.815,0.452,0,0,1,0,0,0,1,0,1,0.815
-"< Length Maturity_Sparidae Chrysophrys auratus.detrended+method+sd.relief","detrended+method+sd.relief",129.381666573452,147.004829245293,0.17362,NA,4.93,0,0,4.283,0.262,0.064,0,0,0,0,0,0,1,1,1,0.262
-"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method","macroalgae+method",129.951922238407,142.722007005246,0.01332,NA,3,0,0.57,0,0.197,0.542,0,1,0,0,0,0,0,0,1,0.459
-"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method+sd.relief","macroalgae+method+sd.relief",130.303625268121,145.500809779877,0.01333,NA,4,0,0.922,2.779,0.165,0.135,0,1,0,0,0,0,0,1,1,0.624
-"< Length Maturity_Sparidae Chrysophrys auratus.biog+macroalgae+method","biog+macroalgae+method",131.241300000941,146.517693751385,0.01333,NA,4.02,0,1.86,3.796,0.103,0.081,0,1,1,0,0,0,0,0,1,0.727
-"> Length Maturity_Sparidae Chrysophrys auratus.biog+method+roughness","biog+method+roughness",161.805196109748,179.311708205896,0.225,NA,4.82,0,0,3.491,0.277,0.082,0,0,1,0,0,1,0,0,1,0.277
-"> Length Maturity_Sparidae Chrysophrys auratus.biog+macroalgae+method","biog+macroalgae+method",161.82533969116,177.022694840315,0.22366,NA,4,0,0.02,1.202,0.274,0.257,0,1,1,0,0,0,0,0,1,0.551
-"> Length Maturity_Sparidae Chrysophrys auratus.biog+method","biog+method",163.050138902078,175.820325986508,0.2105,NA,3,0,1.245,0,0.149,0.47,0,0,1,0,0,0,0,0,1,0.7
-"> Length Maturity_Sparidae Chrysophrys auratus.biog+detrended+method","biog+detrended+method",163.794295400082,181.192131021926,0.22419,NA,4.72,0,1.989,5.372,0.103,0.032,0,0,1,0,0,0,1,0,1,0.803
+"> Length Maturity_Labridae Choerodon rubescens","detrended+method+roughness",90.1987732923966,109.617845987335,0.24843,NA,5.54,0,0,0,0.734,0.517,0,0,0,0,0,1,1,0,1,0.734
+"< Length Maturity_Lethrinidae Lethrinus miniatus.macroalgae+method+sd.relief","macroalgae+method+sd.relief",102.27831285396,122.128374827946,0.20284,NA,5.83,0,0,1.294,0.316,0.112,0,1,0,0,0,0,0,1,1,0.316
+"< Length Maturity_Lethrinidae Lethrinus miniatus.detrended+macroalgae+sd.relief","detrended+macroalgae+sd.relief",102.905352769348,124.878961961989,0.12673,NA,6.56,0,0.627,4.045,0.231,0.028,0,1,0,0,0,0,1,1,0,0.547
+"< Length Maturity_Lethrinidae Lethrinus miniatus.macroalgae+sd.relief","macroalgae+sd.relief",103.325283625998,120.834258162302,0.22737,NA,4.83,0,1.047,0,0.187,0.214,0,1,0,0,0,0,0,1,0,0.734
+"> Length Maturity_Lethrinidae Lethrinus miniatus","biog+detrended+method",216.568384729679,236.433316523427,0.31896,NA,5.85,0,0,0,0.809,0.556,0,0,1,0,0,0,1,0,1,0.809
+"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method","macroalgae+method",131.651874415533,146.848847423496,0.01332,NA,4,0,0,0,0.205,0.52,0,1,0,0,0,0,0,0,1,0.205
+"< Length Maturity_Sparidae Chrysophrys auratus.detrended+method+sd.relief","detrended+method+sd.relief",131.740488944933,151.636051792833,0.17547,NA,5.91,0,0.089,4.787,0.197,0.047,0,0,0,0,0,0,1,1,1,0.402
+"< Length Maturity_Sparidae Chrysophrys auratus.detrended+macroalgae+method","detrended+macroalgae+method",131.785178324567,151.582991792543,0.01333,NA,5.78,0,0.133,4.734,0.192,0.049,0,1,0,0,0,0,1,0,1,0.594
+"< Length Maturity_Sparidae Chrysophrys auratus.macroalgae+method+sd.relief","macroalgae+method+sd.relief",132.208969666097,149.788750246619,0.01333,NA,5,0,0.557,2.94,0.156,0.119,0,1,0,0,0,0,0,1,1,0.75
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+macroalgae+method","biog+macroalgae+method",163.269285724996,180.848137763826,0.22674,NA,5,0,0,0.619,0.262,0.174,0,1,1,0,0,0,0,0,1,0.262
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+method+roughness","biog+method+roughness",164.258820183335,184.093247210279,0.22509,NA,5.81,0,0.99,3.864,0.159,0.034,0,0,1,0,0,1,0,0,1,0.421
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+method","biog+method",165.032295609714,180.229410352907,0.21121,NA,4,0,1.763,0,0.108,0.238,0,0,1,0,0,0,0,0,1,0.529
+"> Length Maturity_Sparidae Chrysophrys auratus.biog+depth+method","biog+depth+method",165.032688485739,180.23025526381,0.21121,NA,4,0,1.763,0.001,0.108,0.238,1,0,1,0,0,0,0,0,1,0.637

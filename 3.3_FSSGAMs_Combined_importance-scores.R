@@ -41,8 +41,13 @@ dat2 <- read.csv("Ningaloo_PtCloates_BOSS-BRUV_greater_less_by_species_all.var.i
   mutate(location = "Ningaloo") %>% 
   glimpse()
 
-greater_less <- bind_rows(dat1,dat2)%>%
-  glimpse()
+dat2.lessthan <- dat2 %>% 
+  mutate(resp.var = "< Length Maturity_Lethrinidae Lethrinus miniatus") %>% 
+  mutate(importance = NA) 
+
+greater_less <- bind_rows(dat1,dat2,dat2.lessthan)%>%
+  glimpse() %>% 
+  mutate(importance = ifelse(predictor=="depth", NA, importance))
 
 dat.greater.less <- greater_less %>%
   mutate(label=NA)%>%
@@ -62,7 +67,7 @@ dat.greater.less <- greater_less %>%
   mutate(label=ifelse(predictor=="method"& location=="Abrolhos" & resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   
   # Ningaloo
-  mutate(label=ifelse(predictor=="sdrel"& location=="Ningaloo" & resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
+  mutate(label=ifelse(predictor=="relief"& location=="Ningaloo" & resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   mutate(label=ifelse(predictor=="detrended"& location=="Ningaloo" & resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   mutate(label=ifelse(predictor=="method"& location=="Ningaloo" & resp.var=="> Length Maturity_Lethrinidae Lethrinus miniatus","X",label))%>%
   filter(!is.na(resp.var)) %>% 
@@ -97,14 +102,14 @@ re <- colorRampPalette(my_colors)(200)
 # Labels-
 legend_title<-"Importance"
 
-imp.species.greater.less.ningaloo <- ggplot(dat.greater.less%>%dplyr::filter(location%in%c("Ningaloo")) %>% 
+imp.species.greater.less.ningaloo <- ggplot(dat.greater.less%>%dplyr::filter(location%in%c("Ningaloo")) %>%  
                                             mutate(predictor = fct_relevel(predictor,c("biog", "depth", "detrended", "relief", "roughness", "sand","sdrel", "tpi","method"))), 
                                    aes(x=predictor,y=resp.var,fill=importance)) +
   geom_tile(show.legend=F) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
-  scale_y_discrete(labels=c("> Length Maturity\nLethrinus miniatus"))+
-  scale_x_discrete(labels = c("% Biogenic\nReef","Depth","Detrended\nBathymetry", "Mean\nRelief", "Roughness", "SD Relief", "% Sand", "TPI","Method"))+
+  scale_y_discrete(labels=c("> Length Maturity", "< Length Maturity"))+
+  scale_x_discrete(labels = c("% Biogenic\nreef","Depth","Detrended\nbathymetry", "Mean\nrelief", "Roughness", "SD relief", "% Sand", "TPI","Method"))+
   labs(x = NULL, y = NULL, title = "Ningaloo") +
   theme_classic()+
   Theme1+
@@ -119,8 +124,8 @@ imp.species.greater.less.abrolhos <- ggplot(dat.greater.less%>%dplyr::filter(loc
   geom_tile(show.legend=F) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
-  scale_y_discrete(labels=c("> Length Maturity\nLethrinus miniatus","< Length Maturity\nLethrinus miniatus"))+
-  scale_x_discrete(labels = c("% Biogenic\nReef", "Depth", "Detrended\nbathymetry","% Macroalgae", "Mean Relief","Roughness","SD Relief", "TPI","Method"))+
+  scale_y_discrete(labels=c("> Length Maturity","< Length Maturity"))+
+  scale_x_discrete(labels = c("% Biogenic\nreef", "Depth", "Detrended\nbathymetry","% Macroalgae", "Mean relief","Roughness","SD relief", "TPI","Method"))+
   labs(x = NULL, y = NULL, title = "Abrolhos") +
   theme_classic()+
   Theme1+

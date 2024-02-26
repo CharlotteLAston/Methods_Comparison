@@ -63,9 +63,10 @@ setwd(data_dir)
 write.csv(maxn.wide, "Abrolhos_maxn_primer.csv")
 
 species.richness.A <- maxn %>% 
+  ungroup() %>% 
   filter(!genus %in% "Unknown") %>% 
   filter(!family %in% "SUS") %>% 
-  group_by(method) %>% 
+  # group_by(method) %>% 
   distinct(scientific, .keep_all = T) %>% 
   summarise(SR = n())
 
@@ -395,9 +396,10 @@ setwd(data_dir)
 write.csv(maxn.wide, "Ningaloo_maxn_primer.csv")
 
 species.richness <- maxn %>% 
+  ungroup() %>% 
   filter(!genus %in% "Unknown") %>% 
   filter(!family %in% "SUS") %>% 
-  group_by(method) %>% 
+  #group_by(method) %>% 
   distinct(scientific, .keep_all = T) %>% 
   summarise(SR = n())
 

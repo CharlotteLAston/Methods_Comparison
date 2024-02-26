@@ -1,9 +1,18 @@
 "","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","sand","biog","relief","tpi","roughness","detrended","sdrel","method","cumsum.wi"
-"> Length Maturity_Lethrinidae Lethrinus miniatus.detrended+method+sdrel","detrended+method+sdrel",941.453250838174,969.741204403161,0.2662,NA,5.63,0,0,0,0.489,0.238,0,0,0,0,0,0,1,1,1,0.489
-"> Length Maturity_Lethrinidae Lethrinus miniatus.detrended+method+relief","detrended+method+relief",942.156093811819,970.520564919324,0.26634,NA,5.68,0,0.703,0.779,0.344,0.161,0,0,0,1,0,0,1,0,1,0.833
-"> Length Maturity_Lethrinidae Lethrinus nebulosus.depth+roughness+sand","depth+roughness+sand",442.99229297701,469.164854908368,0.21275,NA,5.13,0,0,4.808,0.213,0.034,1,1,0,0,0,1,0,0,0,0.213
-"> Length Maturity_Lethrinidae Lethrinus nebulosus.depth+method+relief","depth+method+relief",444.510527487186,469.483447355792,0.13631,NA,4.87,0,1.518,5.127,0.1,0.029,1,0,0,1,0,0,0,0,1,0.313
-"< Length Maturity_Lutjanidae Pristipomoides multidens","depth+method+roughness",808.60670066706,833.612213601136,0.18582,NA,4.91,0,0,0,0.887,0.566,1,0,0,0,0,1,0,0,1,0.887
-"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+roughness","depth+method+roughness",277.915891880748,302.675492210327,0.08786,NA,4.72,0,0,4.754,0.32,0.059,1,0,0,0,0,1,0,0,1,0.32
-"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+relief","depth+method+relief",278.651818594192,303.353229308033,0.07424,NA,4.69,0,0.736,5.432,0.221,0.042,1,0,0,1,0,0,0,0,1,0.541
-"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+tpi","depth+method+tpi",279.476082761881,300.978154312428,0.0739,NA,4,0,1.56,3.057,0.147,0.137,1,0,0,0,1,0,0,0,1,0.688
+"> Length Maturity_Lethrinidae Lethrinus miniatus.detrended+method+relief","detrended+method+relief",942.428634480593,974.102652440588,0.26951,NA,6.55,0,0,3.464,0.289,0.044,0,0,0,1,0,0,1,0,1,0.289
+"> Length Maturity_Lethrinidae Lethrinus miniatus.detrended+method+sdrel","detrended+method+sdrel",942.574738691129,974.274803256057,0.26778,NA,6.55,0,0.146,3.636,0.268,0.041,0,0,0,0,0,0,1,1,1,0.557
+"> Length Maturity_Lethrinidae Lethrinus miniatus.method+relief+roughness","method+relief+roughness",944.108615433192,975.633794230721,0.26608,NA,6.49,0,1.68,4.995,0.125,0.021,0,0,0,1,0,1,0,0,1,0.682
+"> Length Maturity_Lethrinidae Lethrinus nebulosus.method+relief+roughness","method+relief+roughness",440.818327733073,469.320266274501,0.14651,NA,5.88,0,0,2.166,0.247,0.039,0,0,0,1,0,1,0,0,1,0.247
+"> Length Maturity_Lethrinidae Lethrinus nebulosus.detrended+method+relief","detrended+method+relief",442.540074385034,471.033650047911,0.14294,NA,5.88,0,1.722,3.88,0.104,0.017,0,0,0,1,0,0,1,0,1,0.351
+"< Length Maturity_Lutjanidae Pristipomoides multidens.detrended+method+relief","detrended+method+relief",798.61177484142,823.646372595151,0.19714,NA,5,0,0,0.6,0.544,0.35,0,0,0,1,0,0,1,0,1,0.544
+"< Length Maturity_Lutjanidae Pristipomoides multidens.detrended+method+sdrel","detrended+method+sdrel",800.111714367562,825.14688668753,0.1961,NA,5,0,1.5,2.1,0.257,0.165,0,0,0,0,0,0,1,1,1,0.801
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+roughness+tpi","method+roughness+tpi",277.596508256372,305.755193743986,0.09354,NA,5.67,0,0,7.834,0.115,0.007,0,0,0,0,1,1,0,0,1,0.115
+"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+roughness","depth+method+roughness",277.915891880512,302.675492210126,0.08786,NA,4.72,0,0.319,4.754,0.098,0.031,1,0,0,0,0,1,0,0,1,0.213
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+roughness","method+roughness",277.915891880924,302.675492210476,0.08786,NA,4.72,0,0.319,4.754,0.098,0.031,0,0,0,0,0,1,0,0,1,0.311
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+relief+roughness","method+relief+roughness",278.023484259209,309.220865998505,0.08853,NA,6.31,0,0.427,11.3,0.093,0.001,0,0,0,1,0,1,0,0,1,0.404
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+relief+tpi","method+relief+tpi",278.115980075336,306.289566262616,0.0807,NA,5.67,0,0.519,8.368,0.089,0.005,0,0,0,1,1,0,0,0,1,0.493
+"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+relief","depth+method+relief",278.651818592559,303.353229312969,0.07424,NA,4.69,0,1.055,5.432,0.068,0.022,1,0,0,1,0,0,0,0,1,0.561
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+relief","method+relief",278.651818594189,303.353229308029,0.07424,NA,4.69,0,1.055,5.432,0.068,0.022,0,0,0,1,0,0,0,0,1,0.629
+"> Length Maturity_Lutjanidae Pristipomoides multidens.depth+method+tpi","depth+method+tpi",279.476082627405,300.978153900877,0.0739,NA,4,0,1.88,3.057,0.045,0.072,1,0,0,0,1,0,0,0,1,0.674
+"> Length Maturity_Lutjanidae Pristipomoides multidens.method+tpi","method+tpi",279.476082853241,300.978154592027,0.0739,NA,4,0,1.88,3.057,0.045,0.072,0,0,0,0,1,0,0,0,1,0.719
+"> Length Maturity_Lutjanidae Pristipomoides multidens.detrended+method+relief","detrended+method+relief",279.506689704982,307.741721742797,0.07756,NA,5.7,0,1.91,9.821,0.044,0.002,0,0,0,1,0,0,1,0,1,0.763
