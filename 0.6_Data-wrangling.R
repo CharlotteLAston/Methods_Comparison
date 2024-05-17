@@ -536,7 +536,9 @@ cti <- maxn %>%
   dplyr::mutate(log.maxn = log1p(maxn),
                 weightedSTI = log.maxn*rls.thermal.niche) %>%
   dplyr::group_by(campaignid,method,sample,location,status)%>%
-  dplyr::summarise(log.maxn=sum(log.maxn),w.STI = sum(weightedSTI),CTI=w.STI/log.maxn)%>%
+  dplyr::summarise(log.maxn=sum(log.maxn),
+                   w.STI = sum(weightedSTI),
+                   CTI=w.STI/log.maxn)%>%
   dplyr::ungroup()%>%
   dplyr::filter(!is.na(CTI)) %>%
   glimpse()

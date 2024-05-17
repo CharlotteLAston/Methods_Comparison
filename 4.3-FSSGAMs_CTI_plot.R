@@ -86,7 +86,7 @@ sst <- readRDS(paste0(zone, "_SST_winter.rds")) %>%
 
 #* MODEL CTI ----
 
-mod.abrolhos <- gam(CTI~ s(sd.relief, k=3, bs='cr') + s(detrended, k=3, bs='cr') + method, family=gaussian, data=dat.abrolhos)
+mod.abrolhos <- gam(CTI~ s(biog, k=3, bs='cr') + s(detrended, k=3, bs='cr') + method, family=gaussian, data=dat.abrolhos)
 summary(mod.abrolhos)
 
 gam.check(mod.abrolhos, pch=19,cex=0.8)
@@ -112,12 +112,11 @@ predicts.CTI.abrolhos = testdata.abrolhos%>%data.frame(fits.abrolhos)%>%
 ggmod.CTI.Abrolhos <- ggplot() +
   ylab(NULL)+
   xlab(NULL)+
-  geom_errorbar(data=predicts.CTI.abrolhos, aes(ymin =CTI-se.fit,ymax = CTI+se.fit, x=year), colour="grey20",width = 0.3) +
-  geom_point(aes(x=year, y=CTI, color=method, fill=method),size=5,data=predicts.CTI.abrolhos, alpha=0.75)+
-  geom_line(aes(x=year, y=sst.mean), data=sst)+
-  geom_ribbon(data=sst, aes(x=year, ymin=sst.mean-se, ymax=sst.mean+se), fill="grey20", alpha=0.2)+
-  ylim(19,26)+
-  xlim(2017,2021.5)+ 
+  geom_errorbar(data=predicts.CTI.abrolhos, aes(ymin =CTI-se.fit,ymax = CTI+se.fit, x=method), colour="grey20",width = 0.3) +
+  geom_point(data=predicts.CTI.abrolhos, aes(x=method, y=CTI, color=method, fill=method),size=5, alpha=0.75)+
+  # geom_line(aes(x=year, y=sst.mean), data=sst)+
+  # geom_ribbon(data=sst, aes(x=year, ymin=sst.mean-se, ymax=sst.mean+se), fill="grey20", alpha=0.2)+
+  ylim(19,26)+ 
   scale_fill_manual(values=c("#117733", "#88CCEE"))+
   scale_colour_manual(values=c("#117733", "#88CCEE"))+
   theme_classic()+
@@ -125,13 +124,13 @@ ggmod.CTI.Abrolhos <- ggplot() +
   theme(plot.title = element_text(hjust = 0))+
   geom_vline(xintercept=2018, linetype="dashed")+
   ylab(expression(paste("Temperature (",degree~C,")")))+
-  xlab("Year")+
+  xlab("Year")
   #theme(legend.position = "none")+
 ggmod.CTI.Abrolhos
 
-# predict - sd.relief ----
+# predict - biog ----
 testdata.abrolhos <- expand.grid(method=(mod.abrolhos$model$method),
-                                 sd.relief=seq(min(mod.abrolhos$model$sd.relief), max(mod.abrolhos$model$sd.relief), length=20),
+                                 biog=seq(min(mod.abrolhos$model$biog), max(mod.abrolhos$model$biog), length=20),
                                  detrended=mean(mod.abrolhos$model$detrended)) %>%
   
   distinct()%>%
@@ -139,33 +138,33 @@ testdata.abrolhos <- expand.grid(method=(mod.abrolhos$model$method),
 
 fits.abrolhos <- predict.gam(mod.abrolhos, newdata=testdata.abrolhos, type='response', se.fit=T)
 
-predicts.CTI.abrolhos.sd.relief = testdata.abrolhos%>%data.frame(fits.abrolhos)%>%
-  group_by(sd.relief)%>% #only change here
+predicts.CTI.abrolhos.biog = testdata.abrolhos%>%data.frame(fits.abrolhos)%>%
+  group_by(biog)%>% #only change here
   summarise(CTI=mean(fit),se.fit=mean(se.fit))%>%
   ungroup() %>% 
   mutate(year = 2021) 
 
 
-ggmod.CTI.abrolhos.sd.relief <- ggplot() +
-  ylab("CTI")+
-  xlab("Standard Deviation of Relief")+
+ggmod.CTI.abrolhos.biog <- ggplot() +
+  xlab("% Cover Biogenic Reef")+
   geom_jitter(width = 0.25,height = 0)+
   #geom_point(data=use.dat, aes(x=sd.relief.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
-  geom_line(data=predicts.CTI.abrolhos.sd.relief, aes(x=sd.relief, y=CTI), colour='grey20', alpha=0.75)+
-  geom_line(data=predicts.CTI.abrolhos.sd.relief, aes(x=sd.relief, y=CTI - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
-  geom_line(data=predicts.CTI.abrolhos.sd.relief, aes(x=sd.relief, y=CTI + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.CTI.abrolhos.biog, aes(x=biog, y=CTI), colour='grey20', alpha=0.75)+
+  geom_line(data=predicts.CTI.abrolhos.biog, aes(x=biog, y=CTI - se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
+  geom_line(data=predicts.CTI.abrolhos.biog, aes(x=biog, y=CTI + se.fit), colour='grey20', linetype="dashed",alpha=0.75)+
   #xlim(0, 0.9)+
   theme_classic()+
   Theme1+
   theme(plot.title = element_text(hjust = 0))+
   theme(legend.position = "none") +
-  ggplot2::annotate("text", x=0.01, y=25, label="(a)", size = 4, fontface=1)
-ggmod.CTI.abrolhos.sd.relief
+  ggplot2::annotate("text", x=0.01, y=25, label="(a)", size = 4, fontface=1)+
+  ylab(expression(paste("Temperature (",degree~C,")")))
+ggmod.CTI.abrolhos.biog
 
 # predict - detrended ----
 testdata.abrolhos <- expand.grid(method=(mod.abrolhos$model$method),
                                  detrended=seq(min(mod.abrolhos$model$detrended), max(mod.abrolhos$model$detrended), length=20),
-                                 sd.relief=mean(mod.abrolhos$model$sd.relief)) %>%
+                                 biog=mean(mod.abrolhos$model$biog)) %>%
   
   distinct()%>%
   glimpse()
@@ -180,7 +179,7 @@ predicts.CTI.abrolhos.detrended = testdata.abrolhos%>%data.frame(fits.abrolhos)%
 
 
 ggmod.CTI.abrolhos.detrended <- ggplot() +
-  ylab("CTI")+
+  ylab(expression(paste("Temperature (",degree~C,")"))) +
   xlab("Detrended Bathymetry (m)")+
   geom_jitter(width = 0.25,height = 0)+
   #geom_point(data=use.dat, aes(x=biog.relief, y=Abundance), colour="lightblue", alpha=0.75, size=2,show.legend=F)+
@@ -199,7 +198,7 @@ setwd(fig_dir)
 
 y.label <- textGrob(expression(paste("Temperature (",degree~C,")")), gp=gpar(fontsize=13), rot=90)
 
-cti.other <-grid.arrange(arrangeGrob(ggmod.CTI.abrolhos.sd.relief + ylab(NULL),
+cti.other <-grid.arrange(arrangeGrob(ggmod.CTI.abrolhos.biog + ylab(NULL),
                                      ggmod.CTI.abrolhos.detrended + ylab(NULL)),
                                             left=y.label,
                                             # ncol=2, 
@@ -409,8 +408,8 @@ dat.CTI.Imp <- CTI_imp %>%
   mutate(label=NA)%>%
   mutate(resp.var=factor(resp.var, levels = c("Abrolhos", "Ningaloo")))%>%
   # greater or less than length maturity
-  #mutate(label=ifelse(predictor=="method"&resp.var=="Abrolhos","X",label))%>%
-  mutate(label=ifelse(predictor=="sd.relief"&resp.var=="Abrolhos","X",label))%>%
+  mutate(label=ifelse(predictor=="method"&resp.var=="Abrolhos","X",label))%>%
+  mutate(label=ifelse(predictor=="biog"&resp.var=="Abrolhos","X",label))%>%
   mutate(label=ifelse(predictor=="detrended"&resp.var=="Abrolhos","X",label))%>%
   
   #mutate(label=ifelse(predictor=="depth"&resp.var=="Ningaloo","X",label))%>%
@@ -464,11 +463,11 @@ legend_title<-"Importance"
 
 imp.cti.abrolhos<- ggplot(dat.CTI.Imp%>%dplyr::filter(resp.var%in%c("Abrolhos")), 
                                aes(x=predictor,y=resp.var,fill=importance)) +
-  geom_tile(show.legend=T) +
+  geom_tile(show.legend=F) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
   scale_y_discrete(labels=c("CTI"))+
-  labs(x = NULL, y = NULL, title = "Abrolhos") +
+  labs(x = NULL, y = NULL) +
   theme_classic()+
   Theme1+
   geom_text(aes(label=label)) +
@@ -479,7 +478,7 @@ imp.cti.abrolhos
 
 imp.cti.ningaloo <- ggplot(dat.CTI.Imp%>%dplyr::filter(resp.var%in%c("Ningaloo")), 
                                    aes(x=predictor,y=resp.var,fill=importance)) +
-  geom_tile(show.legend=F) +
+  geom_tile(show.legend=T) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
   scale_y_discrete(labels=c("CTI"))+
@@ -492,7 +491,7 @@ imp.cti.ningaloo <- ggplot(dat.CTI.Imp%>%dplyr::filter(resp.var%in%c("Ningaloo")
   theme(plot.title = element_text(hjust = -0.05, size=8)) # Looks crap here but title comes back in exported version
 imp.cti.ningaloo
 
-gg.importance.CTI <- imp.cti.abrolhos / imp.cti.ningaloo
+gg.importance.CTI <-  imp.cti.ningaloo /imp.cti.abrolhos
 
 
 #save output - changed dimensions for larger text in report

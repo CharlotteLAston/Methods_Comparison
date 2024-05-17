@@ -74,7 +74,6 @@ var.imp     <- list()
 # Loop through the FSS function for each response variable----
 for(i in 1:length(resp.vars)){
   print(resp.vars[i])
-  #use.dat <- as.data.frame(dat[which(dat$Maturity2 == resp.vars[i]), ])
   Model1  <- gam(CTI ~ s(depth, k=3, bs='cr'),
                  family = gaussian(),  data = use.dat)
   
@@ -96,7 +95,7 @@ for(i in 1:length(resp.vars)){
   mod.table <- out.list$mod.data.out  # look at the model selection table
   mod.table <- mod.table[order(mod.table$AICc), ]
   mod.table$cumsum.wi <- cumsum(mod.table$wi.AICc)
-  out.i   <- mod.table[which(mod.table$delta.AICc <= 2), ]
+  out.i   <- mod.table[which(mod.table$delta.AICc <= 5), ]
   out.all <- c(out.all,list(out.i))
   var.imp <- c(var.imp,list(out.list$variable.importance$aic$variable.weights.raw)) #Or importance score weighted by r2
   

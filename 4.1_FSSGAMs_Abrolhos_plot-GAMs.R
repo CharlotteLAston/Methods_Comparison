@@ -337,12 +337,13 @@ kde.baldchin
 
 #* Red throat < Maturity ####
 
-use.dat <- dat.species %>% 
+use.dat <- dat.species.ab %>% 
   filter(Mat.Species %in% ("< Length Maturity_Lethrinidae Lethrinus miniatus"))
 
 mod=gam(Abundance~s(depth,k=3,bs='cr')+s(macroalgae,k=3,bs='cr') + s(sd.relief,k=3,bs='cr') + method, family=tw, data=use.dat)
 # summary(mod)
 # gam.check(mod, pch=19,cex=0.8)
+summary(mod)
 
 # predict method
 testdata <- expand.grid(method=(mod$model$method),
@@ -474,7 +475,7 @@ use.dat <- dat.species %>%
   filter(Mat.Species %in% ("> Length Maturity_Lethrinidae Lethrinus miniatus"))
 
 mod=gam(Abundance~ s(depth,k=3,bs='cr') + s(biog,k=3,bs='cr') + s(detrended,k=3,bs='cr') + method, family=tw, data=use.dat)
-# summary(mod)
+summary(mod)
 # gam.check(mod, pch=19,cex=0.8)
 
 # predict method

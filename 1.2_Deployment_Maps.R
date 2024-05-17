@@ -32,6 +32,7 @@ library(rnaturalearth)
 library(ggpattern)
 library(patchwork)
 library(metR)
+library(ggspatial)
 
 # Clear memory----
 rm(list=ls())
@@ -147,7 +148,7 @@ nmpa_cols <- scale_fill_manual(values = c("National Park Zone" = "#7bbc63",
 ))
 
 wampa_cols <- scale_fill_manual(values = c("Fish Habitat Protection Area" = "#fac86b",
-                                           "Reef Observation Area" = "#ddccff",
+                                           "Reef Observation Area" = "firebrick4",
                                            "Sanctuary Zone" = "#bfd054",
                                            "General Use Zone" = "#bddde1",
                                            "Recreation Zone" = "#f4e952",
@@ -196,7 +197,8 @@ p1 <- ggplot() +
   annotate("text", y = c(-28.7761, - 27.7115, -24.8838), x = c(114.95, 114.48, 114.075),
            label = c("Geraldton", "Kalbarri", "Carnarvon"), size = 3) +
   coord_sf(xlim = c(112, 115.061), ylim = c(-29.25, -24.4)) +
-  theme_minimal()
+  theme_minimal()+
+  annotation_scale(location="tr")
 p1
 
 setwd(fig_dir)
@@ -245,13 +247,13 @@ p3 <- ggplot() +
   scale_colour_manual(values = c("#117733", "#88CCEE")) +
   new_scale_fill()+
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  annotate("rect", xmin = 113.02, xmax = 113.29, ymin = -27.19, ymax = -27.08,
-           colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
+  # annotate("rect", xmin = 113.02, xmax = 113.29, ymin = -27.19, ymax = -27.08,
+  #          colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
   annotate("text", x = 113.15, y = -27.05, size = 2, 
            colour = "grey20", label = "Big Bank") +
-  annotate("rect", xmin = 113.24, xmax = 113.58, ymin = -28.13, ymax = -28.02,
-           colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
-  annotate("text", x = 113.42, y = -27.99, size = 2,
+  # annotate("rect", xmin = 113.24, xmax = 113.58, ymin = -28.13, ymax = -28.02,
+  #          colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
+  annotate("text", x = 113.41, y = -27.99, size = 2,
            colour = "grey20", label = "Shallow Bank") +
   coord_sf(xlim = c(112.8, 115), ylim = c(-28.9, -26.7)) +
   annotate("text", y = c(-27.875,-27.875,-27.875,-27.875, -26.87), 
@@ -269,7 +271,8 @@ p3 <- ggplot() +
   #          y = c(-28.07, -27.13, -28.91),
   #          label = c("b)", "a)", "c)"), size = 2) +
   labs(colour = "Sample", x = NULL, y = NULL) +
-  theme_minimal()
+  theme_minimal()+
+  annotation_scale(location="tr")
 p3
 
 setwd(fig_dir)
@@ -401,14 +404,14 @@ wampa_fills <- scale_fill_manual(values = c("Marine Management Area" = "#b7cfe1"
 name = "State Marine Parks")
 
 ningaloo.site.plot <- ggplot() +
-  # geom_raster(data = bathdf, aes(x, y, fill = Depth), alpha = 0.9) +
+  # geom_raster(data = bath_df, aes(x, y, fill = bath_250_good), alpha = 0.9) +
   # scale_fill_gradient(low = "black", high = "grey70") +
-  # geom_contour_filled(data = bathy, aes(x = x, y = y, z = bath_250_good,
-  #                                        fill = after_stat(level)),
-  #                     breaks = c(0, -40, -70, -120, -7000)) +
-  # geom_contour(data = bathy, aes(x = x, y = y, z = bath_250_good),
-  # binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
-  # scale_fill_grey(start = 1, end = 0.5, guide = "none") +
+  geom_contour_filled(data = bathy, aes(x = x, y = y, z = bath_250_good,
+                                         fill = after_stat(level)),
+                      breaks = c(0, -40, -70, -120, -7000)) +
+  geom_contour(data = bathy, aes(x = x, y = y, z = bath_250_good),
+  binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
+  scale_fill_grey(start = 1, end = 0.5, guide = "none") +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
   new_scale_fill() +
   #geom_sf(data = nw_mpa, aes(fill = waname), alpha = 2/5, colour = NA) +
@@ -434,9 +437,8 @@ ningaloo.site.plot <- ggplot() +
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
-  theme_minimal()
-  # theme(panel.grid.major = element_blank(),
-  #       panel.grid.minor = element_blank())
+  theme_minimal()+
+  annotation_scale(location="tl")
 ningaloo.site.plot
 
 inset.map <- ggplot() +
@@ -498,7 +500,9 @@ ningaloo.sample.big <- ggplot() +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
   labs(colour = "Sample", x = NULL, y = NULL) +
-  theme_minimal()
+  theme_minimal()+
+  annotation_scale(location="tr")
+  
 ningaloo.sample.big
 
 setwd(fig_dir)
@@ -519,7 +523,7 @@ sample.2021 <- ggplot() +
   scale_fill_gradient(low = "black", high = "grey70", guide = "none") +
   geom_contour(data = sitebathy, aes(x = x, y = y, z = bath_250_good), 
                binwidth = 10, colour = "white", alpha = 1, size = 0.1) +
-  geom_text_contour(data = nsitebathy, aes(x = x, y = y, z = bath_250_good), 
+  geom_text_contour(data = sitebathy, aes(x = x, y = y, z = bath_250_good), 
                     binwidth = 10, size = 2.5,
                     label.placer = label_placer_n(1)) +
   new_scale_fill()+
@@ -534,6 +538,7 @@ sample.2021 <- ggplot() +
   geom_sf(data = ningaloo.meta.2021, aes(colour = method),
           alpha = 3/5, shape = 10, size=3) +
   scale_colour_manual(values = c("#117733", "#88CCEE")) +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   # geom_point(data = bossd, aes(Longitude, Latitude, colour = "Drop Camera"), 
   #            alpha = 3/5, shape = 10) +
   # scale_colour_manual(values = c("BRUV" = "indianred4",
@@ -557,7 +562,7 @@ sample.2022 <- ggplot() +
   scale_fill_gradient(low = "black", high = "grey70", guide = "none") +
   geom_contour(data = sitebathy, aes(x = x, y = y, z = bath_250_good), 
                binwidth = 10, colour = "white", alpha = 1, size = 0.1) +
-  geom_text_contour(data = nsitebathy, aes(x = x, y = y, z = bath_250_good), 
+  geom_text_contour(data = sitebathy, aes(x = x, y = y, z = bath_250_good), 
                     binwidth = 10, size = 2.5,
                     label.placer = label_placer_n(1)) +
   new_scale_fill()+
@@ -565,16 +570,18 @@ sample.2022 <- ggplot() +
   wampa_fills +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
-  geom_sf(data = nw_mpa, aes(fill = ZoneName), alpha = 2/5, colour = NA) +
+  geom_sf(data = nw_mpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
   nmpa_cols +
   labs(x = NULL, y = NULL, colour = NULL) +
   new_scale_colour() +
   geom_sf(data = ningaloo.meta.2022, aes(colour = method),
           alpha = 4/5, shape = 10, size=3) +
   scale_colour_manual(values = c("#117733", "#88CCEE")) +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(113.5, 113.65), ylim = c(-22.775, -22.66)) +
   labs(colour = NULL, x = NULL, y = NULL) +
-  theme_minimal()
+  theme_minimal() +
+  annotation_scale(location="tr")
 sample.2022
 
 setwd(fig_dir)

@@ -23,8 +23,6 @@ data_dir <- paste(working.dir, "tidy_data", sep="/")
 fig_dir <- paste(working.dir, "figures", sep="/")
 out_dir <- paste(working.dir, "fssgam_output", sep="/")
 
-study <- "2021-05_Abrolhos_BOSS-BRUV" 
-name <- study
 
 ##### READ IN FORMATTED DATA ####
 setwd(out_dir)
@@ -89,11 +87,13 @@ Theme1 <-
     strip.text.y = element_text(size = 6,angle = 0),
     axis.title.x=element_text(vjust=0.3, hjust = 0.5, size=6),
     axis.title.y=element_text(vjust=0.6, hjust=0.5 ,angle=90, size=8),
-    axis.text.x=element_text(size=8,angle = 45, hjust=1,vjust=1),
-    axis.text.y=element_text(size=7,face="italic"),
+    axis.text.x=element_text(size=10,angle = 45, hjust=1,vjust=1),
+    axis.text.y=element_text(size=10,face="italic"),
     axis.line.x=element_line(colour="black", size=0.5,linetype='solid'),
     axis.line.y=element_line(colour="black", size=0.5,linetype='solid'),
     strip.background = element_blank())
+
+a4.width <- 160
 
 # colour ramps-
 my_colors <- carto_pal(7,"Teal")
@@ -105,10 +105,10 @@ legend_title<-"Importance"
 imp.species.greater.less.ningaloo <- ggplot(dat.greater.less%>%dplyr::filter(location%in%c("Ningaloo")) %>%  
                                             mutate(predictor = fct_relevel(predictor,c("biog", "depth", "detrended", "relief", "roughness", "sand","sdrel", "tpi","method"))), 
                                    aes(x=predictor,y=resp.var,fill=importance)) +
-  geom_tile(show.legend=F) +
+  geom_tile(show.legend=F, height=1, size=0.5) +
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(0, 1))+
-  scale_y_discrete(labels=c("> Length Maturity", "< Length Maturity"))+
+  scale_y_discrete(labels=c("> Length Maturity", "< Length Maturity"), expand=c(0,0))+
   scale_x_discrete(labels = c("% Biogenic\nreef","Depth","Detrended\nbathymetry", "Mean\nrelief", "Roughness", "SD relief", "% Sand", "TPI","Method"))+
   labs(x = NULL, y = NULL, title = "Ningaloo") +
   theme_classic()+
@@ -139,4 +139,8 @@ gg.importance.greater.less <- imp.species.greater.less.ningaloo / imp.species.gr
 #save output - changed dimensions for larger text in report
 setwd(fig_dir)
 save_plot("combined.importance.redthroat.png", gg.importance.greater.less, base_height = 5, base_width = 6.275)
+save_plot("ningaloo.importance.redthroat.png", imp.species.greater.less.ningaloo, base_height = 5, base_width = 6.275)
+save_plot("abrolhos.importance.redthroat.png", imp.species.greater.less.abrolhos, base_height = 5, base_width = 6.275)
+
+
 
